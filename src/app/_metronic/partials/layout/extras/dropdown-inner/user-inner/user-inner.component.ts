@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { TranslationService } from 'src/app/modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 
 @Component({
@@ -18,11 +19,12 @@ export class UserInnerComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthService,
-
+    private translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.currentUserSubject.asObservable();
+    this.setLanguage(this.translationService.getSelectedLanguage());
   }
 
   logout() {
