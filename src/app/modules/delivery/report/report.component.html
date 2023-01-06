@@ -1,0 +1,297 @@
+<p>report works!</p>
+<div class="card  px-7 py-5 mb-xl">
+
+  <div class="d-flex flex-wrap flex-stack mb-2">
+    <a
+    class="
+      d-flex
+      align-items-center
+      text-gray-400
+      me-5
+      mb-2
+    "
+  >
+    <span
+      [inlineSVG]="
+        './assets/media/icons/duotune/communication/com006.svg'
+      "
+      class="svg-icon svg-icon-2 me-1"
+    ></span>
+    <h3 class="fw-bolder my-2">DASHBOARD</h3>
+  </a>
+
+    <div class="d-flex my-2">
+      <div class="d-flex align-items-center position-relative me-4">
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
+          class="svg-icon svg-icon-3 position-absolute ms-3"
+        ></span>
+        <input
+          type="date"
+          id="kt_filter_search"
+          class="form-control form-control-white form-control-sm w-150px ps-9"
+          [value]="'04-01-2023'"
+        />
+      </div>
+
+      <input
+        type="time"
+        id="kt_filter_search"
+        class="form-control form-control-white form-control-sm w-150px ps-9"
+        [value]="'13:46:15'"
+      />
+    </div>
+  </div>
+  <div class="d-flex my-2 mb-5">
+    <select
+      class="form-select form-select-solid"
+      data-kt-select2="true"
+      data-placeholder="Select option"
+      data-allow-clear="true"
+    >
+      <option selected>Pardos San Borja</option>
+      <option value="1">One</option>
+    </select>
+
+    <a class="btn btn-primary btn-sm cursor-pointer"> Up </a>
+  </div>
+
+
+</div>
+
+<div class="card-body pt-9 pb-0">
+  <!-- card1 -->
+  <div class="row g-6 g-xl-4">
+    <div class="col-xl-6">
+      <app-feeds-widget2 class="card  "></app-feeds-widget2>
+    </div>
+    <div class="col-xl-6">
+      <app-feeds-widget2 class="card mb-5 "></app-feeds-widget2>
+    </div>
+  </div>
+
+  <!-- card2 -->
+  <!-- class="svg-icon svg-icon-3 svg-icon-danger me-2" -->
+  <div class="row g-6 g-xl-4">
+    <div class="col-md-3 col-xl-3">
+      <app-card2
+        icon="./assets/media/icons/duotune/arrows/arr065.svg"
+        badgeColor="info"
+        status="Pending"
+        statusColor="info"
+        title="60 %"
+        title2="DISPONIBILIDAD"
+        description="CRM App application to HR efficiency"
+        date="May 10, 2021"
+        budget="$36,400.00"
+        [progress]="30"
+      ></app-card2>
+    </div>
+    <div class="col-md-3 col-xl-3">
+      <app-card2
+        icon="./assets/media/icons/duotune/arrows/arr065.svg"
+        badgeColor="info"
+        status="Pending"
+        statusColor="info"
+        title="60 min"
+        title2="TIEMPO REFERENCIAL"
+        description="CRM App application to HR efficiency"
+        date="May 10, 2021"
+        budget="$36,400.00"
+        [progress]="50"
+      ></app-card2>
+    </div>
+    <div class="col-md-3 col-xl-3">
+      <app-card2
+        icon="./assets/media/icons/duotune/arrows/arr065.svg"
+        badgeColor="info"
+        status="Pending"
+        statusColor="info"
+        title="0.02"
+        title2="FACTOR REAPERTURA"
+        description="CRM App application to HR efficiency"
+        date="May 10, 2021"
+        budget="$36,400.00"
+        [progress]="40"
+      ></app-card2>
+    </div>
+    <div class="col-md-3 col-xl-3">
+      <app-card2
+        icon="./assets/media/icons/duotune/arrows/arr068.svg"
+        badgeColor="success"
+        status="Completed"
+        statusColor="success"
+        title="ABIERTO"
+        title2="ESTADO"
+        description="CRM App application to HR efficiency"
+        date="Mar 14, 2021"
+        budget="$605,100.00"
+        [progress]="100"
+      ></app-card2>
+    </div>
+    <!-- card3 -->
+    <div class="col-xl-3">
+      <app-stats-widget4
+        svgIcon="./assets/media/icons/duotune/general/gen028.svg"
+        class="card "
+        color="primary"
+        change="3"
+        description="ORDEN APP"
+      ></app-stats-widget4>
+    </div>
+    <div class="col-xl-3">
+      <app-stats-widget4
+        svgIcon="./assets/media/icons/duotune/general/gen028.svg"
+        class="card "
+        color="primary"
+        change="1"
+        description="ORDEN WEB"
+      ></app-stats-widget4>
+    </div>
+    <div class="col-xl-3">
+      <app-stats-widget4
+        svgIcon="./assets/media/icons/duotune/general/gen024.svg"
+        class="card "
+        color="primary"
+        change="2"
+        description="ORDEN CFI"
+      ></app-stats-widget4>
+    </div>
+    <div class="col-xl-3">
+      <app-stats-widget4
+        svgIcon="./assets/media/icons/duotune/general/gen019.svg"
+        class="card "
+        color="primary"
+        change="6"
+        description="TOTAL ORDENES"
+      ></app-stats-widget4>
+    </div>
+    <!-- card4 -->
+    <!-- begin::Row -->
+
+    <div class="col-sm-3 col-xl-3">
+      <app-card5
+        svgIcon="./assets/media/icons/duotune/art/art007.svg"
+        title="3"
+        description="CAPACIDAD BASE"
+        status="down"
+        [statusValue]="40.5"
+        statusDesc="more impressions"
+        [progress]="0.5"
+        progressType="MRR"
+      ></app-card5>
+    </div>
+    <div class="col-sm-3 col-xl-3">
+      <app-card5
+        svgIcon="./assets/media/icons/duotune/art/art008.svg"
+        title="8"
+        description="CAPACIDAD ACTUAL"
+        status="down"
+        [statusValue]="40.5"
+        statusDesc="more impressions"
+        [progress]="0.5"
+        progressType="MRR"
+      ></app-card5>
+    </div>
+    <div class="col-sm-3 col-xl-3">
+      <app-card5
+        svgIcon="./assets/media/svg/files/folder-document.svg"
+        title="15"
+        description="CAPACIDAD TOTAL"
+        status="down"
+        [statusValue]="40.5"
+        statusDesc="more impressions"
+        [progress]="0.5"
+        progressType="MRR"
+      ></app-card5>
+    </div>
+    <div class="col-sm-3 col-xl-3">
+      <app-card5
+        svgIcon="./assets/media/svg/files/folder-document.svg"
+        title="2%"
+        description="REAPERTURA"
+        status="down"
+        [statusValue]="40.5"
+        statusDesc="more impressions"
+        [progress]="0.5"
+        progressType="MRR"
+      ></app-card5>
+    </div>
+  </div>
+</div>
+
+<!-- begin::Header -->
+<div class="card mb-2 mt-5 px-7 py-5 mb-xl">
+  <div class="d-flex flex-wrap flex-stack">
+    <h3 class="fw-bolder my-2">HISTORIAL</h3>
+
+    <div class="d-flex my-2">
+      <div class="d-flex align-items-center position-relative me-4"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-body pb-0">
+  <!-- begin::Table container -->
+  <div class="table-responsive">
+    <!-- begin::Table -->
+    <table class="table table-hover align-middle gs-0 gy-4">
+      <!-- begin::Table head -->
+      <thead>
+        <tr class="bg-primary">
+          <th class="ps-4 min-w-125px rounded-start text-center">Fecha</th>
+          <th class="min-w-125px text-center">Hora</th>
+          <th class="min-w-125px text-center">Estado</th>
+          <th class="min-w-200px text-center">Tipo</th>
+          <th class="min-w-150px text-center">Usuario</th>
+        </tr>
+      </thead>
+      <!-- end::Table head -->
+      <!-- begin::Table body -->
+      <tbody>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="text-center">
+                <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="text-center">
+                <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="text-center">
+                <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="text-center">
+                <span class="fw-bold d-block fs-7">Automatico</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="text-center">
+                <span class="fw-bold d-block fs-7"
+                  >usuario_dashboard@pch.com.pe</span
+                >
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <!-- end::Table body -->
+    </table>
+    <!-- end::Table -->
+  </div>
+  <!-- end::Table container -->
+</div>

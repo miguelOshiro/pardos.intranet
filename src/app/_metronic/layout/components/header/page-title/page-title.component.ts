@@ -17,10 +17,23 @@ export class PageTitleComponent implements OnInit, OnDestroy {
   pageTitleCssClass: string = '';
   pageTitleDirection: string = 'row';
 
+  links: Array<PageLink> = [{
+    title: 'Main title',
+    path: '/',
+    isActive: false,
+  }, {
+    title: 'Second title',
+    path: '/',
+    isActive: false,
+  }];  //add
+
   constructor(
     private pageInfo: PageInfoService,
     private layout: LayoutService
-  ) {}
+  ) {
+    pageInfo.updateTitle('Page title');
+    pageInfo.updateBreadcrumbs(this.links); //add
+    }
 
   ngOnInit(): void {
     this.title$ = this.pageInfo.title.asObservable();

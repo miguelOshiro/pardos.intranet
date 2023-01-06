@@ -1,0 +1,158 @@
+
+<div class="card card-xxl-stretch mb-5 mb-xl-8">
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Drivers</span>
+    </h3>
+    <div
+    class="card-toolbar"
+    data-bs-toggle="tooltip"
+    data-bs-placement="top"
+    data-bs-trigger="hover"
+    title="Click to add a user"
+  >
+    <a (click)="saveButton()" class="btn btn-sm btn-light-primary">
+      <span
+      [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'"
+        class="svg-icon svg-icon-3"
+      ></span>
+      Guardar
+    </a>
+  </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body py-3">
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+      <!-- begin::Table -->
+      My form status {{ formOneStatus$ | async }}
+      <table [formGroup]="form" class="table table-row-dashed table-bordered table-row-gray-300 align-middle gs-0 gy-4">
+        <!-- begin::Table head -->
+        <thead>
+          <tr class="fw-bolder text-muted">
+            <th class="min-w-70px text-center">Horario</th>
+            <th class="min-w-80px text-center">Lunes</th>
+            <th class="min-w-80px text-center">Martes</th>
+            <th class="min-w-80px text-center">Miercoles</th>
+            <th class="min-w-80px text-center">Jueves</th>
+            <th class="min-w-80px text-center">Viernes</th>
+            <th class="min-w-80px text-center">Sabado</th>
+            <th class="min-w-80px text-center">Domingo</th>
+          </tr>
+        </thead>
+        <!-- end::Table head -->
+        <!-- begin::Table body -->
+        <tbody>
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                  <span>01:00</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                    <input [min]="1" [max]="99" [step]="1" pattern=""
+                      type="number"
+                      class="form-control form-control-lg form-control-solid"
+                      name="monday"
+                      formControlName="monday"
+                      [ngClass]=""
+                    />
+                    <div *ngIf="monday?.invalid && (monday?.dirty || monday?.touched)">
+                        
+                        <div *ngIf="f['monday'].errors?.['quantityValidator']"
+                        class="alert alert-danger">
+                        De 1-99
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                    <input
+                      type="number"
+                      class="form-control form-control-lg form-control-solid"
+                      name="tuesday"
+                      
+                    />
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                    <input
+                      type="number"
+                      class="form-control form-control-lg form-control-solid"
+                      name="wednesday"
+                      
+                    />
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                    <input
+                      type="number"
+                      class="form-control form-control-lg form-control-solid"
+                      name="thursday"
+                      
+                    />
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                    <input
+                      type="number"
+                      class="form-control form-control-lg form-control-solid"
+                      name="friday"
+                      
+                    />
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                    <input
+                      type="number"
+                      class="form-control form-control-lg form-control-solid"
+                      name="saturday"
+                      
+                    />
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                    <input
+                      type="number"
+                      class="form-control form-control-lg form-control-solid"
+                      name="sunday"
+                      
+                    />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          
+        </tbody>
+        <!-- end::Table body -->
+      </table>
+      <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+  </div>
+  <!-- begin::Body -->
+</div>

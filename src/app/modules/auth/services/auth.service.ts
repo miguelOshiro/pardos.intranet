@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { map, catchError, switchMap, finalize } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
-import { AuthModel } from '../models/auth.model';
+import { AuthModel, DataModel } from '../models/auth.model';
 import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -15,8 +15,8 @@ export type UserType = UserModel | undefined;
 export class AuthService implements OnDestroy {
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
-
+  private authLocalStorageToken= `${environment.appVersion}-${environment.USERDATA_KEY}`;
+  
   // public fields
   currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
@@ -47,8 +47,10 @@ export class AuthService implements OnDestroy {
   login(email: string, password: string): Observable<UserType> {
     this.isLoadingSubject.next(true);
     return this.authHttpService.login(email, password).pipe(
-      map((auth: AuthModel) => {
-        const result = this.setAuthFromLocalStorage(auth);
+      map((response: DataModel<AuthModel>) => {
+        console.log(response);
+        response.data.authToken = response.data.token;
+        const result = this.setAuthFromLocalStorage(response.data);
         return result;
       }),
       switchMap(() => this.getUserByToken()),
@@ -75,44 +77,45 @@ export class AuthService implements OnDestroy {
 
     this.isLoadingSubject.next(true);
     return this.authHttpService.getUserByToken(auth.authToken).pipe(
-      map((user: UserType) => {
-        if (user) {
-          this.currentUserSubject.next(user);
+      map((response: DataModel<UserModel>) => {
+        if (response) {
+          this.currentUserSubject.next(response.data);
         } else {
           this.logout();
         }
-        return user;
+        return response.data;
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
 
   // need create new user then login
-  registration(user: UserModel): Observable<any> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService.createUser(user).pipe(
-      map(() => {
-        this.isLoadingSubject.next(false);
-      }),
-      switchMap(() => this.login(user.email, user.password)),
-      catchError((err) => {
-        console.error('err', err);
-        return of(undefined);
-      }),
-      finalize(() => this.isLoadingSubject.next(false))
-    );
-  }
+  // registration(user: UserModel): Observable<any> {
+  //   this.isLoadingSubject.next(true);
+  //   return this.authHttpService.createUser(user).pipe(
+  //     map(() => {
+  //       this.isLoadingSubject.next(false);
+  //     }),
+  //     switchMap(() => this.login(user.email, user.password)),
+  //     catchError((err) => {
+  //       console.error('err', err);
+  //       return of(undefined);
+  //     }),
+  //     finalize(() => this.isLoadingSubject.next(false))
+  //   );
+  // }
 
-  forgotPassword(email: string): Observable<boolean> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
-  }
+  // forgotPassword(email: string): Observable<boolean> {
+  //   this.isLoadingSubject.next(true);
+  //   return this.authHttpService
+  //     .forgotPassword(email)
+  //     .pipe(finalize(() => this.isLoadingSubject.next(false)));
+  // }
 
   // private methods
   private setAuthFromLocalStorage(auth: AuthModel): boolean {
     // store auth authToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
+    console.log(auth.authToken)
     if (auth && auth.authToken) {
       localStorage.setItem(this.authLocalStorageToken, JSON.stringify(auth));
       return true;
@@ -128,6 +131,7 @@ export class AuthService implements OnDestroy {
       }
 
       const authData = JSON.parse(lsValue);
+
       return authData;
     } catch (error) {
       console.error(error);

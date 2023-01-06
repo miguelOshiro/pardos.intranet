@@ -12,7 +12,8 @@ import { DeactivateAccountComponent } from './settings/forms/deactivate-account/
 import { EmailPreferencesComponent } from './settings/forms/email-preferences/email-preferences.component';
 import { NotificationsComponent } from './settings/forms/notifications/notifications.component';
 import { SignInMethodComponent } from './settings/forms/sign-in-method/sign-in-method.component';
-import { DropdownMenusModule, WidgetsModule } from '../../_metronic/partials';
+import { WidgetsModule } from '../../_metronic/partials';
+import { DropdownMenusModule } from '../../shared/components/dropdown-menus/dropdown-menus.module';
 
 @NgModule({
   declarations: [

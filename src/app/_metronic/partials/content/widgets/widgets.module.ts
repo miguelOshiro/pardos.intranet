@@ -30,7 +30,6 @@ import { TilesWidget12Component } from './tiles/tiles-widget12/tiles-widget12.co
 import { TilesWidget13Component } from './tiles/tiles-widget13/tiles-widget13.component';
 import { TilesWidget14Component } from './tiles/tiles-widget14/tiles-widget14.component';
 // Other
-import { DropdownMenusModule } from '../dropdown-menus/dropdown-menus.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListsWidget2Component } from './lists/lists-widget2/lists-widget2.component';
 import { ListsWidget5Component } from './lists/lists-widget5/lists-widget5.component';
@@ -75,6 +74,7 @@ import { TablesWidget11Component } from './tables/tables-widget11/tables-widget1
 import { TablesWidget12Component } from './tables/tables-widget12/tables-widget12.component';
 import { TablesWidget13Component } from './tables/tables-widget13/tables-widget13.component';
 import { TablesWidget14Component } from './tables/tables-widget14/tables-widget14.component';
+import { DropdownMenusModule } from '../../../../shared/components/dropdown-menus/dropdown-menus.module';
 
 @NgModule({
   declarations: [

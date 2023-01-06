@@ -11,6 +11,7 @@ export class Card2Component {
   @Input() status: string = '';
   @Input() statusColor: string = '';
   @Input() title: string = '';
+  @Input() title2: string = '';
   @Input() description: string = '';
   @Input() date: string = '';
   @Input() budget: string = '';

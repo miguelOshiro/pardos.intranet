@@ -6,21 +6,13 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
+  
   {
-    path: 'builder',
+    path: 'delivery',
     loadChildren: () =>
-      import('./builder/builder.module').then((m) => m.BuilderModule),
+      import('../modules/delivery/delivery.module').then((m) => m.DeliveryModule),
   },
-  {
-    path: 'crafted/pages/profile',
-    loadChildren: () =>
-      import('../modules/profile/profile.module').then((m) => m.ProfileModule),
-  },
-  {
-    path: 'crafted/account',
-    loadChildren: () =>
-      import('../modules/account/account.module').then((m) => m.AccountModule),
-  },
+  
   {
     path: '',
     redirectTo: '/dashboard',

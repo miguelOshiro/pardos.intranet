@@ -8,7 +8,7 @@ import { Card3Component } from './card3/card3.component';
 import { Card4Component } from './card4/card4.component';
 import { Card5Component } from './card5/card5.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { DropdownMenusModule } from '../dropdown-menus/dropdown-menus.module';
+import { DropdownMenusModule } from '../../../../shared/components/dropdown-menus/dropdown-menus.module';
 
 @NgModule({
   declarations: [

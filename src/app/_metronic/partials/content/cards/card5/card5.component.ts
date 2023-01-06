@@ -5,7 +5,7 @@ import { Component, HostBinding, Input } from '@angular/core';
   templateUrl: './card5.component.html',
 })
 export class Card5Component {
-  @Input() image: string = '';
+  @Input() svgIcon = '';
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() status: 'up' | 'down' = 'up';

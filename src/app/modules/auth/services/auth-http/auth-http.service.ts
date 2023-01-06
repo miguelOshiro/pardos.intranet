@@ -5,7 +5,7 @@ import { UserModel } from '../../models/user.model';
 import { environment } from '../../../../../environments/environment';
 import { AuthModel } from '../../models/auth.model';
 
-const API_USERS_URL = `${environment.apiUrl}/auth`;
+const API_USERS_URL = `${environment.apiUrl}`;  ///auth
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +15,16 @@ export class AuthHTTPService {
 
   // public methods
   login(email: string, password: string): Observable<any> {
-    return this.http.post<AuthModel>(`${API_USERS_URL}/login`, {
+    const headers = {
+      Accept: 'application/vnd.pardos.v1+json',
+      'Content-Type': 'application/json',
+    };
+    let datalogin = this.http.post<any>(`${API_USERS_URL}/token`, {
       email,
       password,
-    });
+    }, {headers});
+    console.log( datalogin);
+    return datalogin;
   }
 
   // CREATE =>  POST: add a new user to the server
@@ -33,11 +39,11 @@ export class AuthHTTPService {
     });
   }
 
-  getUserByToken(token: string): Observable<UserModel> {
+  getUserByToken(token: string): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.get<UserModel>(`${API_USERS_URL}/me`, {
+    return this.http.get<any>(`${API_USERS_URL}/me`, {
       headers: httpHeaders,
     });
   }
