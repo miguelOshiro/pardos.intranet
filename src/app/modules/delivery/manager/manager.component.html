@@ -1,1 +1,60 @@
 <p>manager works!</p>
+<div class="card  px-7 py-5 mb-xl">
+
+    <div class="d-flex flex-wrap flex-stack mb-2">
+      <a
+      class="
+        d-flex
+        align-items-center
+        text-gray-400
+        me-5
+        mb-2
+      "
+    >
+      <span
+        [inlineSVG]="
+          './assets/media/icons/duotune/communication/com006.svg'
+        "
+        class="svg-icon svg-icon-2 me-1"
+      ></span>
+      <h3 class="fw-bolder my-2">DASHBOARD</h3>
+    </a>
+  
+      <div class="d-flex my-2">
+        <div class="d-flex align-items-center position-relative me-4">
+          <span
+            [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
+            class="svg-icon svg-icon-3 position-absolute ms-3"
+          ></span>
+          <input
+            type="date"
+            id="kt_filter_search"
+            class="form-control form-control-white form-control-sm w-150px ps-9"
+            [value]="'04-01-2023'"
+          />
+        </div>
+  
+        <input
+          type="time"
+          id="kt_filter_search"
+          class="form-control form-control-white form-control-sm w-150px ps-9"
+          [value]="'13:46:15'"
+        />
+      </div>
+    </div>
+    <div class="d-flex my-2 mb-5">
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+      >
+        <option selected>Pardos San Borja</option>
+        <option value="1">One</option>
+      </select>
+  
+      <a class="btn btn-primary btn-sm cursor-pointer"> Up </a>
+    </div>
+  
+  
+  </div>

@@ -8,8 +8,8 @@ import { HistoryComponent } from './history/history.component';
 import { LogComponent } from './log/log.component';
 import { ReportComponent } from './report/report.component';
 import { ManagerComponent } from './manager/manager.component';
-import { CreateZoneComponent } from './zone/create-zone/create-zone.component';
-import { EditZoneComponent } from './zone/edit-zone/edit-zone.component';
+import { CreateZoneComponent } from './zone/components/create-zone/create-zone.component';
+import { EditZoneComponent } from './zone/components/edit-zone/edit-zone.component';
 
 const routes: Routes = [
   {
@@ -23,8 +23,8 @@ const routes: Routes = [
       },
       {
         path: 'zone',
-        component: ZoneComponent,
-        data: {title: 'Zona'},
+        loadChildren: () =>
+      import('../delivery/zone/zone.module').then((m) => m.ZoneModule),
       },
       {
         path: 'create',

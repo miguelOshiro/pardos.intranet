@@ -39,6 +39,9 @@ import { DropdownMenusModule } from '../../shared/components/dropdown-menus/drop
     WidgetsModule,
     CardsModule,
     ZoneModule,
+  ],
+  exports: [
+    
   ]
 })
 export class DeliveryModule { }

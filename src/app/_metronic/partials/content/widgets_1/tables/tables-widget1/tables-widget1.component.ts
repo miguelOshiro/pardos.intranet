@@ -1,29 +1,38 @@
-import { Component } from '@angular/core';
-import { ZoneService } from '../../../../../../modules/delivery/services/zone.service';
-import { BaseResponse } from '../../../../../../shared/models/baseresponse.model';
-import { Zone } from '../../../../../../modules/delivery/models/zone.model';
+import { AfterContentInit, Component, OnInit, ChangeDetectorRef } from '@angular/core';
+
+
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tables-widget1',
   templateUrl: './tables-widget1.component.html',
 })
-export class TablesWidget1Component {
+export class TablesWidget1Component implements OnInit, AfterContentInit {
 
-  public zones!:any[];
+  public zones:any[] = []
 
-  constructor(private zoneService: ZoneService,
-              private router: Router) {}
+  constructor(
+              private router: Router,
+              private cdRef: ChangeDetectorRef) {}
+   ngAfterContentInit() {
 
-  ngOnInit() {
-    this.getZone();
+      this.getZone();
+      
+
+
+  }
+
+  async ngOnInit() {
+    console.log('Cargando zone');
   }
 
   getZone() {
-    this.zoneService.getZone().subscribe(resp => {
-      this.zones = resp;
-      console.log(this.zones);
-    })
+
+    // this.zoneService.getZone().subscribe(resp => {
+    //   this.zones = resp;
+    //   this.cdRef.markForCheck();
+    //   console.log(this.zones);
+    // })
   }
 
   newZone() {
