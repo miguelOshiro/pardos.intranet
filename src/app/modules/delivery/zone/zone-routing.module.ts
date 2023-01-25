@@ -23,7 +23,7 @@ const routes: Routes = [
         path: 'create',
         component: CreateZoneComponent,
       },
-      { path: 'edit', component: EditZoneComponent },
+      { path: 'edit/:id', component: EditZoneComponent },
     ],
   },
 ];

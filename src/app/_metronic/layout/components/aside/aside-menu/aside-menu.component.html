@@ -29,7 +29,7 @@
       </a>
     </div>
 
-    <!-- Pages -->
+    <!-- Delivery -->
     <div
       class="menu-item py-3"
       data-kt-menu-trigger="click"
@@ -40,7 +40,9 @@
         <span class="menu-icon me-0">
           <span
             class="svg-icon svg-icon-2"
-            [inlineSVG]="'./assets/media/icons/duotune/general/gen022.svg'"
+            [inlineSVG]="
+              './assets/media/icons/duotune/general/gen019.svg'
+            "
           >
           </span>
         </span>
@@ -50,94 +52,77 @@
         class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4"
         routerLinkActive="menu-active-bg show"
       >
-        <div
-          class="menu-item"
-          routerLinkActive="here show"
-          data-kt-menu-trigger="click"
-        >
-          <!-- <span class="menu-link">
-        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-        <span class="menu-title" data-link="/crafted/pages/profile">Profile</span>
-        <span class="menu-arrow"></span>
-      </span> -->
-          <div
-            class="menu-sub menu-sub-accordion"
-            routerLinkActive="menu-active-bg show"
+        <div class="menu-item">
+          <a
+            class="menu-link"
+            routerLinkActive="active"
+            routerLink="/delivery/manager"
+            ><span class="menu-bullet"
+              ><span class="bullet bullet-dot"></span></span
+            ><span class="menu-title">Gestor</span></a
           >
-            <div class="menu-item">
-              <a
-                class="menu-link"
-                routerLinkActive="active"
-                routerLink="/delivery/manager"
-                ><span class="menu-bullet"
-                  ><span class="bullet bullet-dot"></span></span
-                ><span class="menu-title">Gestor</span></a
-              >
-            </div>
-            <div class="menu-item">
-              <a
-                class="menu-link"
-                routerLinkActive="active"
-                routerLink="/delivery/zone"
-                ><span class="menu-bullet"
-                  ><span class="bullet bullet-dot"></span></span
-                ><span class="menu-title">Zona</span></a
-              >
-            </div>
-            <div class="menu-item">
-              <a
-                class="menu-link"
-                routerLinkActive="active"
-                routerLink="/delivery/driver"
-                delivery
-                ><span class="menu-bullet"
-                  ><span class="bullet bullet-dot"></span></span
-                ><span class="menu-title">Driver</span></a
-              >
-            </div>
-            <div class="menu-item">
-              <a
-                class="menu-link"
-                routerLinkActive="active"
-                routerLink="/delivery/capacity"
-                ><span class="menu-bullet"
-                  ><span class="bullet bullet-dot"></span></span
-                ><span class="menu-title">Capacidad</span></a
-              >
-            </div>
-
-            <div class="menu-item">
-              <a
-                class="menu-link"
-                routerLinkActive="active"
-                routerLink="/delivery/history"
-                ><span class="menu-bullet"
-                  ><span class="bullet bullet-dot"></span></span
-                ><span class="menu-title">Historia</span></a
-              >
-            </div>
-            <div class="menu-item">
-              <a
-                class="menu-link"
-                routerLinkActive="active"
-                routerLink="/delivery/log"
-                ><span class="menu-bullet"
-                  ><span class="bullet bullet-dot"></span></span
-                ><span class="menu-title">Log</span></a
-              >
-            </div>
-            <div class="menu-item">
-              <a
-                class="menu-link"
-                routerLinkActive="active"
-                routerLink="/delivery/report"
-                ><span class="menu-bullet"
-                  ><span class="bullet bullet-dot"></span></span
-                ><span class="menu-title">Reportes</span></a
-              >
-            </div>
-          </div>
         </div>
+        <div class="menu-item">
+          <a
+            class="menu-link"
+            routerLinkActive="active"
+            routerLink="/delivery/zone"
+            ><span class="menu-bullet"
+              ><span class="bullet bullet-dot"></span></span
+            ><span class="menu-title">Zona</span></a
+          >
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link"
+            routerLinkActive="active"
+            routerLink="/delivery/driver"
+            delivery
+            ><span class="menu-bullet"
+              ><span class="bullet bullet-dot"></span></span
+            ><span class="menu-title">Driver</span></a
+          >
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link"
+            routerLinkActive="active"
+            routerLink="/delivery/capacity"
+            ><span class="menu-bullet"
+              ><span class="bullet bullet-dot"></span></span
+            ><span class="menu-title">Capacidad</span></a
+          >
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link"
+            routerLinkActive="active"
+            routerLink="/delivery/history"
+            ><span class="menu-bullet"
+              ><span class="bullet bullet-dot"></span></span
+            ><span class="menu-title">Historia</span></a
+          >
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link"
+            routerLinkActive="active"
+            routerLink="/delivery/log"
+            ><span class="menu-bullet"
+              ><span class="bullet bullet-dot"></span></span
+            ><span class="menu-title">Log</span></a
+          >
+        </div>
+        <!-- <div class="menu-item">
+          <a
+            class="menu-link"
+            routerLinkActive="active"
+            routerLink="/delivery/report"
+            ><span class="menu-bullet"
+              ><span class="bullet bullet-dot"></span></span
+            ><span class="menu-title">Reportes</span></a
+          >
+        </div> -->
       </div>
     </div>
   </div>

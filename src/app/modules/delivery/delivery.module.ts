@@ -3,42 +3,36 @@ import { CommonModule } from '@angular/common';
 
 import { CapacityComponent } from './capacity/capacity.component';
 import { DriverComponent } from './driver/driver.component';
-import { HistoryComponent } from './history/history.component';
-import { LogComponent } from './log/log.component';
-import { ReportComponent } from './report/report.component';
 import { DeliveryComponent } from './delivery.component';
 import { DeliveryRoutingModule } from './delivery-routing.module';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { ZoneModule } from './zone/zone.module';
-import {
-  CardsModule,
-  WidgetsModule,
-} from '../../_metronic/partials';
-import { ManagerComponent } from './manager/manager.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DropdownMenusModule } from '../../shared/components/dropdown-menus/dropdown-menus.module';
+import { DropdownMenusModule } from '../../partials/content/dropdown-menus/dropdown-menus.module';
+import { WidgetsModule } from 'src/app/partials/content/widgets/widgets.module';
+import { ManagerModule } from './manager/manager.module';
+import { CardsModule } from 'src/app/partials/content/cards/cards.module';
+import { HistoryModule } from './history/history.module';
+import { LogModule } from './log/log.module';
 
 
 @NgModule({
   declarations: [
     CapacityComponent,
     DriverComponent,
-    HistoryComponent,
-    LogComponent,
-    ReportComponent,
     DeliveryComponent,
-    ManagerComponent,
     
   ],
   imports: [
     CommonModule,
     DeliveryRoutingModule,
     InlineSVGModule,
-    ReactiveFormsModule,
     DropdownMenusModule,
     WidgetsModule,
     CardsModule,
     ZoneModule,
+    ManagerModule,
+    HistoryModule,
+    LogModule
   ],
   exports: [
     

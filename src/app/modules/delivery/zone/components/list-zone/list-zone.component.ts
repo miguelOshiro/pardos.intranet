@@ -41,7 +41,7 @@ export class ListZoneComponent implements OnInit{
 
   editZone(id: string) {
     console.log(id);
-    this.router.navigate(['edit', id]);
+    this.router.navigate(['delivery/zone/edit', id]);
     
   }
 

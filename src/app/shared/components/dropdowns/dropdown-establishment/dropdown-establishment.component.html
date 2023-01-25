@@ -1,0 +1,14 @@
+<div [formGroup]="form">
+    <select
+        (change)="onSelectEstablishment($event)"
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="establishmentId"
+    >
+        <option *ngFor="let establishment of establishments" [value]="establishment.uuid">
+            {{establishment.name}}
+        </option>
+    </select>
+</div>

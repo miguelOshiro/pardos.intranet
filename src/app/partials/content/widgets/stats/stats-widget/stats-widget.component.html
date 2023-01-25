@@ -1,0 +1,31 @@
+<div class="card-body p-0">
+    <div class="d-flex flex-stack card-p flex-grow-1">
+      <span
+        class="symbol symbol-50px"
+        [ngClass]="'symbol-light-' + color + ' me-2'"
+      >
+        <span class="symbol-label">
+          <span
+            [inlineSVG]="svgIcon"
+            class="svg-icon svg-icon-4x"
+            [ngClass]="'svg-icon-' + color"
+          ></span>
+        </span>
+      </span>
+
+      <div class="d-flex flex-column text-end">
+        <span class="text-dark fw-bolder fs-2">{{ change }}</span>
+        <a  data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-end"
+            data-kt-menu-flip="top-end" >
+          <span class="text-dark fw-bold text-hover-primary 
+          text-gray-600 m-0 cursor-pointer mt-1">
+          {{ description }}
+        </span>
+        <app-dropdown-menu3></app-dropdown-menu3>
+        </a>
+      </div>
+    </div>
+
+  </div>
+

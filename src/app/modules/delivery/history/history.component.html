@@ -12,127 +12,173 @@
 
     <!--begin::Input-->
     <!--end::Input-->
-    <div class="d-flex align-items-center justify-content-center row mb-4">
-      <div class="col-4">
-        <div class="mb-4">
-          <label class="form-label fw-bold">Establecimientos</label>
-          <div>
-            <select
-              class="form-select form-select-solid"
-              data-kt-select2="true"
-              data-placeholder="Select option"
-              data-allow-clear="true"
-            >
-              <option></option>
-              <option selected value="1">Approved</option>
-              <option value="2">Pending</option>
-            </select>
+    <div id="kt_account_profile_details" class="collapse show">
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        novalidate=""
+        class="form"
+      >
+        <div class="d-flex justify-content-center row g-5 g-xl-8 mb-4">
+          <div class="col-xl-5">
+            <div class="card-xl-stretch mb-xl-8 mb-4">
+              <label class="form-label fw-bold">Establecimientos</label>
+              <div>
+                <app-dropdown-establishment (selectionChange)="onSelectEstablishment($event)"></app-dropdown-establishment>
+                <!-- <select
+                  (change)="changeEstablishment($event)"
+                  formControlName="establishmentName"
+                  name="establishmentName"
+                  class="form-select form-select-solid"
+                  data-kt-select2="true"
+                  data-placeholder="Select option"
+                  data-allow-clear="true"
+                >
+                  <option value="">Select a Establishment...</option>
+                  <option
+                    *ngFor="let est of establishments"
+                    [value]="est.uuid"
+                    [ngValue]="est"
+                  >
+                    {{ est.name }}
+                  </option>
+                </select> -->
+                <!-- error block -->
+                <div
+                  class="invalid-feedback"
+                  [ngClass]="[
+                    isSubmitted && establishmentName?.invalid
+                      ? 'd-block'
+                      : 'd-none'
+                  ]"
+                >
+                  <sup>*</sup>Seleccione un establecimiento
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-2">
-        <div class="mb-4">
-          <label for="exampleFormControlInput1" class="form-label fw-bold"
-            >Fecha inicial</label
-          >
-          <input
-            type="email"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder="AAAA-MM-DD"
-          />
-        </div>
-      </div>
-      <div class="col-2">
-        <div class="mb-4">
-          <label for="exampleFormControlInput1" class="form-label fw-bold"
-            >Fecha final</label
-          >
-          <input
-            type="email"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder="AAAA-MM-DD"
-          />
-        </div>
-      </div>
 
-      <div class="col-2 mt-4">
-        <a href="#" class="btn btn-light-primary">
-          <span
-            [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
-            class="svg-icon"
-          >
-          </span>
-          Buscar
-        </a>
-      </div>
-      <div class="col-2 mt-4">
-        <a href="#" class="btn btn-light-primary ml-5">
-          <span
-            [inlineSVG]="
-              './assets/media/icons/duotune/communication/com010.svg'
-            "
-            class="svg-icon"
-          >
-          </span>
-          Explorar
-        </a>
-      </div>
+          <div class="col-xl-2">
+            <div class="card-xl-stretch mb-xl-8 mb-4">
+              <label for="exampleFormControlInput1" class="form-label fw-bold"
+                >Fecha inicial</label
+              >
+              <input
+                type="date"
+                name="startDate"
+                class="form-control"
+                id="exampleFormControlInput1"
+                formControlName="selectedStartDate"
+                placeholder="AAAA-MM-DD"
+              />
+            </div>
+          </div>
+          <div class="col-xl-2">
+            <div class="card-xl-stretch mb-xl-8 mb-4">
+              <label for="exampleFormControlInput1" class="form-label fw-bold"
+                >Fecha final</label
+              >
+              <input
+                type="date"
+                name="endDate"
+                class="form-control"
+                id="exampleFormControlInput1"
+                formControlName="selectedEndDate"
+                placeholder="AAAA-MM-DD"
+              />
+              <!-- error block -->
+              <div class="invalid-feedback"
+                   [ngClass]="[form.hasError('notValid') ? 'd-block' : 'd-none']">
+                  <sup>*</sup>Fecha no valido
+              </div>
+               <!-- <small *ngIf="form.hasError('notValid')">Not valid</small> -->
+            </div>
+            <!-- isLessThanStartDate="{{selectedStartDate.value}}" -->
+          </div>
 
-      <!-- <div class="col d-flex align-items-center justify-content-center">
+          <div class="col-xl-3 align-self-center d-flex justify-content-evenly">
+            <button
+              type="submit"
+              class="btn btn-primary d-block d-sm-inline-block"
+            >
+              <span
+                [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
+                class="svg-icon"
+              >
+              </span>
+              Buscar
+            </button>
+
+            <button  class="btn btn-primary d-block d-sm-inline-block">
+              <span
+                [inlineSVG]="
+                  './assets/media/icons/duotune/communication/com010.svg'
+                "
+                class="svg-icon"
+              >
+              </span>
+              Explorar
+            </button>
+          </div>
+
+          <!-- <div class="col d-flex align-items-center justify-content-center">
         </div> -->
+        </div>
+      </form>
     </div>
     <!-- begin::Table container -->
     <div class="table-responsive">
       <!-- begin::Table -->
-      <table class="table align-middle gs-0 gy-4">
-        <!-- begin::Table head -->
-        <thead>
-          <tr class="fw-bolder text-muted bg-light">
-            <th class="ps-4 min-w-125px rounded-start text-center">Fecha</th>
-            <th class="min-w-125px text-center">Hora</th>
-            <th class="min-w-125px text-center">Estado</th>
-            <th class="min-w-200px text-center">Tipo</th>
-            <th class="min-w-150px text-center">Usuario</th>
+      <table
+        class="table-row-dashed table-bordered table align-middle gs-0 gy-4"
+      >
+        <!-- begin::Table head   rounded-start-->
+        <thead style="background-color: #181c32; color: aliceblue">
+          <tr class="fw-bolder">
+            <th
+              *ngFor="let menu of menuThead"
+              class="ps-4 min-w-125px text-center"
+            >
+              {{ menu }}
+            </th>
           </tr>
         </thead>
         <!-- end::Table head -->
         <!-- begin::Table body -->
         <tbody>
-          <tr>
+          <tr *ngFor="let item of data">
             <td>
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                  <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+                  <span class="fw-bold d-block fs-7">{{ item.date }}</span>
                 </div>
               </div>
             </td>
             <td>
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                  <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+                  <span class="fw-bold d-block fs-7">{{ item.time }}</span>
                 </div>
               </div>
             </td>
             <td>
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                  <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+                  <span class="fw-bold d-block fs-7">{{ item.status }}</span>
                 </div>
               </div>
             </td>
             <td>
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                  <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+                  <span class="fw-bold d-block fs-7">{{ item.type }}</span>
                 </div>
               </div>
             </td>
             <td>
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                  <span class="fw-bold d-block fs-7"> HTML, JS, ReactJS </span>
+                  <span class="fw-bold d-block fs-7">{{ item.user }}</span>
                 </div>
               </div>
             </td>

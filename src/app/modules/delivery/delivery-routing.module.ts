@@ -1,24 +1,25 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DeliveryComponent } from './delivery.component';
-import { ZoneComponent } from './zone/zone.component';
 import { CapacityComponent } from './capacity/capacity.component';
 import { DriverComponent } from './driver/driver.component';
 import { HistoryComponent } from './history/history.component';
 import { LogComponent } from './log/log.component';
-import { ReportComponent } from './report/report.component';
 import { ManagerComponent } from './manager/manager.component';
-import { CreateZoneComponent } from './zone/components/create-zone/create-zone.component';
-import { EditZoneComponent } from './zone/components/edit-zone/edit-zone.component';
+import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
+
 
 const routes: Routes = [
   {
     path: '',
     component: DeliveryComponent,
     children: [
+
       {
         path: 'manager',
         component: ManagerComponent,
+        loadChildren: () =>
+      import('../delivery/manager/manager.module').then((m) => m.ManagerModule),
         data: {title: 'Manager'},
       },
       {
@@ -26,11 +27,6 @@ const routes: Routes = [
         loadChildren: () =>
       import('../delivery/zone/zone.module').then((m) => m.ZoneModule),
       },
-      {
-        path: 'create',
-        component: CreateZoneComponent,
-      },
-      { path: 'edit/:id', component: EditZoneComponent },
       {
         path: 'capacity',
         component: CapacityComponent,
@@ -51,11 +47,11 @@ const routes: Routes = [
         component: LogComponent,
         data: {title: 'Log'},
       },
-      {
-        path: 'report',
-        component: ReportComponent,
-        data: {title: 'Reportes'},
-      },
+      // {
+      //   path: 'report',
+      //   component: ReportComponent,
+      //   data: {title: 'Reportes'},
+      // },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: '**', redirectTo: 'overview', pathMatch: 'full' },
     ],

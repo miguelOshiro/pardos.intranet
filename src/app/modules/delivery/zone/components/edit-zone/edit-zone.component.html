@@ -9,11 +9,11 @@
       aria-controls="kt_account_profile_details"
     >
       <div class="card-title m-0">
-        <h3 class="fw-bolder m-0">Nueva Zona</h3>
+        <h3 class="fw-bolder m-0">Editar Zona</h3>
       </div>
     </div>
     <div id="kt_account_profile_details" class="collapse show">
-      <form novalidate="" class="form">
+      <form [formGroup]="editForm" (ngSubmit)="putForm(editForm)" class="form">
         <div class="card-body border-top p-9">
           <div class="row mb-6"></div>
   
@@ -26,7 +26,7 @@
                 type="text"
                 class="form-control form-control-lg form-control-solid"
                 placeholder="Ingrese el nombre de la zona"
-                name="name"
+                name="name" formControlName="name"
               />
             </div>
           </div>
@@ -81,7 +81,7 @@
               ></span>
             </button>
             <!-- begin::Menu 2 -->
-            <app-dropdown-menu1></app-dropdown-menu1>
+            <app-dropdown-menu2></app-dropdown-menu2>
             <!-- end::Menu 2 -->
             <!-- end::Menu -->
           </div>
@@ -195,10 +195,10 @@
   
         <div class="card-footer d-flex justify-content-end py-6 px-9">
           <button
-            type="button"
+            type="submit"
             class="btn btn-primary"
             [disabled]="isLoading"
-            (click)="saveSettings()"
+            
           >
             <ng-container *ngIf="!isLoading">Guardar</ng-container>
             <ng-container *ngIf="isLoading">

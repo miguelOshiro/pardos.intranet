@@ -24,7 +24,7 @@ import { HeaderMenuComponent } from './components/header/header-menu/header-menu
 import { DrawersModule, ModalsModule, EngagesModule} from '../partials';
 import {EngagesComponent} from "../partials/layout/engages/engages.component";
 import { ThemeModeModule } from '../partials/layout/theme-mode-switcher/theme-mode.module';
-import { DropdownMenusModule } from '../../shared/components/dropdown-menus/dropdown-menus.module';
+import { DropdownMenusModule } from '../../partials/content/dropdown-menus/dropdown-menus.module';
 
 const routes: Routes = [
   {

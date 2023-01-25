@@ -8,7 +8,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
-import { DropdownMenusModule } from '../../shared/components/dropdown-menus/dropdown-menus.module';
+import { DropdownMenusModule } from '../../partials/content/dropdown-menus/dropdown-menus.module';
 import {
   CardsModule,
   WidgetsModule,

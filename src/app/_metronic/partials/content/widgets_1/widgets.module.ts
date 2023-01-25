@@ -75,7 +75,7 @@ import { TablesWidget12Component } from './tables/tables-widget12/tables-widget1
 import { TablesWidget13Component } from './tables/tables-widget13/tables-widget13.component';
 import { TablesWidget14Component } from './tables/tables-widget14/tables-widget14.component';
 import { RouterModule } from '@angular/router';
-import { DropdownMenusModule } from '../../../../shared/components/dropdown-menus/dropdown-menus.module';
+import { DropdownMenusModule } from '../../../../partials/content/dropdown-menus/dropdown-menus.module';
 
 @NgModule({
   declarations: [

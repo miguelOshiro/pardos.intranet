@@ -13,7 +13,7 @@ import { EmailPreferencesComponent } from './settings/forms/email-preferences/em
 import { NotificationsComponent } from './settings/forms/notifications/notifications.component';
 import { SignInMethodComponent } from './settings/forms/sign-in-method/sign-in-method.component';
 import { WidgetsModule } from '../../_metronic/partials';
-import { DropdownMenusModule } from '../../shared/components/dropdown-menus/dropdown-menus.module';
+import { DropdownMenusModule } from '../../partials/content/dropdown-menus/dropdown-menus.module';
 
 @NgModule({
   declarations: [
