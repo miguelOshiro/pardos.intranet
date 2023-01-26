@@ -1,15 +1,15 @@
-interface IEstablishment {
+interface IEstablishmentModel {
 
     uuid: string;
     name: string;
   
   }
 
-  export class Establishment implements IEstablishment{
+  export class EstablishmentModel implements IEstablishmentModel{
 
     static establishmentFromJson(obj: any) {
   
-      return new Establishment(
+      return new EstablishmentModel(
         obj['uuid'],
         obj['name']
       );

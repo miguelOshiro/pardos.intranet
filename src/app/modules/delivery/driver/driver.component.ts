@@ -5,7 +5,6 @@ import {
 } from '@angular/forms';
 
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
 import { DriverModel, DriverDayModel } from './models/driver.model';
 
 @Component({
@@ -63,7 +62,7 @@ export class DriverComponent implements OnInit {
       driver.days = days;
       drivers.push(driver);
     });
-    // console.log(drivers);
+
   }
 
   keyUpEvent(element:any, time: string, day: string) {
@@ -127,16 +126,6 @@ export class DriverComponent implements OnInit {
     },
   ];
 
-  // { 'time': '02:00', 'day': 'Lunes', 'value': 8},
-  // { 'time': '02:00', 'day': 'Martes', 'value': 9},
-  // { 'time': '02:00', 'day': 'Miercoles', 'value': 10},
-  // { 'time': '02:00', 'day': 'Jueves', 'value': 11},
-  // { 'time': '02:00', 'day': 'Viernes', 'value': 12},
-  // { 'time': '02:00', 'day': 'Sabado', 'value': 13},
-  // { 'time': '02:00', 'day': 'Domingo', 'value': 14},
-  t = this.data.find((x) => x.time == '01:00');
-  // filter = this.t?.days.find(x => x.day == 'Miercoles')?.value;
-  filter = this.t?.days;
 }
 
 function validateLengthDriver(value: string, time: string, day: string) {
@@ -145,15 +134,12 @@ function validateLengthDriver(value: string, time: string, day: string) {
 
   var input = elementInput as HTMLInputElement;
       
-  //console.log(value.length);
   if(value.length >= 2) {
-    //console.log(value);
     value = value.slice(0, -1);
     input.value = value;
     return;
   }
 }
-
 
 function validateQuantityDriver(value: string, time: string, day: string) {
 
@@ -171,7 +157,6 @@ function validateQuantityDriver(value: string, time: string, day: string) {
 
     if(!value.match(re)){
       value = value.slice(0, -1);
-      //input.value = value;
     }
     console.log('algo');
     if(quantity < 1 || quantity > 21 || value == '') {

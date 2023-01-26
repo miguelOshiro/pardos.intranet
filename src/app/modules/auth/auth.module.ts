@@ -7,7 +7,6 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { TranslationModule } from '../i18n/translation.module';
 
 
 @NgModule({
@@ -22,7 +21,6 @@ import { TranslationModule } from '../i18n/translation.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    TranslationModule
   ]
 })
 export class AuthModule { }

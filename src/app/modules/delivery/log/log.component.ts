@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Establishment } from '../../../shared/models/establishment.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -15,12 +14,6 @@ export class LogComponent implements OnInit{
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading: boolean;
   private unsubscribe: Subscription[] = [];
-  establishments: Establishment[] = [
-    {uuid: '1', name: 'Pardos Bellavista'},
-    {uuid: '2', name: 'Pardos Garzon'},
-    {uuid: '3', name: 'Pardos San Borja'},
-    {uuid: '4', name: 'Pardos La Molina'},
-  ]
 
   dateStart: any = this.datePipe.transform(new Date(), "yyyy-MM-dd");
   dateEnd: any = this.datePipe.transform(new Date(), "yyyy-MM-dd");
@@ -36,9 +29,8 @@ export class LogComponent implements OnInit{
 
   }
 
-
   form = this.fb.group({
-    establishmentName: ['', [Validators.required ]],
+    establishmentId: ['', [Validators.required ]],
     selectedStartDate: [this.dateStart, [Validators.required ]],
     selectedEndDate: [this.dateEnd, [Validators.required ]],
   }, {validator: this.checkDates});
@@ -50,16 +42,20 @@ export class LogComponent implements OnInit{
     return null;
   }
   
-
-
-
-  changeEstablishment(e: any) {
-    this.establishmentName?.setValue(e.target.value, {
+  onSelectEstablishment(select: any) {
+    this.establishmentId?.setValue(select, {
       onlySelf: true,
     })
   }
-  get establishmentName() {
-    return this.form.get('establishmentName');
+
+
+  changeEstablishment(e: any) {
+    this.establishmentId?.setValue(e.target.value, {
+      onlySelf: true,
+    })
+  }
+  get establishmentId() {
+    return this.form.get('establishmentId');
   }
 
   get selectedStartDate() {
@@ -74,7 +70,7 @@ export class LogComponent implements OnInit{
 
     this.isSubmitted = true;
 
-    console.log(this.establishmentName?.invalid);
+    console.log(this.establishmentId?.invalid);
 
     if (!this.form.valid) {
       false;
@@ -86,27 +82,27 @@ export class LogComponent implements OnInit{
       this.isLoading$.next(false);
       this.cdr.detectChanges();
 
-    }, 600);
+      }, 600);
     }
   }
 
 
 
   menuThead: Array<any> = [
-    'Fecha', 'Hora', 'Estado', 'Tipo', 'Usuario', 'Modificacion'
+    'Establecimiento','Fecha', 'Hora', 'Estado', 'Usuario', 'Modificacion'
   ]
 
   data: Array<any> = [
-    {'date': '13/01/23', 'time': '01:00', 'status': 'abierto',
-     'type': 'abc', 'user': 'administrador@pardoschiken.com.pe',
+    {'establishment': 'abc', 'date': '13/01/23', 'time': '01:00', 'status': 'abierto',
+     'user': 'administrador@pardoschiken.com.pe',
      'modification': 'qwerty'
     },
-    {'date': '14/01/23', 'time': '02:00', 'status': 'cerrado',
-      'type': 'rty', 'user': 'miguel@pardoschiken.com.pe', 
+    { 'establishment': 'rty', 'date': '14/01/23', 'time': '02:00', 'status': 'cerrado',
+    'user': 'miguel@pardoschiken.com.pe', 
       'modification': 'bghytr'
    },
-   {'date': '15/01/23', 'time': '03:00', 'status': 'cerrado',
-    'type': 'cdf', 'user': 'pepe@pardoschiken.com.pe', 
+   {'establishment': 'cdf', 'date': '15/01/23', 'time': '03:00', 'status': 'cerrado',
+    'user': 'pepe@pardoschiken.com.pe', 
     'modification': 'vcxzs'
   },
   ]  

@@ -22,39 +22,24 @@
             <div class="card-xl-stretch mb-xl-8 mb-4">
               <label class="form-label fw-bold">Establecimientos</label>
               <div>
-                <select
-                  (change)="changeEstablishment($event)"
-                  formControlName="establishmentName"
-                  name="establishmentName"
-                  class="form-select form-select-solid"
-                  data-kt-select2="true"
-                  data-placeholder="Select option"
-                  data-allow-clear="true"
-                >
-                  <option value="">Select a Establishment...</option>
-                  <option
-                    *ngFor="let est of establishments"
-                    [value]="est.uuid"
-                    [ngValue]="est"
-                  >
-                    {{ est.name }}
-                  </option>
-                </select>
+                <app-dropdown-establishment [form]="form" (selectionChange)="onSelectEstablishment($event)">
+
+                </app-dropdown-establishment>
 
                 <!-- error block -->
                 <div
                   class="invalid-feedback"
                   [ngClass]="[
-                    isSubmitted && establishmentName?.invalid
+                    isSubmitted && establishmentId?.invalid
                       ? 'd-block'
                       : 'd-none'
-                  ]"
-                >
+                  ]">
                   <sup>*</sup>Seleccione un establecimiento
                 </div>
               </div>
             </div>
           </div>
+
           <div class="col-xl-2">
             <div class="card-xl-stretch mb-xl-8 mb-4">
               <label for="exampleFormControlInput1" class="form-label fw-bold"
@@ -95,26 +80,15 @@
 
           <div class="col-xl-3 align-self-center d-flex justify-content-evenly">
             <button type="submit" class="btn btn-primary">
-              <!-- <span
-              [inlineSVG]="'./assets/media/icons/duotune/general/gen021.svg'"
-              class="svg-icon ">
-            </span> -->
               <i class="bi bi-search text-light-primary fs-6"></i>
               Buscar
             </button>
             <a class="btn btn-primary">
-              <!-- <span
-              [inlineSVG]="
-                './assets/media/icons/duotune/files/fil011.svg'
-              "
-              class=" svg-icon svg-icon-2">
-            </span> -->
               <i class="bi bi-envelope-open text-light-primary fs-6"></i>
               Explorar
             </a>
           </div>
-          <!-- <div class="col d-flex align-items-center justify-content-center">
-          </div> -->
+
         </div>
       </form>
     </div>
@@ -143,6 +117,13 @@
             <td>
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
+                  <span class="fw-bold d-block fs-7">{{ item.establishment }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <div class="text-center">
                   <span class="fw-bold d-block fs-7">{{ item.date }}</span>
                 </div>
               </div>
@@ -158,13 +139,6 @@
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
                   <span class="fw-bold d-block fs-7">{{ item.status }}</span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                  <span class="fw-bold d-block fs-7">{{ item.type }}</span>
                 </div>
               </div>
             </td>

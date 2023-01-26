@@ -3,9 +3,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg-2';
-import { DropdownMenusModule } from '../../../partials/content/dropdown-menus/dropdown-menus.module';
-import { WidgetsModule } from 'src/app/partials/content/widgets/widgets.module';
-
 import { LogComponent } from './log.component';
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -18,8 +15,6 @@ import { SharedModule } from '../../../shared/shared.module';
     ReactiveFormsModule,
     FormsModule,
     InlineSVGModule,
-    DropdownMenusModule,
-    WidgetsModule,
     SharedModule
   ],
   providers: [DatePipe],

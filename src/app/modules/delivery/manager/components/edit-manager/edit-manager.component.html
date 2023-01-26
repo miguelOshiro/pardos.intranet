@@ -21,19 +21,17 @@
             <div class="col-lg-8 fv-row">
               <app-dropdown-establishment [form]="editForm" (selectionChange)="onSelectEstablishment($event)"></app-dropdown-establishment>
               <!-- error block -->
-              
               <div class="invalid-feedback"
-                [ngClass]="[isSubmitted && establishmentId.invalid ? 'd-block' : 'd-none']"
-              >
+                [ngClass]="[isSubmitted && establishmentId.invalid ? 'd-block' : 'd-none']">
                 <sup>*</sup>Seleccione un establecimiento
               </div>
             </div>
           </div>
   
           <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-bold fs-6"
-              >Zona</label
-            >
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">
+              Zona
+            </label>
             <div class="col-lg-8 fv-row">
               <app-dropdown-zone  [form]="editForm" (selectionChange)="onSelectEstablishment($event)" ></app-dropdown-zone>
               <!-- error block -->
@@ -45,9 +43,9 @@
           </div>
           
           <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-bold fs-6"
-              >Factor de Capacidad</label
-            >
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">
+              Factor de Capacidad
+              </label>
             <div class="col-lg-8">
               <div class="row">
                 <div class="col-lg-6 fv-row">
@@ -60,9 +58,8 @@
                     (keydown)="validateDecimal($event)"
                   />
                   <span style="color:red" *ngIf="(
-            factor?.hasError('pattern'))">Invalid input.</span>
-  
-            
+                    factor?.hasError('pattern'))">Invalid input
+                  </span>
                 </div>
                 <div class="col-lg-6 fv-row"></div>
               </div>
@@ -92,15 +89,7 @@
                     type="radio"
                   /><span class="fw-bold ps-2 fs-6">Diario</span></label>
               </div>
-                          <!-- error block -->
-                          <!-- <div [class.is-invalid]="(itsWeekly?.touched || isSubmitted) && itsWeekly?.invalid">
-  
-                          </div> -->
-                          
-                          <!-- <div class="invalid-feedback"
-                          [ngClass]="[isSubmitted && itsWeekly?.invalid ? 'd-block' : 'd-none']">
-                          <sup>*</sup>Seleccione una zona
-                        </div> -->
+
             </div>
           </div>
         </div>

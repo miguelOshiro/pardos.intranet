@@ -1,10 +1,8 @@
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ZoneModel } from '../../../../../shared/models/zone.model';
 import { ManagerService } from '../../services/manager.service';
 import { ManagerModel } from '../../models/manager.model';
-import { EstablishmentModel } from '../../models/establishment.model';
 
 @Component({
   selector: 'app-create-manager',
@@ -36,12 +34,9 @@ export class CreateManagerComponent implements OnInit, OnDestroy{
     this.establishmentId?.setValue(select, {
       onlySelf: true,
     })
-    console.log(select);
   }
 
   onSelectZone(select: any) {
-    console.log(select);
-
     this.zoneId?.setValue(select, {
       onlySelf: true,
     })
@@ -54,8 +49,6 @@ export class CreateManagerComponent implements OnInit, OnDestroy{
     factor: ['', [Validators.required, Validators.pattern(this.numRegex)]]
   })
 
-
-
   createManager() {
 
     this.manager = new ManagerModel();
@@ -64,9 +57,7 @@ export class CreateManagerComponent implements OnInit, OnDestroy{
     this.manager.itsWeekly = this.itsWeekly.value == 'weekly';
     this.manager.factor = parseFloat(this.factor.value!);
 
-    this.managerService.postManager(this.manager).subscribe(data => {
-      
-    
+    this.managerService.postManager(this.manager).subscribe(data => {      
       this.manager = data;
       console.log(this.manager);
     })
@@ -115,18 +106,8 @@ export class CreateManagerComponent implements OnInit, OnDestroy{
       setTimeout(() => {
       this.isLoading$.next(false);
       this.cdr.detectChanges();
-
     }, 900);
     }
-
-  }
-
-  saveSettings() {
-    this.isLoading$.next(true);
-    setTimeout(() => {
-      this.isLoading$.next(false);
-      this.cdr.detectChanges();
-    }, 1500);
   }
 
     validateDecimal(event: any) {

@@ -1,9 +1,8 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { Establishment } from '../../../shared/models/establishment.model';
+import { EstablishmentModel } from '../../../shared/models/establishment.model';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { ZoneModel } from '../../../shared/models/zone.model';
 
 @Component({
   selector: 'app-history',
@@ -16,17 +15,9 @@ export class HistoryComponent implements OnInit{
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading: boolean;
   private unsubscribe: Subscription[] = [];
-  establishments: Establishment[] = [
-    {uuid: '1', name: 'Pardos Bellavista'},
-    {uuid: '2', name: 'Pardos Garzon'},
-    {uuid: '3', name: 'Pardos San Borja'},
-    {uuid: '4', name: 'Pardos La Molina'},
-  ]
 
   dateStart: any = this.datePipe.transform(new Date(), "yyyy-MM-dd");
   dateEnd: any = this.datePipe.transform(new Date(), "yyyy-MM-dd");
-
-  selectZone: ZoneModel;
 
   constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder, private datePipe: DatePipe) {
     const loadingSubscr = this.isLoading$
@@ -39,7 +30,7 @@ export class HistoryComponent implements OnInit{
   }
 
   form = this.fb.group({
-    establishmentName: ['', [Validators.required ]],
+    establishmentId: ['', [Validators.required ]],
     selectedStartDate: [this.dateStart, [Validators.required ]],
     selectedEndDate: [this.dateEnd, [Validators.required ]],
   }, {validator: this.checkDates});
@@ -52,16 +43,18 @@ export class HistoryComponent implements OnInit{
   }
   
   onSelectEstablishment(select: any) {
-    this.selectZone = select;
-  }
-
-  changeEstablishment(e: any) {
-    this.establishmentName?.setValue(e.target.value, {
+    this.establishmentId?.setValue(select, {
       onlySelf: true,
     })
   }
-  get establishmentName() {
-    return this.form.get('establishmentName');
+
+  changeEstablishment(e: any) {
+    this.establishmentId?.setValue(e.target.value, {
+      onlySelf: true,
+    })
+  }
+  get establishmentId() {
+    return this.form.get('establishmentId');
   }
 
   get selectedStartDate() {
@@ -77,7 +70,7 @@ export class HistoryComponent implements OnInit{
 
     this.isSubmitted = true;
 
-    console.log(this.establishmentName?.invalid);
+    console.log(this.establishmentId?.invalid);
 
     if (!this.form.valid) {
       false;
@@ -92,13 +85,6 @@ export class HistoryComponent implements OnInit{
     }, 600);
     }
   }
-
-
-
-
-
-
-
 
   menuThead: Array<any> = [
     'Fecha', 'Hora', 'Estado', 'Tipo', 'Usuario'

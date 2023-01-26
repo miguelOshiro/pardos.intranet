@@ -7,11 +7,10 @@ import { ManagerRoutingModule } from './manager-routing.module';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg-2';
-import { DropdownMenusModule } from '../../../partials/content/dropdown-menus/dropdown-menus.module';
 import { ManagerComponent } from './manager.component';
-import { WidgetsModule } from 'src/app/partials/content/widgets/widgets.module';
+import { DropdownMenuActionComponent } from './partials/dropdown-menu-action/dropdown-menu-action.component';
+import { CardManagerComponent } from './partials/card-manager/card-manager.component';
 import { SharedModule } from '../../../shared/shared.module';
-
 
 @NgModule({
   declarations: [
@@ -19,6 +18,8 @@ import { SharedModule } from '../../../shared/shared.module';
     ListManagerComponent,
     CreateManagerComponent,
     EditManagerComponent,
+    DropdownMenuActionComponent,
+    CardManagerComponent
   ],
   imports: [
     CommonModule,
@@ -26,9 +27,10 @@ import { SharedModule } from '../../../shared/shared.module';
     ReactiveFormsModule,
     FormsModule,
     InlineSVGModule,
-    DropdownMenusModule,
-    WidgetsModule,
     SharedModule
+  ],
+  exports: [
+    
   ]
 })
 export class ManagerModule { }

@@ -1,8 +1,7 @@
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Subscription, Observable } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ManagerModel } from '../../models/manager.model';
 import { ManagerService } from '../../services/manager.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-manager',
@@ -18,7 +17,7 @@ export class ListManagerComponent implements OnInit, OnDestroy{
   isLoading: boolean;
   private unsubscribe: Subscription[] = [];
 
-  constructor(private cdr: ChangeDetectorRef, private managerService: ManagerService, private router: Router) {
+  constructor(private cdr: ChangeDetectorRef, private managerService: ManagerService) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
@@ -41,12 +40,6 @@ export class ListManagerComponent implements OnInit, OnDestroy{
       });
     this.unsubscribe.push(zoneSubscr);
   }
-
-  // editZone(id: string) {
-  //   console.log(id);
-  //   this.router.navigate(['delivery/manager/edit', id]);
-    
-  // }
 
   saveSettings() {
     this.isLoading$.next(true);

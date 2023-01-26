@@ -24,30 +24,14 @@
             <div class="card-xl-stretch mb-xl-8 mb-4">
               <label class="form-label fw-bold">Establecimientos</label>
               <div>
-                <app-dropdown-establishment (selectionChange)="onSelectEstablishment($event)"></app-dropdown-establishment>
-                <!-- <select
-                  (change)="changeEstablishment($event)"
-                  formControlName="establishmentName"
-                  name="establishmentName"
-                  class="form-select form-select-solid"
-                  data-kt-select2="true"
-                  data-placeholder="Select option"
-                  data-allow-clear="true"
-                >
-                  <option value="">Select a Establishment...</option>
-                  <option
-                    *ngFor="let est of establishments"
-                    [value]="est.uuid"
-                    [ngValue]="est"
-                  >
-                    {{ est.name }}
-                  </option>
-                </select> -->
+                <app-dropdown-establishment [form]="form" (selectionChange)="onSelectEstablishment($event)">
+
+                </app-dropdown-establishment>
                 <!-- error block -->
                 <div
                   class="invalid-feedback"
                   [ngClass]="[
-                    isSubmitted && establishmentName?.invalid
+                    isSubmitted && establishmentId?.invalid
                       ? 'd-block'
                       : 'd-none'
                   ]"
@@ -92,9 +76,8 @@
                   <sup>*</sup>Fecha no valido
               </div>
                <!-- <small *ngIf="form.hasError('notValid')">Not valid</small> -->
+              </div>
             </div>
-            <!-- isLessThanStartDate="{{selectedStartDate.value}}" -->
-          </div>
 
           <div class="col-xl-3 align-self-center d-flex justify-content-evenly">
             <button
@@ -120,10 +103,8 @@
               Explorar
             </button>
           </div>
-
-          <!-- <div class="col d-flex align-items-center justify-content-center">
-        </div> -->
         </div>
+
       </form>
     </div>
     <!-- begin::Table container -->
@@ -132,7 +113,7 @@
       <table
         class="table-row-dashed table-bordered table align-middle gs-0 gy-4"
       >
-        <!-- begin::Table head   rounded-start-->
+        <!-- begin::Table head -->
         <thead style="background-color: #181c32; color: aliceblue">
           <tr class="fw-bolder">
             <th

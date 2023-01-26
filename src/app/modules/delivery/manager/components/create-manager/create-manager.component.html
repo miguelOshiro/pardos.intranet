@@ -64,9 +64,8 @@
                   (keydown)="validateDecimal($event)"
                 />
                 <span style="color:red" *ngIf="(
-          factor?.hasError('pattern'))">Invalid input.</span>
-
-          
+                  factor?.hasError('pattern'))">Invalid input.
+                </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
             </div>
@@ -96,15 +95,13 @@
                   type="radio"
                 /><span class="fw-bold ps-2 fs-6">Diario</span></label>
             </div>
-                        <!-- error block -->
-                        <!-- <div [class.is-invalid]="(itsWeekly?.touched || isSubmitted) && itsWeekly?.invalid">
-
-                        </div> -->
-                        
-                        <!-- <div class="invalid-feedback"
-                        [ngClass]="[isSubmitted && itsWeekly?.invalid ? 'd-block' : 'd-none']">
-                        <sup>*</sup>Seleccione una zona
-                      </div> -->
+              <!-- error block -->
+              <!-- <div [class.is-invalid]="(itsWeekly?.touched || isSubmitted) && itsWeekly?.invalid">
+              </div> -->             
+              <!-- <div class="invalid-feedback"
+                [ngClass]="[isSubmitted && itsWeekly?.invalid ? 'd-block' : 'd-none']">
+                <sup>*</sup>Seleccione una zona
+              </div> -->
           </div>
         </div>
       </div>
@@ -141,25 +138,3 @@
     </form>
   </div>
 </div>
-
-<!-- 
-            <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="isLoading"
-            (click)="saveSettings()"
-          >
-            <ng-container *ngIf="!isLoading">
-              <i class="bi bi-save text-light-primary fs-6"></i>
-              Guardar
-            </ng-container>
-            <ng-container *ngIf="isLoading">
-              <span clas="indicator-progress" [style.display]="'block'">
-                Espere...{{ " " }}
-                <span
-                  class="spinner-border spinner-border-sm align-middle ms-2"
-                ></span>
-              </span>
-            </ng-container>
-          </button>
- -->

@@ -13,9 +13,6 @@ export class CapacityComponent implements OnInit{
 
   }
 
-
-
-
   days: Array<any> = [
     'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'
   ]

@@ -103,9 +103,7 @@ export class EditManagerComponent implements OnInit{
     })
   }
 
-
   onSubmit(): void {
-
     this.isSubmitted = true;
 
     console.log(this.establishmentId?.invalid);
@@ -119,11 +117,8 @@ export class EditManagerComponent implements OnInit{
       setTimeout(() => {
       this.isLoading$.next(false);
       this.cdr.detectChanges();
-
-
-    }, 900);
+      }, 900);
     }
-
   }
   
   validateDecimal(event: any) {

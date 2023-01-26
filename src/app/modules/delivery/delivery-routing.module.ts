@@ -6,7 +6,6 @@ import { DriverComponent } from './driver/driver.component';
 import { HistoryComponent } from './history/history.component';
 import { LogComponent } from './log/log.component';
 import { ManagerComponent } from './manager/manager.component';
-import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 
 
 const routes: Routes = [
@@ -21,11 +20,6 @@ const routes: Routes = [
         loadChildren: () =>
       import('../delivery/manager/manager.module').then((m) => m.ManagerModule),
         data: {title: 'Manager'},
-      },
-      {
-        path: 'zone',
-        loadChildren: () =>
-      import('../delivery/zone/zone.module').then((m) => m.ZoneModule),
       },
       {
         path: 'capacity',
@@ -47,11 +41,7 @@ const routes: Routes = [
         component: LogComponent,
         data: {title: 'Log'},
       },
-      // {
-      //   path: 'report',
-      //   component: ReportComponent,
-      //   data: {title: 'Reportes'},
-      // },
+
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: '**', redirectTo: 'overview', pathMatch: 'full' },
     ],

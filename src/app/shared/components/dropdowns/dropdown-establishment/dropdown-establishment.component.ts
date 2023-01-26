@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EstablishmentModel } from '../../../../modules/delivery/manager/models/establishment.model';
 import { EstablishmentService } from '../../../services/establishment.service';
+import { EstablishmentModel } from '../../../models/establishment.model';
 import { FormGroup } from '@angular/forms';
 
 @Component({
