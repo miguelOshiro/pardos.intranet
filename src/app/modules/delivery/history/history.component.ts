@@ -1,104 +1,133 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { EstablishmentModel } from '../../../shared/models/establishment.model';
-import { FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
+import { Component, ChangeDetectorRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { HistoryService } from './services/history.service';
+import { HistoryModel } from './models/history.model';
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  styleUrls: ['./history.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HistoryComponent implements OnInit{
+export class HistoryComponent implements OnInit {
+  isLoadingRefresh$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoadingRefresh: boolean;
 
-  isSubmitted = false;
-  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  isLoading: boolean;
+  isLoadingSearch$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoadingSearch: boolean;
+
+  isLoadingExport$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoadingExport: boolean;
+
+  isLoadingData$: boolean;
+  isEmptyData: boolean;
+  isMessageData: boolean;
   private unsubscribe: Subscription[] = [];
 
-  dateStart: any = this.datePipe.transform(new Date(), "yyyy-MM-dd");
-  dateEnd: any = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+  histories: HistoryModel[] = [];
+  historyForm: FormGroup;
 
-  constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder, private datePipe: DatePipe) {
-    const loadingSubscr = this.isLoading$
+  constructor(private changeDetectorRefs: ChangeDetectorRef, private fb: FormBuilder, private datePipe: DatePipe,
+    private historyService: HistoryService) {
+    const loadingSubscr = this.isLoadingRefresh$
       .asObservable()
-      .subscribe((res) => (this.isLoading = res));
+      .subscribe((res) => (this.isLoadingRefresh = res));
     this.unsubscribe.push(loadingSubscr);
+
+    const loadingSaveSubscr = this.isLoadingSearch$
+      .asObservable()
+      .subscribe((res) => (this.isLoadingSearch = res));
+    this.unsubscribe.push(loadingSaveSubscr);
+
+    const loadingExportSubscr = this.isLoadingExport$
+      .asObservable()
+      .subscribe((res) => (this.isLoadingExport = res));
+    this.unsubscribe.push(loadingExportSubscr);
   }
+
   ngOnInit(): void {
-
+    this.isMessageData = true;
+    this.historyForm = this.fb.group({
+      managementId: ['', [Validators.required]],
+      selectedStartDate: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]],
+      selectedEndDate: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]],
+    }, { validator: this.checkDates });
   }
 
-  form = this.fb.group({
-    establishmentId: ['', [Validators.required ]],
-    selectedStartDate: [this.dateStart, [Validators.required ]],
-    selectedEndDate: [this.dateEnd, [Validators.required ]],
-  }, {validator: this.checkDates});
+  getAllHistoriesByManagementId(managementId: string, startDate: any, endDate: any) {
+    const capacitySubscr = this.historyService
+      .getAllHistoriesByManagementId(managementId, startDate, endDate)
+      .pipe()
+      .subscribe((histories: HistoryModel[]) => {
+        console.log(histories)
+        this.histories = histories;
+        this.isLoadingData$ = false;
+        this.isEmptyData = histories.length == 0;
+        this.changeDetectorRefs.detectChanges();
+      });
+    this.unsubscribe.push(capacitySubscr);
+  }
 
   checkDates(group: FormGroup) {
-    if(group.controls?.["selectedEndDate"].value <= group.controls?.["selectedStartDate"].value) {
-      return { notValid:true }
+    if (group.controls?.["selectedEndDate"].value < group.controls?.["selectedStartDate"].value) {
+      return { notValid: true }
     }
     return null;
   }
-  
-  onSelectEstablishment(select: any) {
-    this.establishmentId?.setValue(select, {
+
+  onSelectManagement(select: any) {
+    this.managementIdForm?.setValue(select, {
       onlySelf: true,
     })
   }
 
-  changeEstablishment(e: any) {
-    this.establishmentId?.setValue(e.target.value, {
+  changeManagement(e: any) {
+    this.managementIdForm.setValue(e.target.value, {
       onlySelf: true,
     })
   }
-  get establishmentId() {
-    return this.form.get('establishmentId');
+  get managementIdForm() {
+    return this.historyForm.get('managementId')!;
   }
 
   get selectedStartDate() {
-    return this.form.get('selectedStartDate');
+    return this.historyForm.get('selectedStartDate');
   }
 
   get selectedEndDate() {
-    return this.form.get('selectedEndDate');
+    return this.historyForm.get('selectedEndDate');
   }
 
-
-  onSubmit() {
-
-    this.isSubmitted = true;
-
-    console.log(this.establishmentId?.invalid);
-
-    if (!this.form.valid) {
-      false;
-    } else {
-      console.log(JSON.stringify(this.form.value));
-
-      this.isLoading$.next(true);
-      setTimeout(() => {
-      this.isLoading$.next(false);
-      this.cdr.detectChanges();
-
+  searchButton() {
+    this.isEmptyData = false;
+    this.isMessageData = false;
+    this.isLoadingData$ = true;
+    this.isLoadingSearch$.next(true);
+    setTimeout(() => {
+      this.isLoadingSearch$.next(false);
+      this.getAllHistoriesByManagementId(this.managementIdForm.value, this.selectedStartDate?.value, this.selectedEndDate?.value);
+      this.changeDetectorRefs.detectChanges();
     }, 600);
-    }
   }
 
-  menuThead: Array<any> = [
-    'Fecha', 'Hora', 'Estado', 'Tipo', 'Usuario'
-  ]
+  exportLogButton() {
+    this.isLoadingExport$.next(true);
+    setTimeout(() => {
 
-  data: Array<any> = [
-    {'date': '13/01/23', 'time': '01:00', 'status': 'abierto',
-     'type': 'abc', 'user': 'administrador@pardoschiken.com.pe'
-    },
-    {'date': '14/01/23', 'time': '03:00', 'status': 'cerrado',
-    'type': 'rty', 'user': 'miguel@pardoschiken.com.pe'
-   },
-   {'date': '15/01/23', 'time': '03:00', 'status': 'cerrado',
-   'type': 'cdf', 'user': 'pepe@pardoschiken.com.pe'
-  },
-  ]  
+      this.historyService.getExportHistories(this.managementIdForm.value, this.selectedStartDate?.value, this.selectedEndDate?.value).subscribe(
+        async (data) => {
+          fileSaver.saveAs(data, 'HISTORY_LOG_' + this.managementIdForm.value + '.xlsx');
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+      this.isLoadingExport$.next(false);
+      this.changeDetectorRefs.detectChanges();
+    }, 600);
+  }
+
 }

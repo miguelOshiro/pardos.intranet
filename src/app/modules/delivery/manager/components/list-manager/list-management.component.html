@@ -1,0 +1,49 @@
+<div class="card card-xxl-stretch mb-xl-4">
+  <div class="card-header border-0 ">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Listado de Gestor</span>
+    </h3>
+    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+      title="Click to add a user">
+      <a routerLink="/delivery/manager/create" routerLinkActive="router-link-active" class="btn btn-md btn-primary"
+        title="Anadir nueva zona">
+        <i class="bi bi-plus-square-fill text-light-primary fs-4"></i>
+        <!-- <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr075.svg'" class="svg-icon svg-icon-3"></span> -->
+        Crear Gestor
+      </a>
+    </div>
+
+  </div>
+
+  <!--begin::Separator -->
+  <div class="separator mb-2"></div>
+  <!--end::Separator -->
+
+  <div *ngIf="isEmptyData" class="alert alert-warning text-center mt-3">
+    <h4 class="alert-heading">No hay registros</h4>
+    <p>
+      <i class="fa fa-exclamation fa-2x"></i>
+    </p>
+  </div>
+
+  <div *ngIf="isLoadingData" class="alert alert-primary text-center mt-3">
+    <h4 class="alert-heading">Cargando</h4>
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mb-0">
+      Espere por favor
+    </p>
+  </div>
+
+  <div class="card-body">
+    <div class="mb-5 mb-xl-10">
+      <div class="row g-5 g-xl-8">
+        <div class="col-xl-3" *ngFor="let management of managements">
+          <app-card-management class="card card-xl-stretch mb-xl-8" [model]="management"></app-card-management>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

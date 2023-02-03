@@ -1,0 +1,9 @@
+<div class="card-body">
+    <div class="mb-5 mb-xl-10">
+        <div class="row gy-5 g-xl-8">
+            <div class="col-xl-4" *ngFor="let typeSetting of typesSettings">
+                <app-card-setting class="card card-xl-stretch mb-xl-8" [model]="typeSetting"></app-card-setting>
+            </div>
+        </div>
+    </div>
+</div>

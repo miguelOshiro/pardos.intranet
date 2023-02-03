@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../modules/auth/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ZoneModel } from '../models/zone.model';
@@ -15,7 +14,7 @@ const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 export class ZoneService {
 
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
 
   getZoneAll(): Observable<ZoneModel[]> {
@@ -26,7 +25,7 @@ export class ZoneService {
       )
       .pipe(
         map((response: BaseResponse<ZoneModel[]>) => {
-          console.log(response);
+          //console.log(response);
           return response.data;
         })
       );

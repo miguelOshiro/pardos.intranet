@@ -5,7 +5,8 @@ import { CapacityComponent } from './capacity/capacity.component';
 import { DriverComponent } from './driver/driver.component';
 import { HistoryComponent } from './history/history.component';
 import { LogComponent } from './log/log.component';
-import { ManagerComponent } from './manager/manager.component';
+import { ManagementComponent } from './manager/management.component';
+import { OrderComponent } from './order/order.component';
 
 
 const routes: Routes = [
@@ -16,30 +17,37 @@ const routes: Routes = [
 
       {
         path: 'manager',
-        component: ManagerComponent,
+        component: ManagementComponent,
         loadChildren: () =>
-      import('../delivery/manager/manager.module').then((m) => m.ManagerModule),
-        data: {title: 'Manager'},
+          import('./manager/management.module').then((m) => m.ManagementModule),
+        data: { title: 'Manager' },
       },
       {
         path: 'capacity',
         component: CapacityComponent,
-        data: {title: 'Capacidad'},
+        data: { title: 'Capacidad' },
       },
       {
         path: 'driver',
         component: DriverComponent,
-        data: {title: 'Driver'},
+        loadChildren: () =>
+          import('../delivery/driver/driver.module').then((m) => m.DriverModule),
+        data: { title: 'Driver' },
       },
       {
         path: 'history',
         component: HistoryComponent,
-        data: {title: 'Historia'},
+        data: { title: 'Historia' },
       },
       {
         path: 'log',
         component: LogComponent,
-        data: {title: 'Log'},
+        data: { title: 'Log' },
+      },
+      {
+        path: 'order',
+        component: OrderComponent,
+        data: { title: 'Order' },
       },
 
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
@@ -52,4 +60,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DeliveryRoutingModule {}
+export class DeliveryRoutingModule { }

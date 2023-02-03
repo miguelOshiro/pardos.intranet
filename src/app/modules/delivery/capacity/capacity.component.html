@@ -1,46 +1,172 @@
 <div class="card card-xxl-stretch mb-5 mb-xl-8">
-  <div class="card-header border-0 pt-5 ">
+  <div class="card-header border-0 pt-5">
     <h3 class="card-title align-items-start flex-column">
       <span class="card-label fw-bolder fs-3 mb-1">Capacidad</span>
     </h3>
-
   </div>
+  <!--begin::Separator -->
+  <div class="separator mb-2"></div>
+  <!--end::Separator -->
   <!-- end::Header -->
-  <!-- begin::Body -->
-  <div class="card-body py-3">
 
+  <!-- begin::Body -->
+  <div class="card-body border-0 pt-2 g-2 g-xl-2">
+    <form [formGroup]="capacityForm" novalidate="" class="form mb-4">
+      <div class="d-flex row align-self-center justify-content-center">
+
+        <div class="col-xl-6">
+          <div class="col-xl-11">
+            <label class="form-label fw-bold">Establecimientos</label>
+            <div class="input-group">
+              <app-dropdown-management [form]="capacityForm" (selectionChange)="onSelectManagement($event)">
+              </app-dropdown-management>
+              <button type="submit" class="btn btn-primary" [disabled]="isLoadingRefresh"
+                (click)="refreshManagementButton()">
+                <i *ngIf="!isLoadingRefresh" class="bi bi-arrow-clockwise text-light-primary fs-4"></i>
+                <ng-container *ngIf="!isLoadingRefresh">Refrescar</ng-container>
+                <ng-container *ngIf="isLoadingRefresh">
+                  <span clas="indicator-progress" [style.display]="'block'">
+                    {{ " " }}
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    &nbsp;
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+          </div>
+          <div class="col-xl-1">
+          </div>
+        </div>
+
+        <div class="col-xl-6">
+          <div class="d-flex row align-self-center justify-content-center  mb-4">
+
+            <div class="col-xl-6">
+            </div>
+
+            <div class="col-xl-6">
+              <label class="form-label fw-bold">Factor Capacidad</label>
+              <div class="input-group">
+                <input type="text" class="form-control form-control-lg form-control-solid" formControlName="factor"
+                  placeholder="Ingrese" name="factor" />
+                <button type="submit" [disabled]="isLoadingSave" (click)="updateManagementButton()"
+                  class="btn btn-primary">
+                  <i *ngIf="!isLoadingSave" class="bi bi-save text-light-primary fs-4"></i>
+                  <ng-container *ngIf="!isLoadingSave">Guardar</ng-container>
+                  <ng-container *ngIf="isLoadingSave">
+                    <span clas="indicator-progress" [style.display]="'block'">
+                      {{ " " }}
+                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                      &nbsp;
+                    </span>
+                  </ng-container>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- begin::Body -->
     <!-- begin::Table container -->
-    
-    <div class="table-responsive mt-3">
+    <div class="table-responsive">
       <!-- begin::Table -->
-      <table 
-        class="table table-row-dashed table-bordered align-middle gs-0 gy-4"
-      >
-        <!-- begin::Table head -->
-        <thead style="background-color: #181c32; color: aliceblue;">
-          <tr class="fw-bolder ">
-            <th class=" min-w-70px text-center">Horario</th>
-            <th *ngFor="let day of days" class="ps-4 min-w-80px text-center">{{day}}</th>
+
+      <!-- <pre>{{filter}}</pre> -->
+
+      <table class="table table-row-dashed table-bordered align-middle gs-0 gy-4">
+        <!--bg-dark text-white  begin::Table head  #181c32-->
+        <thead style="background-color: #181c32; color: aliceblue">
+          <tr class="fw-bolder">
+            <th class="min-w-80px text-center">Hora</th>
+            <th class="min-w-80px text-center">Lunes</th>
+            <th class="min-w-80px text-center">Martes</th>
+            <th class="min-w-80px text-center">Miércoles</th>
+            <th class="min-w-80px text-center">Jueves</th>
+            <th class="min-w-80px text-center">Viernes</th>
+            <th class="min-w-80px text-center">Sabado</th>
+            <th class="min-w-80px text-center">Domingo</th>
+
           </tr>
         </thead>
         <!-- end::Table head -->
         <!-- begin::Table body -->
         <tbody>
-          <tr *ngFor="let item of data">
+          <tr *ngFor="let item of capacities">
             <td>
-              <div class="d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                  <span class=" me-2 fs-7 fw-bold">{{item.time}}</span>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column">
+                  <span class="pe-4 identifier-capacity-time">{{item.time}}</span>
                 </div>
               </div>
             </td>
-            <td *ngFor="let item of item.days">
-              <div class="d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                  <span class=" me-2 fs-7 fw-bold">{{item.value}}</span>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <span>{{item.monday.capacity }}</span>
+                  <span class="error-quantity-driver" attr.data-time="{{ item.time }}" attr.data-day="{{ 'monday' }}">
+                  </span>
                 </div>
               </div>
             </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <span>{{item.tuesday.capacity}}</span>
+                  <span class="error-quantity-driver" attr.data-time="{{ item.time }}" attr.data-day="{{ 'tuesday' }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <span>{{ item.wednesday.capacity }}</span>
+                  <span class="error-quantity-driver" attr.data-time="{{ item.time }}"
+                    attr.data-day="{{ 'wednesday' }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <span>{{ item.thursday.capacity }}</span>
+                  <span class="error-quantity-driver" attr.data-time="{{ item.time }}" attr.data-day="{{ 'thursday' }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <span>{{ item.friday.capacity }}</span>
+                  <span class="error-quantity-driver" attr.data-time="{{ item.time }}" attr.data-day="{{ 'friday' }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <span>{{ item.saturday.capacity }}</span>
+                  <span class="error-quantity-driver" attr.data-time="{{ item.time }}" attr.data-day="{{ 'saturday' }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <span>{{ item.sunday.capacity }}</span>
+                  <span class="error-quantity-driver" attr.data-time="{{ item.time }}" attr.data-day="{{ 'sunday' }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+
           </tr>
         </tbody>
         <!-- end::Table body -->
@@ -48,6 +174,23 @@
       <!-- end::Table -->
     </div>
     <!-- end::Table container -->
+
+    <div *ngIf="isEmptyData" class="alert alert-warning text-center mt-3">
+      <h4 class="alert-heading">No hay registros</h4>
+      <p>
+        <i class="fa fa-exclamation fa-2x"></i>
+      </p>
+    </div>
+
+    <div *ngIf="isLoadingData" class="alert alert-primary text-center mt-3">
+      <h4 class="alert-heading">Cargando</h4>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mb-0">
+        Espere por favor
+      </p>
+    </div>
   </div>
   <!-- begin::Body -->
 </div>

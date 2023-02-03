@@ -7,7 +7,7 @@ import { BaseResponse } from '../models/baseresponse.model';
 import { EstablishmentModel } from '../models/establishment.model';
 import { Observable } from 'rxjs';
 
-const API_USERS_URL = `${environment.apiUrl}`;
+const API_USERS_URL = `${environment.apiDeliveryUrl}`;
 
 @Injectable({
   providedIn: 'root',
@@ -18,16 +18,15 @@ export class EstablishmentService {
   getEstablishmentByUser(): Observable<EstablishmentModel[]> {
     const auth = this.authService.getAuthFromLocalStorage();
 
-    const headers = {
-      Accept: 'application/vnd.pardos.v1+json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${auth?.authToken}`,
-    };
+    // const headers = {
+    //   Accept: 'application/vnd.pardos.v1+json',
+    //   'Content-Type': 'application/json',
+    //   Authorization: `Bearer ${auth?.authToken}`,{ headers }
+    // };
 
     return this.http
       .get<BaseResponse<EstablishmentModel[]>>(
-        `${API_USERS_URL}/establishments/user`,
-        { headers }
+        `${API_USERS_URL}/establishment`  
       )
       .pipe(
         map((response: BaseResponse<EstablishmentModel[]>) => {

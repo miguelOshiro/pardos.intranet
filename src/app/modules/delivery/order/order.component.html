@@ -1,0 +1,247 @@
+<div class="card card-xxl-stretch mb-5 mb-xl-8">
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bolder fs-3 mb-1">Ordenes</span>
+        </h3>
+        <div class="card-toolbar"></div>
+    </div>
+    <!--begin::Separator -->
+    <div class="separator mb-2"></div>
+
+    <div class="card-body py-3">
+
+        <div id="kt_account_profile_details" class="collapse show">
+            <form [formGroup]="orderForm" novalidate="" class="form">
+                <div class="d-flex align-self-center justify-content-center row g-5 g-xl-8">
+
+                    <div class="col-xl-4">
+                        <label class="form-label fw-bold">Establecimientos</label>
+                        <div>
+                            <app-dropdown-management [form]="orderForm" (selectionChange)="onSelectManagement($event)">
+                            </app-dropdown-management>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha inicial</label>
+                        <input type="date" name="startDate" class="form-control" id="exampleFormControlInput1"
+                            formControlName="selectedStartDate" placeholder="AAAA-MM-DD" />
+
+                        <div class="invalid-feedback" style="display: block !important;"
+                            [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
+                            <sup>*</sup>Fecha no valido
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha final</label>
+                        <input type="date" name="endDate" class="form-control" id="exampleFormControlInput1"
+                            formControlName="selectedEndDate" placeholder="AAAA-MM-DD" />
+
+                        <div class="invalid-feedback" style="display: block !important;"
+                            [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
+                            <sup>*</sup>Fecha no valido
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                        <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
+
+                            <div class="col-xl-6 d-grid">
+                                <label class="form-label fw-bold">Estados</label>
+                                <div>
+                                    <app-dropdown-status [form]="orderForm"
+                                        (selectionChange)="onSelectOrderStatus($event)">
+                                    </app-dropdown-status>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 d-grid">
+                                <label class="form-label fw-bold">Plataformas</label>
+                                <div>
+                                    <app-dropdown-platform [form]="orderForm"
+                                        (selectionChange)="onSelectOrderPlatform($event)">
+                                    </app-dropdown-platform>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--begin::Separator -->
+                <div class="separator"></div>
+
+                <div class="d-flex align-self-center justify-content-center row g-5 g-xl-8 mb-4">
+                    <div class="col-xl-8"></div>
+                    <div class="col-xl-4">
+                        <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 ">
+                            <div class="col-xl-6 d-grid">
+                                <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0"
+                                    (click)="searchButton()">
+                                    <i *ngIf="!isLoadingSearch" class="bi bi-search fs-4"></i>
+                                    <ng-container *ngIf="!isLoadingSearch">Buscar</ng-container>
+                                    <ng-container *ngIf="isLoadingSearch">
+                                        <span clas="indicator-progress" [style.display]="'block'">
+                                            {{ " " }}
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            &nbsp;
+                                        </span>
+                                    </ng-container>
+                                </button>
+                            </div>
+                            <div class="col-xl-6 d-grid">
+                                <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0"
+                                    (click)="exportLogButton()">
+                                    <i *ngIf="!isLoadingExport" class="bi bi-filetype-exe fs-4"></i>
+                                    <ng-container *ngIf="!isLoadingExport">Exportar</ng-container>
+                                    <ng-container *ngIf="isLoadingExport">
+                                        <span clas="indicator-progress" [style.display]="'block'">
+                                            {{ " " }}
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            &nbsp;
+                                        </span>
+                                    </ng-container>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- begin::Table container -->
+        <div class="table-responsive">
+            <!-- begin::Table -->
+            <table *ngIf="!isLoadingData$ && orders.length > 0"
+                class="table-row-dashed table-bordered table align-middle gs-0 gy-4">
+                <!-- begin::Table head -->
+                <thead style="background-color: #181c32; color: aliceblue">
+                    <tr class="fw-bolder">
+                        <th class="ps-4 min-w-125px text-center"> Establecimiento</th>
+                        <th class="ps-4 min-w-125px text-center"> Numero</th>
+                        <th class="ps-4 min-w-125px text-center"> Fecha</th>
+                        <th class="ps-4 min-w-125px text-center"> Codigo</th>
+                        <th class="ps-4 min-w-125px text-center"> Estado</th>
+                        <th class="ps-4 min-w-125px text-center"> Plataforma</th>
+                        <th class="ps-4 min-w-125px text-center"> Monto</th>
+                        <th class="ps-4 min-w-125px text-center"> Distancia</th>
+                    </tr>
+                </thead>
+                <!-- end::Table head -->
+                <!-- begin::Table body -->
+                <tbody>
+                    <tr *ngFor="let order of orders">
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">{{ order.establishmentId }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">{{ order.number }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">
+                                        <i class="bi bi-calendar2 ml-2"></i>
+                                        {{ order.date | date:"dd-MM-yyyy"}} &nbsp;
+                                        <i class="bi bi-clock ml-2"></i>
+                                        {{ order.date | date:"HH:mm"}}
+
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">{{ order.code }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">
+                                        <span class="badge {{ order.managementOrderStatus.color }}">{{
+                                            order.managementOrderStatus.name }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">
+                                        <span class="badge {{ order.managementOrderStatus.color }}">{{
+                                            order.managementOrderPlatform.name }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">S/. {{ order.amount }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="fw-bold d-block fs-7">{{ order.distance }} km.</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- end::Table body -->
+
+            </table>
+            <!-- end::Table -->
+        </div>
+        <!-- end::Table container -->
+
+        <div *ngIf="isMessageData" class="alert alert-primary text-center mt-3">
+            <h4 class="alert-heading">Por favor seleccione los filtros para realizar su busqueda</h4>
+            <p>
+                <i class="fa fa-search text-primary fa-2x mt-2"></i>
+            </p>
+            <p class="mb-0">
+                Por favor verifique los filtros seleccionados
+            </p>
+        </div>
+
+        <div *ngIf="isEmptyData" class="alert alert-warning text-center mt-3">
+            <h4 class="alert-heading">Sin registros para la busqueda realizada</h4>
+            <p>
+                <!-- <i class="fa fa-exclamation fa-2x"></i> -->
+            </p>
+            <p class="mb-0">
+                Por favor verifique los filtros seleccionados
+            </p>
+        </div>
+
+        <div *ngIf="isLoadingData$" class="alert alert-primary text-center mt-3 animated fadeIn faster">
+            <h4 class="alert-heading">Cargando</h4>
+            <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mb-0">
+                Espere por favor
+            </p>
+        </div>
+
+    </div>
+
+
+</div>

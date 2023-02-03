@@ -1,0 +1,9 @@
+<div [formGroup]="form">
+    <select (change)="onSelectOrderStatus($event)" class="form-select form-select-solid" data-kt-select2="true"
+        data-placeholder="Select option" data-allow-clear="true" formControlName="orderStatusId">
+        <option value="">Todos</option>
+        <option *ngFor="let orderStatus of ordersStatuses" [value]="orderStatus.id">
+            {{orderStatus.name}}
+        </option>
+    </select>
+</div>

@@ -1,118 +1,59 @@
-<div
-  class="hover-scroll-overlay-y my-2 my-lg-5 pe-lg-n1"
-  id="kt_aside_menu_wrapper"
-  data-kt-scroll="true"
-  data-kt-scroll-height="auto"
-  data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer"
-  data-kt-scroll-wrappers="#kt_aside, #kt_aside_menu"
-  data-kt-scroll-offset="5px"
->
+<div class="hover-scroll-overlay-y my-2 my-lg-5 pe-lg-n1" id="kt_aside_menu_wrapper" data-kt-scroll="true"
+  data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer"
+  data-kt-scroll-wrappers="#kt_aside, #kt_aside_menu" data-kt-scroll-offset="5px">
   <div
     class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold"
-    id="kt_aside_menu"
-    data-kt-menu="true"
-  >
+    id="kt_aside_menu" data-kt-menu="true">
     <!-- Dashboard -->
     <div class="menu-item py-3" routerLinkActive="here show">
-      <a
-        class="menu-link menu-center"
-        routerLink="/dashboard"
-        routerLinkActive="show"
-      >
+      <a class="menu-link menu-center" routerLink="/dashboard" routerLinkActive="show">
         <span class="menu-icon me-0">
-          <span
-            [inlineSVG]="'./assets/media/icons/duotune/art/art002.svg'"
-            class="svg-icon svg-icon-2"
-          ></span>
+          <!-- <span [inlineSVG]="'./assets/media/icons/duotune/art/art002.svg'" class="svg-icon svg-icon-2"></span> -->
+          <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen060.svg'">
+          </span>
         </span>
         <span class="menu-title">Dashboard</span>
       </a>
     </div>
 
     <!-- Delivery -->
-    <div
-      class="menu-item py-3"
-      data-kt-menu-trigger="click"
-      data-kt-menu-placement="right-start"
-      routerLinkActive="here show"
-    >
+    <div class="menu-item py-3" data-kt-menu-trigger="click" data-kt-menu-placement="right-start"
+      routerLinkActive="here show">
       <span class="menu-link menu-center">
         <span class="menu-icon me-0">
-          <span
-            class="svg-icon svg-icon-2"
-            [inlineSVG]="
-              './assets/media/icons/duotune/general/gen019.svg'
-            "
-          >
+          <span class="svg-icon svg-icon-2" [inlineSVG]="
+              './assets/media/icons/duotune/general/gen062.svg'
+            ">
           </span>
         </span>
         <span class="menu-title">Delivery</span>
       </span>
-      <div
-        class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4"
-        routerLinkActive="menu-active-bg show"
-      >
+      <div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4" routerLinkActive="menu-active-bg show">
         <div class="menu-item">
-          <a
-            class="menu-link"
-            routerLinkActive="active"
-            routerLink="/delivery/manager"
-            ><span class="menu-bullet"
-              ><span class="bullet bullet-dot"></span></span
-            ><span class="menu-title">Gestor</span></a
-          >
+          <a class="menu-link" routerLinkActive="active" routerLink="/delivery/manager"><span class="menu-bullet"><span
+                class="bullet bullet-dot"></span></span><span class="menu-title">Gestor</span></a>
         </div>
         <div class="menu-item">
-          <a
-            class="menu-link"
-            routerLinkActive="active"
-            routerLink="/delivery/driver"
-            delivery
-            ><span class="menu-bullet"
-              ><span class="bullet bullet-dot"></span></span
-            ><span class="menu-title">Driver</span></a
-          >
+          <a class="menu-link" routerLinkActive="active" routerLink="/delivery/driver" delivery><span
+              class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+              class="menu-title">Driver</span></a>
         </div>
         <div class="menu-item">
-          <a
-            class="menu-link"
-            routerLinkActive="active"
-            routerLink="/delivery/capacity"
-            ><span class="menu-bullet"
-              ><span class="bullet bullet-dot"></span></span
-            ><span class="menu-title">Capacidad</span></a
-          >
+          <a class="menu-link" routerLinkActive="active" routerLink="/delivery/log"><span class="menu-bullet"><span
+                class="bullet bullet-dot"></span></span><span class="menu-title">Log</span></a>
         </div>
         <div class="menu-item">
-          <a
-            class="menu-link"
-            routerLinkActive="active"
-            routerLink="/delivery/history"
-            ><span class="menu-bullet"
-              ><span class="bullet bullet-dot"></span></span
-            ><span class="menu-title">Historia</span></a
-          >
+          <a class="menu-link" routerLinkActive="active" routerLink="/delivery/history"><span class="menu-bullet"><span
+                class="bullet bullet-dot"></span></span><span class="menu-title">Historia</span></a>
         </div>
         <div class="menu-item">
-          <a
-            class="menu-link"
-            routerLinkActive="active"
-            routerLink="/delivery/log"
-            ><span class="menu-bullet"
-              ><span class="bullet bullet-dot"></span></span
-            ><span class="menu-title">Log</span></a
-          >
+          <a class="menu-link" routerLinkActive="active" routerLink="/delivery/capacity"><span class="menu-bullet"><span
+                class="bullet bullet-dot"></span></span><span class="menu-title">Capacidad</span></a>
         </div>
-        <!-- <div class="menu-item">
-          <a
-            class="menu-link"
-            routerLinkActive="active"
-            routerLink="/delivery/report"
-            ><span class="menu-bullet"
-              ><span class="bullet bullet-dot"></span></span
-            ><span class="menu-title">Reportes</span></a
-          >
-        </div> -->
+        <div class="menu-item">
+          <a class="menu-link" routerLinkActive="active" routerLink="/delivery/order"><span class="menu-bullet"><span
+                class="bullet bullet-dot"></span></span><span class="menu-title">Ordenes</span></a>
+        </div>
       </div>
     </div>
   </div>

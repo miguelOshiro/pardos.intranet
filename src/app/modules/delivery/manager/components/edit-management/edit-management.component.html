@@ -1,0 +1,129 @@
+<div class="card mb-5 mb-xl-10">
+  <div class="d-flex px-7 py-5 flex-wrap flex-stack">
+    <a class="d-flex align-items-center text-gray-400 me-5">
+      <span [inlineSVG]="'./assets/media/icons/duotune/communication/com006.svg'"
+        class="svg-icon svg-icon-2 me-1"></span>
+      <h3 class="fw-bolder my-2">Gestor</h3>
+    </a>
+    <div class="d-flex my-2"></div>
+  </div>
+
+  <div id="kt_account_profile_details" class="collapse show">
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()" novalidate="" class="form">
+      <div class="card-body border-top p-9">
+
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6"><span class="required">Establecimiento</span></label>
+          <div class="col-lg-8 fv-row">
+            <app-dropdown-establishment [form]="editForm"
+              (selectionChange)="onSelectEstablishment($event)"></app-dropdown-establishment>
+            <!-- error block -->
+            <div class="invalid-feedback" [ngClass]="[isSubmitted && establishmentId.invalid ? 'd-block' : 'd-none']">
+              <sup>*</sup>Seleccione un establecimiento
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6">
+            Zona
+          </label>
+          <div class="col-lg-8 fv-row">
+            <app-dropdown-zone [form]="editForm" (selectionChange)="onSelectZone($event)"></app-dropdown-zone>
+            <!-- error block -->
+            <div class="invalid-feedback" [ngClass]="[isSubmitted && zoneId.invalid ? 'd-block' : 'd-none']">
+              <sup>*</sup>Seleccione una zona
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6">
+            Estado
+
+          </label>
+          <div class="col-lg-8 fv-row">
+            <app-dropdown-management-status [form]="editForm"
+              (selectionChange)="onSelectManagementStatus($event)"></app-dropdown-management-status>
+            <!-- error block -->
+            <div class="invalid-feedback"
+              [ngClass]="[isSubmitted && managementStatusId.invalid ? 'd-block' : 'd-none']">
+              <sup>*</sup>Seleccione el estado
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6">
+            Factor de Capacidad
+          </label>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6 fv-row">
+                <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                  placeholder="Ingrese Cantidad" name="factor" formControlName="factor"
+                  (keydown)="validateDecimal($event)" />
+                <span style="color:red" *ngIf="(
+                    factor?.hasError('pattern'))">Invalid input
+                </span>
+              </div>
+              <div class="col-lg-6 fv-row"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">Ingreso de Driver</label>
+          <div class="col-lg-8 fv-row">
+            <div class="d-flex align-items-center mt-3">
+              <label for="weekly" class="form-check form-check-inline form-check-solid me-5"><input
+                  class="form-check-input" name="itsWeekly" formControlName="itsWeekly" value="weekly"
+                  type="radio" /><span class="fw-bold ps-2 fs-6">Semanal</span></label><label for="daily"
+                class="form-check form-check-inline form-check-solid"><input class="form-check-input" name="itsWeekly"
+                  formControlName="itsWeekly" value="daily" type="radio" /><span
+                  class="fw-bold ps-2 fs-6">Diario</span></label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row card-footer ">
+        <div class="col-xl-8"></div>
+
+        <div class="col-xl-4">
+          <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
+
+            <div class="col-xl-6 d-grid">
+              <button type="button" class="btn btn-primary" routerLink="/delivery/manager/list"
+                routerLinkActive="router-link-active">
+                <i class="bi bi-x-lg text-light-primary fs-4"></i>
+
+                Cerrar
+              </button>
+            </div>
+
+            <div class="col-xl-6 d-grid">
+              <button type="submit" class="btn btn-primary" [disabled]="isLoading"><ng-container *ngIf="!isLoading">
+                  <i class="bi bi-save text-light-primary fs-4"></i>
+                  Guardar
+                </ng-container>
+                <ng-container *ngIf="isLoading">
+                  <span clas="indicator-progress" [style.display]="'block'">
+                    Espere...{{ " " }}
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+
+    </form>
+  </div>
+</div>

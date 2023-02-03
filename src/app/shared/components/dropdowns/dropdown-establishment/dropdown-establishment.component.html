@@ -6,9 +6,11 @@
         data-placeholder="Select option"
         data-allow-clear="true"
         formControlName="establishmentId"
+        ng-disabled="disabled"
     >
         <option *ngFor="let establishment of establishments" [value]="establishment.uuid">
             {{establishment.name}}
         </option>
     </select>
+    
 </div>

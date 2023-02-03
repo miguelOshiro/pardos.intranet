@@ -1,1 +1,223 @@
-<p>list-driver works!</p>
+<div class="card card-xxl-stretch mb-5 mb-xl-8">
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Drivers</span>
+    </h3>
+  </div>
+  <!--begin::Separator -->
+  <div class="separator mb-2"></div>
+  <!--end::Separator -->
+
+  <div class="card-body border-0 pt-2 g-2 g-xl-2">
+    <form [formGroup]="driverForm" novalidate="" class="form mb-4">
+      <div class="d-flex row align-self-center justify-content-center">
+
+        <div class="col-xl-6">
+          <div class="col-xl-11">
+            <label class="form-label fw-bold">Establecimientos</label>
+            <div class="input-group">
+              <app-dropdown-management [form]="driverForm" (selectionChange)="onSelectManagement($event)">
+              </app-dropdown-management>
+              <button type="submit" class="btn btn-primary" [disabled]="isLoadingRefresh" (click)="refreshDriver()">
+                <i *ngIf="!isLoadingRefresh" class="bi bi-arrow-clockwise text-light-primary fs-4"></i>
+                <ng-container *ngIf="!isLoadingRefresh">Refrescar</ng-container>
+                <ng-container *ngIf="isLoadingRefresh">
+                  <span clas="indicator-progress" [style.display]="'block'">
+                    {{ " " }}
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+          </div>
+          <div class="col-xl-1">
+          </div>
+        </div>
+
+        <div class="col-xl-6">
+          <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
+
+            <div class="col-xl-8 d-grid">
+            </div>
+
+            <div class="col-xl-4 d-grid">
+              <button type="submit" [disabled]="isLoadingSave" (click)="saveDriver()"
+                class="btn btn-primary btn-md mt-xl-8 mt-sm-0">
+                <i *ngIf="!isLoadingSave" class="bi bi-save text-light-primary fs-6"></i>
+                <ng-container *ngIf="!isLoadingSave">Guardar</ng-container>
+                <ng-container *ngIf="isLoadingSave">
+                  <span clas="indicator-progress" [style.display]="'block'">
+                    {{ " " }}
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- begin::Body -->
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+      <!-- begin::Table -->
+
+      <!-- <pre>{{filter}}</pre> -->
+
+      <table class="table table-row-dashed table-bordered align-middle gs-0 gy-4">
+        <!--bg-dark text-white  begin::Table head  #181c32-->
+        <thead style="background-color: #181c32; color: aliceblue">
+          <tr class="fw-bolder">
+            <th class="min-w-80px text-center">Hora</th>
+            <th class="min-w-80px text-center">Lunes</th>
+            <th class="min-w-80px text-center">Martes</th>
+            <th class="min-w-80px text-center">Miércoles</th>
+            <th class="min-w-80px text-center">Jueves</th>
+            <th class="min-w-80px text-center">Viernes</th>
+            <th class="min-w-80px text-center">Sabado</th>
+            <th class="min-w-80px text-center">Domingo</th>
+
+          </tr>
+        </thead>
+        <!-- end::Table head -->
+        <!-- begin::Table body -->
+        <tbody>
+          <tr *ngFor="let driver of drivers">
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column">
+                  <span class="pe-4 identifier-driver-time">{{
+                    driver.time
+                    }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <input type="text" style="width: 90px"
+                    class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'monday' }}"
+                    value="{{ driver.monday.driver }}" />
+                  <!-- (keyup)="keyUpEvent($event, driver.time, 'monday')" -->
+                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
+                    attr.data-day="{{ driver.monday }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <input type="text" style="width: 90px"
+                    class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'tuesday' }}"
+                    value="{{ driver.tuesday.driver }}" />
+                  <!--  (keyup)="keyUpEvent($event, driver.time, 'tuesday')" -->
+                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
+                    attr.data-day="{{ driver.tuesday }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <input type="text" style="width: 90px"
+                    class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'wednesday' }}"
+                    value="{{ driver.wednesday.driver }}" />
+                  <!-- (keyup)="keyUpEvent($event, driver.time, 'wednesday')" -->
+                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
+                    attr.data-day="{{ driver.wednesday }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <input type="text" style="width: 90px"
+                    class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'thursday' }}"
+                    value="{{ driver.thursday.driver }}" />
+                  <!-- (keyup)="keyUpEvent($event, driver.time, 'thursday')" -->
+                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
+                    attr.data-day="{{ driver.thursday }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <input type="text" style="width: 90px"
+                    class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'friday' }}"
+                    value="{{ driver.friday.driver }}" />
+                  <!-- (keyup)="keyUpEvent($event, driver.time, 'friday')"  -->
+                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
+                    attr.data-day="{{ driver.friday }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <input type="text" style="width: 90px"
+                    class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'saturday' }}"
+                    value="{{ driver.saturday.driver }}" />
+                  <!-- (keyup)="keyUpEvent($event, driver.time, 'saturday')"  -->
+                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
+                    attr.data-day="{{ driver.saturday }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="flex-column text-center">
+                  <input type="text" style="width: 90px"
+                    class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'sunday' }}"
+                    value="{{ driver.sunday.driver }}" />
+                  <!-- (keyup)="keyUpEvent($event, driver.time, 'sunday')" -->
+                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
+                    attr.data-day="{{ driver.sunday }}">
+                  </span>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+        <!-- end::Table body -->
+      </table>
+      <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+
+    <div *ngIf="isEmptyData" class="alert alert-warning text-center mt-3">
+      <h4 class="alert-heading">No hay registros</h4>
+      <p>
+        <i class="fa fa-exclamation fa-2x"></i>
+      </p>
+    </div>
+
+    <div *ngIf="isLoadingData" class="alert alert-primary text-center mt-3">
+      <h4 class="alert-heading">Cargando</h4>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mb-0">
+        Espere por favor
+      </p>
+    </div>
+  </div>
+  <!-- begin::Body -->
+</div>
