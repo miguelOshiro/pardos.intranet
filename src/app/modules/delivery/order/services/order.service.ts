@@ -5,6 +5,7 @@ import { BaseResponse } from '../../../../shared/models/baseresponse.model';
 import { map, finalize } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { OrderIndicatorModel } from '../models/order-indicator.model';
 
 const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 
@@ -28,6 +29,23 @@ export class OrderService {
       (`${API_DELIVERY_URL}/management/${managementId}/orders?startdate=${startDate}&enddate=${endDate}
       &statusid=${orderStatusId}&platformid=${orderPlatformId}`).pipe(
         map((response: BaseResponse<OrderModel[]>) => {
+          if (!response.isSuccess) {
+            console.log(response.exception);
+            console.log(response.errors);
+          }
+          console.log(response.message);
+
+          return response.data;
+        }),
+        finalize(() => this.isLoadingSubject.next(false))
+      );
+  }
+
+  getOrderIndicatorByManagementId(managementId: string): Observable<OrderIndicatorModel[]> {
+    this.isLoadingSubject.next(true);
+    return this.http.get<BaseResponse<OrderIndicatorModel[]>>
+      (`${API_DELIVERY_URL}/management/${managementId}/order/indicators`).pipe(
+        map((response: BaseResponse<OrderIndicatorModel[]>) => {
           if (!response.isSuccess) {
             console.log(response.exception);
             console.log(response.errors);

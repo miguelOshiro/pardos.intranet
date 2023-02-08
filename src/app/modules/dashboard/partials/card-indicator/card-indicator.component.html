@@ -1,7 +1,4 @@
-<a
-  routerLink="/crafted/pages/profile/overview"
-  class="card border border-2 border-gray-300 border-hover"
->
+<a class="card border border-2 border-gray-300 border-hover">
   <div class="card-header border-0 pt-9">
 
     <div class="card-toolbar">
@@ -19,14 +16,132 @@
     <div class="fs-6 fw-bolder text-dark mb-5">{{ title2 }}</div>
 
     <div class="h-4px w-100 bg-light mb-5" ngbTooltip="This project completed">
-      <div
-        class="rounded h-4px"
-        [ngClass]="'bg-' + statusColor"
-        role="progressbar"
-        [style.width]="progress + '%'"
-      ></div>
+      <div class="rounded h-4px" [ngClass]="'bg-' + statusColor" role="progressbar" [style.width]="progress + '%'">
+      </div>
     </div>
 
   </div>
 </a>
 
+
+<a class="card border border-2 border-gray-300 border-hover">
+  <div class="card-header border-0 py-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Sales Statistics</span>
+
+      <span class="text-muted fw-bold fs-7">Recent sales statistics</span>
+    </h3>
+
+    <div class="card-toolbar">
+    </div>
+  </div>
+
+  <!-- end::Header -->
+
+  <!-- begin::Body -->
+  <div class="card-body p-0 d-flex flex-column">
+    <!-- begin::Stats -->
+    <div class="card-px pt-5 pb-10 flex-grow-1">
+      <!-- begin::Row -->
+      <div class="row g-0 mt-5 mb-10">
+        <!-- begin::Col -->
+        <div class="col">
+          <div class="d-flex align-items-center me-2">
+            <!-- begin::Symbol -->
+            <div class="symbol symbol-50px me-3">
+              <div class="symbol-label bg-light-info">
+                <span [inlineSVG]="'./assets/media/icons/duotune/art/art007.svg'"
+                  class="svg-icon svg-icon-1 svg-icon-info"></span>
+              </div>
+            </div>
+            <!-- end::Symbol -->
+
+            <!-- begin::Title -->
+            <div>
+              <div class="fs-4 text-dark fw-bolder">$2,034</div>
+              <div class="fs-7 text-muted fw-bold">Author Sales</div>
+            </div>
+            <!-- end::Title -->
+          </div>
+        </div>
+        <!-- end::Col -->
+
+        <!-- begin::Col -->
+        <div class="col">
+          <div class="d-flex align-items-center me-2">
+            <!-- begin::Symbol -->
+            <div class="symbol symbol-50px me-3">
+              <div class="symbol-label bg-light-danger">
+                <span [inlineSVG]="'./assets/media/icons/duotune/abstract/abs027.svg'"
+                  class="svg-icon svg-icon-1 svg-icon-danger"></span>
+              </div>
+            </div>
+            <!-- end::Symbol -->
+
+            <!-- begin::Title -->
+            <div>
+              <div class="fs-4 text-dark fw-bolder">$706</div>
+              <div class="fs-7 text-muted fw-bold">Commision</div>
+            </div>
+            <!-- end::Title -->
+          </div>
+        </div>
+        <!-- end::Col -->
+      </div>
+      <!-- end::Row -->
+
+      <!-- begin::Row -->
+      <div class="row g-0">
+        <!-- begin::Col -->
+        <div class="col">
+          <div class="d-flex align-items-center me-2">
+            <!-- begin::Symbol -->
+            <div class="symbol symbol-50px me-3">
+              <div class="symbol-label bg-light-success">
+                <span [inlineSVG]="
+                    './assets/media/icons/duotune/ecommerce/ecm002.svg'
+                  " class="svg-icon svg-icon-1 svg-icon-success"></span>
+              </div>
+            </div>
+            <!-- end::Symbol -->
+
+            <!-- begin::Title -->
+            <div>
+              <div class="fs-4 text-dark fw-bolder">$49</div>
+              <div class="fs-7 text-muted fw-bold">Average Bid</div>
+            </div>
+            <!-- end::Title -->
+          </div>
+        </div>
+        <!-- end::Col -->
+
+        <!-- begin::Col -->
+        <div class="col">
+          <div class="d-flex align-items-center me-2">
+            <!-- begin::Symbol -->
+            <div class="symbol symbol-50px me-3">
+              <div class="symbol-label bg-light-primary">
+                <span [inlineSVG]="
+                    './assets/media/icons/duotune/ecommerce/ecm010.svg'
+                  " class="svg-icon svg-icon-1 svg-icon-primary"></span>
+              </div>
+            </div>
+            <!-- end::Symbol -->
+
+            <!-- begin::Title -->
+            <div>
+              <div class="fs-4 text-dark fw-bolder">$5.8M</div>
+              <div class="fs-7 text-muted fw-bold">All Time Sales</div>
+            </div>
+            <!-- end::Title -->
+          </div>
+        </div>
+        <!-- end::Col -->
+      </div>
+      <!-- end::Row -->
+    </div>
+    <!-- end::Stats -->
+  </div>
+  <!-- end::Body -->
+
+</a>

@@ -1,34 +1,10 @@
 <div class="card  px-7 py-5 mb-xl">
-  <div class="d-flex flex-wrap flex-stack mb-2">
-    <a class="
-      d-flex
-      align-items-center
-      text-gray-400
-      me-5
-      mb-2
-    ">
-      <span [inlineSVG]="
-        './assets/media/icons/duotune/communication/com006.svg'
-      " class="svg-icon svg-icon-2 me-1"></span>
-      <h3 class="fw-bolder my-2">DASHBOARD</h3>
-    </a>
-
-    <div class="d-flex my-2">
-      <div class="d-flex align-items-center position-relative me-4">
-        <input readonly type="datetime" id="kt_filter_search"
-          class="form-control text-center form-control-white form-control-sm w-150px ps-9" [value]="'04-01-2023'" />
-      </div>
-      <input disabled type="datetime" id="kt_filter_search"
-        class="form-control text-center form-control-white form-control-sm w-150px ps-9" [value]="'13:46:15'" />
-    </div>
-  </div>
-
-  <form [formGroup]="newForm" (ngSubmit)="saveSettings()" novalidate="" class="form">
-    <div class="d-flex my-2 mb-5">
+  <form [formGroup]="form" (ngSubmit)="saveSettings()" novalidate="" class="form">
+    <div class="d-flex my-2 mb-2">
 
       <div class="input-group">
-        <app-dropdown-establishment [form]="newForm" (selectionChange)="onSelectEstablishment($event)">
-        </app-dropdown-establishment>
+        <app-dropdown-management [form]="form" (selectionChange)="onSelectManagement($event)">
+        </app-dropdown-management>
         <button type="submit" class="btn btn-primary" [disabled]="isLoading" (click)="saveSettings()">
           <i *ngIf="!isLoading" class="bi bi-arrow-clockwise text-light-primary fs-4"></i>
           <ng-container *ngIf="!isLoading">Refrescar</ng-container>
@@ -41,155 +17,272 @@
         </button>
 
       </div>
-
     </div>
   </form>
-
 </div>
 
 <div class="card-body pt-9 pb-0">
   <!-- 1 -->
   <div class="row g-6 g-xl-4">
-    <div class="col-xl-6">
-      <app-card-total svgIcon="./assets/media/icons/duotune/graphs/gra007.svg" class="card  " title="ACTUAL"
-        title2="Tiempo desactivado" color="success">
-      </app-card-total>
+    <div class="col-xl-3">
+      <div class="card {{managementQuery.managementStatus.name ? 'bg-light-danger' : 'bg-light-success'}}">
+        <div class=" card-body my-3 ">
+          <div
+            class="card-title fw-bolder fs-5 mb-3 d-block {{managementQuery.managementStatus.name ? 'text-danger' : 'text-success'}}">
+            GDD
+          </div>
+          <div class="py-1">
+            <span class="text-dark fs-1 fw-bolder me-2">{{managementQuery.managementStatus.name}}</span>
+            <span
+              class="fw-bold {{managementQuery.managementStatus.name ? 'text-danger' : 'text-success'}} fs-7">Avarage</span>
+          </div>
+          <div
+            class="`progress h-7px bg-opacity-50 mt-7 {{managementQuery.managementStatus.name ? 'bg-danger' : 'bg-success'}}">
+            <div class="progress-bar {{managementQuery.managementStatus.name ? 'bg-danger' : 'bg-success'}}"
+              [style.width]="'50%'" role="progressbar">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-xl-6">
-      <app-card-total svgIcon="./assets/media/icons/duotune/graphs/gra007.svg" class="card mb-5 " title="ACUMULADO"
-        title2="Tiempo desactivado" color="primary">
-      </app-card-total>
+
+    <div class="col-xl-3 ">
+      <div class="card {{managementQuery.itsOpen ? 'bg-light-success' : 'bg-light-danger'}}">
+        <div class="card-body my-3">
+          <div
+            class="card-title fw-bolder fs-5 mb-3 d-block {{managementQuery.itsOpen ? 'text-success' : 'text-danger'}} ">
+            Delivery
+          </div>
+          <div class="py-1">
+            <span class="text-dark fs-1 fw-bolder me-2">{{managementQuery.itsOpen ? 'Abierto' : 'Cerrado'}}</span>
+            <span class="fw-bold {{managementQuery.itsOpen ? 'text-success' : 'text-danger'}} fs-7 ">Avarage</span>
+          </div>
+          <div class="`progress h-7px bg-opacity-50 mt-7 {{managementQuery.itsOpen ? 'bg-success' : 'bg-danger'}}">
+            <div class="progress-bar {{managementQuery.itsOpen ? 'bg-success' : 'bg-danger'}}" [style.width]="'50%'"
+              role="progressbar">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="col-xl-3 ">
+      <div class="card">
+        <div class="card-body my-3">
+          <div class="card-title fw-bolder fs-5 mb-3 d-block">
+            Tiempo Delivery
+          </div>
+          <div class="py-1">
+            <span class="text-dark fs-1 fw-bolder me-2">{{managementQuery.estimatedTime}} min.</span>
+            <span class="fw-bold text-muted fs-7">Tiempo Base</span>
+          </div>
+          <div class="`progress h-7px bg-opacity-50 mt-7">
+            <div class="fw-bold">
+              Rango de {{managementQuery.minimumEstimatedTime}} a {{managementQuery.maximumEstimatedTime}} min.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 ">
+      <div class="card">
+        <div class="card-body my-3">
+          <div class="card-title fw-bolder fs-5 mb-3 d-block">
+            Indicador
+          </div>
+          <div class="py-1">
+            <span class="text-dark fs-1 fw-bolder me-2">{{managementQuery.factor}}</span>
+            <span class="fw-bold text-muted fs-7">Factor Capacidad</span>
+          </div>
+          <div class="`progress h-7px bg-opacity-50 mt-7">
+            <div class="fw-bold">
+              Driver {{managementQuery.driver}} / Capacidad {{managementQuery.capacity}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="col-xl-3">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="d-flex flex-stack card-p flex-grow-1">
+            <span class="symbol symbol-50px symbol-light-warning me-2">
+              <span class="symbol-label">
+                <span [inlineSVG]="'./assets/media/icons/duotune/general/gen028.svg'"
+                  class="svg-icon svg-icon-4x svg-icon-warning"></span>
+              </span>
+            </span>
+
+            <div class="d-flex flex-column text-end">
+              <span class="text-dark fw-bolder fs-2">{{managementQuery.appOrders}}</span>
+              <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                <span class="text-dark fw-bold
+                text-gray-600 m-0 mt-1">
+                  ORDEN APP
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="d-flex flex-stack card-p flex-grow-1">
+            <span class="symbol symbol-50px symbol-light-primary me-2">
+              <span class="symbol-label">
+                <span [inlineSVG]="'./assets/media/icons/duotune/general/gen028.svg'"
+                  class="svg-icon svg-icon-4x svg-icon-primary"></span>
+              </span>
+            </span>
+
+            <div class="d-flex flex-column text-end">
+              <span class="text-dark fw-bolder fs-2">{{managementQuery.webOrders}}</span>
+              <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                <span class="text-dark fw-bold
+                text-gray-600 m-0 mt-1">
+                  ORDEN WEB
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="d-flex flex-stack card-p flex-grow-1">
+            <span class="symbol symbol-50px symbol-light-secunday me-2">
+              <span class="symbol-label">
+                <span [inlineSVG]="'./assets/media/icons/duotune/general/gen028.svg'"
+                  class="svg-icon svg-icon-4x svg-icon-secunday"></span>
+              </span>
+            </span>
+            <div class="d-flex flex-column text-end">
+              <span class="text-dark fw-bolder fs-2">{{managementQuery.cfiOrders}}</span>
+              <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                <span class="text-dark fw-bold 
+                text-gray-600 m-0 mt-1">
+                  ORDEN CFI
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="d-flex flex-stack card-p flex-grow-1">
+            <span class="symbol symbol-50px symbol-light-success me-2">
+              <span class="symbol-label">
+                <span [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'"
+                  class="svg-icon svg-icon-4x svg-icon-success"></span>
+              </span>
+            </span>
+            <div class="d-flex flex-column text-end">
+              <span class="text-dark fw-bolder fs-2">{{managementQuery.totalOrders}}</span>
+              <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+                <span class="text-dark fw-bold
+                text-gray-600 m-0 mt-1">
+                  TOTAL ORDENES
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <!-- 2 -->
-  <div class="row g-6 g-xl-4">
-    <div class="col-md-3 col-xl-3">
-      <app-card-indicator icon="./assets/media/icons/duotune/arrows/arr044.svg" badgeColor="info" status="Pending"
-        statusColor="info" title="60 %" title2="DISPONIBILIDAD" description="CRM App application to HR efficiency"
-        [progress]="30"></app-card-indicator>
-    </div>
-    <div class="col-md-3 col-xl-3">
-      <app-card-indicator icon="./assets/media/icons/duotune/arrows/arr065.svg" badgeColor="info" status="Pending"
-        statusColor="info" title="60 min" title2="TIEMPO REFERENCIAL" description="CRM App application to HR efficiency"
-        date="May 10, 2021" budget="$36,400.00" [progress]="50"></app-card-indicator>
-    </div>
-    <div class="col-md-3 col-xl-3">
-      <app-card-indicator icon="./assets/media/icons/duotune/arrows/arr065.svg" badgeColor="info" status="Pending"
-        statusColor="info" title="0.02" title2="FACTOR REAPERTURA" description="CRM App application to HR efficiency"
-        date="May 10, 2021" budget="$36,400.00" [progress]="40"></app-card-indicator>
-    </div>
-    <div class="col-md-3 col-xl-3">
-      <app-card-indicator icon="./assets/media/icons/duotune/arrows/arr068.svg" badgeColor="success" status="Completed"
-        statusColor="success" title="Abierto" title2="ESTADO" description="CRM App application to HR efficiency"
-        date="Mar 14, 2021" budget="$605,100.00" [progress]="100"></app-card-indicator>
-    </div>
-    <!-- 3 -->
-    <div class="col-xl-3">
-      <app-card-order svgIcon="./assets/media/icons/duotune/general/gen028.svg" class="card " color="warning" change="3"
-        description="ORDEN APP"></app-card-order>
-    </div>
-    <div class="col-xl-3">
-      <app-card-order svgIcon="./assets/media/icons/duotune/general/gen028.svg" class="card " color="primary" change="1"
-        description="ORDEN WEB"></app-card-order>
-    </div>
-    <div class="col-xl-3">
-      <app-card-order svgIcon="./assets/media/icons/duotune/general/gen024.svg" class="card " color="danger" change="2"
-        description="ORDEN CFI"></app-card-order>
-    </div>
-    <div class="col-xl-3">
-      <app-card-order svgIcon="./assets/media/icons/duotune/general/gen019.svg" class="card " color="success" change="6"
-        description="TOTAL ORDENES"></app-card-order>
-    </div>
-    <!-- 4 -->
-    <div class="col-sm-3 col-xl-3">
-      <app-card-capacity svgIcon="./assets/media/icons/duotune/art/art007.svg" title="3" description="CAPACIDAD BASE"
-        status="down" [statusValue]="40.5" statusDesc="more impressions" [progress]="0.5"
-        progressType="MRR"></app-card-capacity>
-    </div>
-    <div class="col-sm-3 col-xl-3">
-      <app-card-capacity svgIcon="./assets/media/icons/duotune/art/art008.svg" title="8" description="CAPACIDAD ACTUAL"
-        status="down" [statusValue]="40.5" statusDesc="more impressions" [progress]="0.5"
-        progressType="MRR"></app-card-capacity>
-    </div>
-    <div class="col-sm-3 col-xl-3">
-      <app-card-capacity svgIcon="./assets/media/icons/duotune/files/fil012.svg" title="15"
-        description="CAPACIDAD TOTAL" color="success" status="down" [statusValue]="40.5" statusDesc="more impressions"
-        [progress]="0.5" progressType="MRR"></app-card-capacity>
-    </div>
-    <div class="col-sm-3 col-xl-3">
-      <app-card-capacity svgIcon="./assets/media/icons/duotune/files/fil012.svg" title="2%" description="REAPERTURA"
-        color="success" status="down" [statusValue]="40.5" statusDesc="more impressions" [progress]="0.5"
-        progressType="MRR"></app-card-capacity>
-    </div>
-  </div>
+
 </div>
 
-<!-- begin::Header -->
-<div class="card mb-2 mt-5 px-7 py-5 mb-xl">
-  <div class="d-flex flex-wrap flex-stack">
-    <h3 class="fw-bolder my-2">HISTORIAL</h3>
-
-    <div class="d-flex my-2">
-      <div class="d-flex align-items-center position-relative me-4"></div>
+<div class="card mb-5 mb-xl-8 mt-5">
+  <!-- begin::Header -->
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Semaforo de capacidad</span>
+      <!-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 new members</span> -->
+    </h3>
+    <div class="card-toolbar">
+      <!-- begin::Menu -->
+      <span class="bg-light-warning" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+        data-kt-menu-flip="top-end">
+        <!-- <span [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'" class="svg-icon svg-icon-2"></span> -->
+        <!-- <i class="bi bi-stoplights bg-light-warning text-success  fs-2x"></i> -->
+      </span>
+      <!-- begin::Menu 2 -->
+      <!-- <app-dropdown-menu2></app-dropdown-menu2> -->
+      <!-- end::Menu 2 -->
+      <!-- end::Menu -->
     </div>
   </div>
-</div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body py-3">
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+      <!-- begin::Table -->
+      <table class="table align-middle gs-0 gy-4">
+        <!-- begin::Table head -->
+        <thead>
+          <tr class="fw-bolder text-muted bg-light text-center">
+            <!-- <th class="ps-4 min-w-40px rounded-start">&nbsp;</th> -->
+            <th class="ps-4 min-w-125px rounded-start">Numero pedido</th>
+            <th class="min-w-150px">Hora Pedido / Hora Entrega</th>
+            <th class="min-w-150px">Tiempo Ofrecido / Transcurrido</th>
+          </tr>
+        </thead>
+        <!-- end::Table head -->
+        <!-- begin::Table body -->
+        <tbody>
+          <tr *ngFor="let orderIndicator of orderIndicators" class="text-center">
+            <td>
+              <div class="d-flex justify-content-center">
+                <div class=" me-2">
+                  <span>
+                    <i class="bi bi-circle-fill text-success fs-4"></i>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-center flex-column">
+                  <p class="text-dark fw-bolder mb-1 fs-6">
+                    {{orderIndicator.orderNumber}}
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-dark fw-bolder d-block mb-1 fs-6">
+                {{orderIndicator.orderTime}} &nbsp;<i class="bi bi-arrow-left-right"></i>&nbsp;
+                {{orderIndicator.deliveryTime}}
+              </p>
+              <!-- <span class="text-muted fw-bold text-muted d-block fs-7">Paid</span> -->
+            </td>
+            <td>
+              <p class="text-dark fw-bolder d-block mb-1 fs-6">
+                {{orderIndicator.minOffered}} min. &nbsp;<i class="bi bi-arrow-left-right"></i>&nbsp;
+                {{orderIndicator.minElapsed}} min.
+              </p>
+            </td>
+          </tr>
 
-<div class="card card-body pb-0">
-  <!-- begin::Table container -->
-  <div class="table-responsive">
-    <!-- begin::Table -->
-    <table class="table table-hover align-middle gs-0 gy-4">
-      <!-- begin::Table head -->
-      <thead style="background-color: #181c32; color: aliceblue;">
-        <tr class="fw-bolder">
-          <th *ngFor="let menu of menuThead" class="ps-4 min-w-125px text-center">{{menu}}</th>
-        </tr>
-      </thead>
-      <!-- end::Table head -->
-      <!-- begin::Table body -->
-      <tbody>
-        <tr *ngFor="let item of data">
-          <td>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="text-center">
-                <span class="fw-bold d-block fs-7">{{item.date}}</span>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="text-center">
-                <span class="fw-bold d-block fs-7">{{item.time}}</span>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="text-center">
-                <span class="fw-bold d-block fs-7">{{item.status}}</span>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="text-center">
-                <span class="fw-bold d-block fs-7">{{item.type}}</span>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="text-center">
-                <span class="fw-bold d-block fs-7">{{item.user}}</span>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-      <!-- end::Table body -->
-    </table>
-    <!-- end::Table -->
+        </tbody>
+        <!-- end::Table body -->
+      </table>
+      <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
   </div>
-  <!-- end::Table container -->
+  <!-- begin::Body -->
+
 </div>

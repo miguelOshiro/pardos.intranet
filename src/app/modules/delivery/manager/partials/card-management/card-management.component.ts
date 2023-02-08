@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ManagementQueryModel } from '../../models/management-query.model';
 import { Router } from '@angular/router';
@@ -6,18 +6,18 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-card-management',
   templateUrl: './card-management.component.html',
-  styleUrls: ['./card-management.component.scss']
+  styleUrls: ['./card-management.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardManagementComponent {
   @Input() model: ManagementQueryModel;
+  @Input() isOpen: boolean;
 
   private unsubscribe: Subscription[] = [];
 
   rightPanelStyle: any = {};
-  isOpen: boolean = false;
 
-
-  constructor(private router: Router) { }
+  constructor(private router: Router, private changeDetectorRefs: ChangeDetectorRef) { }
 
   editManager(id: string) {
     this.router.navigate(['delivery/manager/edit', id]);
@@ -28,29 +28,23 @@ export class CardManagementComponent {
   }
 
   showAction(event: any, isOpen: boolean) {
-
-    console.log(event.clientX, event.clientY);
-
-    //document.getElementByClass("wo-card-action").classList.add('MyClass');
-
+    //console.log(event.clientX, event.clientY);
     console.log(isOpen);
     if (isOpen) {
-
       this.rightPanelStyle = {
         'display': '',
       };
       this.isOpen = false;
     } else {
-
       this.rightPanelStyle = {
         'display': 'flex',
       };
       this.isOpen = true;
     }
+    this.changeDetectorRefs.detectChanges();
   }
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
-
 }

@@ -1,7 +1,7 @@
 <div class="card card-xxl-stretch mb-5 mb-xl-8">
   <div class="card-header border-0 pt-5">
     <h3 class="card-title align-items-start flex-column">
-      <span class="card-label fw-bolder fs-3 mb-1">Historia</span>
+      <span class="card-label fw-bolder fs-3 mb-1">Historial</span>
     </h3>
     <div class="card-toolbar"></div>
   </div>
@@ -173,8 +173,8 @@
 
     <div *ngIf="isEmptyData" class="alert alert-warning text-center mt-3">
       <h4 class="alert-heading">Sin registros para la busqueda realizada</h4>
-      <p>
-        <!-- <i class="fa fa-exclamation fa-2x"></i> -->
+      <p class="mt-4">
+        <i class="bi bi-box2 text-warning fs-2 "></i>
       </p>
       <p class="mb-0">
         Por favor verifique los filtros seleccionados
@@ -183,7 +183,7 @@
 
     <div *ngIf="isLoadingData$" class="alert alert-primary text-center mt-3 animated fadeIn faster">
       <h4 class="alert-heading">Cargando</h4>
-      <div class="spinner-border text-success" role="status">
+      <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <p class="mb-0">

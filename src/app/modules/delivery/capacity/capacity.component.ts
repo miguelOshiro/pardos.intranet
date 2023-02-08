@@ -86,6 +86,7 @@ export class CapacityComponent implements OnInit {
 
     this.managementService.putManagement(command).subscribe(data => {
       console.log(data);
+      this.getAllCapacityByManagementId(this.managementIdForm.value!);
     })
   }
 
@@ -126,7 +127,6 @@ export class CapacityComponent implements OnInit {
       setTimeout(() => {
         this.isLoadingSave$.next(false);
         this.updateManagement(this.managementQuery);
-        this.getAllCapacityByManagementId(this.managementIdForm.value!);
         this.changeDetectorRefs.detectChanges();
       }, 900);
     }

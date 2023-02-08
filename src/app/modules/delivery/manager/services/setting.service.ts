@@ -5,6 +5,7 @@ import { TypeSettingModel } from '../models/type-setting.model';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { BaseResponse } from '../../../../shared/models/baseresponse.model';
 import { map, finalize } from 'rxjs/operators';
+import { SettingModel } from '../models/setting.model';
 
 const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 
@@ -33,5 +34,17 @@ export class SettingService {
       );
   }
 
+  getSettingsByManagementId(managementId: string): Observable<SettingModel[]> {
+    this.isLoadingSubject.next(true);
+    return this.http.get<BaseResponse<SettingModel[]>>
+      (`${API_DELIVERY_URL}/management/${managementId}/settings`)
+      .pipe(
+        map((response: BaseResponse<SettingModel[]>) => {
+          //console.log(response);
+          return response.data;
+        }),
+        finalize(() => this.isLoadingSubject.next(false))
+      );
+  }
 
 }

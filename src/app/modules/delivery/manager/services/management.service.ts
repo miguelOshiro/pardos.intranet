@@ -38,22 +38,22 @@ export class ManagementService {
     );
   }
 
-  postManagement(model: ManagementCommandModel| null): Observable<ManagementCommandModel> {
+  postManagement(model: ManagementCommandModel | null): Observable<ManagementCommandModel> {
     console.log(model);
     this.isLoadingSubject.next(true);
     return this.http.post<BaseResponse<ManagementCommandModel>>
-          (`${API_DELIVERY_URL}/management`, model).pipe(
-            map((response: BaseResponse<ManagementCommandModel>) => {
-              console.log(response);
-              if (!response.isSuccess) {
-                console.log(response.exception);
-              }
-              console.log(response.message);
+      (`${API_DELIVERY_URL}/management`, model).pipe(
+        map((response: BaseResponse<ManagementCommandModel>) => {
+          console.log(response);
+          if (!response.isSuccess) {
+            console.log(response.exception);
+          }
+          console.log(response.message);
 
-              return response.data;
-            }),
-            finalize(() => this.isLoadingSubject.next(false))
-          );
+          return response.data;
+        }),
+        finalize(() => this.isLoadingSubject.next(false))
+      );
   }
 
   getSingleManagement(id: string | null): Observable<ManagementQueryModel> {
@@ -72,21 +72,20 @@ export class ManagementService {
     );
   }
 
-  putManagement(model: ManagementCommandModel): Observable<ManagementCommandModel> {
+  putManagement(model: ManagementCommandModel): Observable<ManagementQueryModel> {
     this.isLoadingSubject.next(true);
-    return this.http.put<BaseResponse<ManagementCommandModel>>
-          (`${API_DELIVERY_URL}/management/${model.id}`, model).pipe(
-            map((response: BaseResponse<ManagementCommandModel>) => {
-              console.log(response);
-              if (!response.isSuccess) {
-                console.log(response.exception);
-              }
-              console.log(response.message);
-
-              return response.data;
-            }),
-            finalize(() => this.isLoadingSubject.next(false))
-          );
+    return this.http.put<BaseResponse<ManagementQueryModel>>
+      (`${API_DELIVERY_URL}/management/${model.id}`, model).pipe(
+        map((response: BaseResponse<ManagementQueryModel>) => {
+          console.log(response);
+          if (!response.isSuccess) {
+            console.log(response.exception);
+          }
+          console.log(response.message);
+          return response.data;
+        }),
+        finalize(() => this.isLoadingSubject.next(false))
+      );
   }
 
 }

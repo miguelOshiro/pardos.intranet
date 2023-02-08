@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, AfterViewInit, AfterContentInit, ElementRef, ViewChild, Renderer2, RendererFactory2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ManagementService } from '../../services/management.service';
 import { ManagementCommandModel } from '../../models/management-command.model';
@@ -20,47 +20,62 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoading: boolean;
   editForm: FormGroup
-  private unsubscribe: Subscription[] = [];
-
   managementQuery: ManagementQueryModel;
-
-  private managementId: string | null;
   selectZone: ZoneModel;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  private unsubscribe: Subscription[] = [];
+  private managementId: string | null;
+  private renderer: Renderer2;
+
+  constructor(private activatedRoute: ActivatedRoute, private rendererFactory: RendererFactory2,
     private managementService: ManagementService, private fb: FormBuilder,
     private changeDetectorRefs: ChangeDetectorRef) {
-    const loadingSubscr = this.isLoading$
-      .asObservable()
-      .subscribe((res) => (this.isLoading = res));
-    this.unsubscribe.push(loadingSubscr);
-  }
 
-  ngOnInit(): void {
-    this.managementId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.renderer = this.rendererFactory.createRenderer(null, null);
 
     this.editForm = this.fb.group({
       establishmentId: ['', [Validators.required]],
       zoneId: ['', [Validators.required]],
       managementStatusId: ['', [Validators.required]],
-      itsWeekly: ['daily', [Validators.required]],
-      factor: ['', [Validators.required, Validators.pattern(this.numRegex)]]
-    })
+      itsWeekly: ['', [Validators.required]],
+      factor: ['', [Validators.required, Validators.pattern(this.numRegex)]],
+      minTime: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      maxTime: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      alert: ['', [Validators.required]],
+      delivery: ['', [Validators.required]],
+    });
 
 
-    // setTimeout(() => {
-    //   this.getById(this.managementId)
-    //   this.changeDetectorRefs.detectChanges();
-    // }, 800);
+    // const loadingSubscr = this.isLoading$
+    //   .asObservable()
+    //   .subscribe((res) => (this.isLoading = res));
+    // this.unsubscribe.push(loadingSubscr);
+  }
 
+  ngOnInit(): void {
+    this.managementId = this.activatedRoute.snapshot.paramMap.get('id');
+
+
+    const containerSplash = this.renderer.createElement('div');
+    this.renderer.setProperty(containerSplash, 'id', 'splash-screen');
+    this.renderer.setAttribute(containerSplash, 'class', 'splash-screen');
+    this.renderer.appendChild(document.body, containerSplash);
+
+    const splash = `
+        <img src="./assets/media/logos/default-small.svg" alt="Metronic logo" />
+        <span>Loading ...</span>`;
+
+    document.getElementById('splash-screen')!.innerHTML = splash;
   }
 
   ngAfterViewInit() {
-    this.getById(this.managementId);
+
   }
 
   ngAfterContentInit() {
-    //this.getById(this.managementId);
+    setTimeout(() => {
+      this.getById(this.managementId);
+    }, 2000);
   }
 
   onSelectEstablishment(select: any) {
@@ -112,24 +127,44 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
     return this.editForm.get('factor')!;
   }
 
+  get minTime() {
+    return this.editForm.get('minTime')!;
+  }
+
+  get maxTime() {
+    return this.editForm.get('maxTime')!;
+  }
+
+  get alert() {
+    return this.editForm.get('alert')!;
+  }
+
   get itsWeekly() {
     return this.editForm.get('itsWeekly')!;
+  }
+
+  get delivery() {
+    return this.editForm.get('delivery')!;
   }
 
   getById(managerId: string | null) {
     this.managementService.getSingleManagement(managerId).subscribe(data => {
 
       this.managementQuery = data;
-
+      console.log(this.managementQuery);
       this.editForm.setValue({
         'establishmentId': this.managementQuery.establishmentId,
         'zoneId': this.managementQuery.zoneId,
         'managementStatusId': this.managementQuery.managementStatus.id,
-        'itsWeekly': this.managementQuery.itsWeekly ? 'weekly' : 'daily',
         'factor': this.managementQuery.factor.toString(),
-      });
-      console.log(JSON.stringify(this.editForm.value));
+        'minTime': this.managementQuery.minimumEstimatedTime,
+        'maxTime': this.managementQuery.maximumEstimatedTime,
+        'alert': this.managementQuery.alert,
+        'delivery': this.managementQuery.itsOpen ? 'open' : 'close',
+        'itsWeekly': this.managementQuery.itsWeekly ? 'weekly' : 'daily',
 
+      });
+      document.getElementById("splash-screen")?.remove();
       this.changeDetectorRefs.detectChanges();
     })
   }
@@ -141,12 +176,16 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
     managementCommand.establishmentId = this.establishmentId.value!;
     managementCommand.zoneId = this.zoneId.value!;
     managementCommand.managementStatusId = this.managementStatusId.value!;
-    managementCommand.itsWeekly = this.itsWeekly.value == 'weekly';
     managementCommand.factor = parseFloat(this.factor.value!);
+    managementCommand.minimumEstimatedTime = parseInt(this.minTime.value!);
+    managementCommand.maximumEstimatedTime = parseInt(this.maxTime.value!);
+    managementCommand.alert = this.alert.value!;
+    managementCommand.itsOpen = this.delivery.value == 'close';
+    managementCommand.itsWeekly = this.itsWeekly.value == 'weekly';
 
     this.managementService.putManagement(managementCommand).subscribe(data => {
       console.log(data);
-    })
+    });
   }
 
   onSubmit(): void {

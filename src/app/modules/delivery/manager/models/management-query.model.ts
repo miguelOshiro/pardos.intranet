@@ -6,14 +6,18 @@ export class ManagementQueryModel {
     establishmentName: string;
     zoneId: string;
     managementStatus: ManagementStatusQueryModel;
+    itsOpen: boolean;
     isAutomatic: boolean;
     itsWeekly: boolean;
     factor: number;
+    minimumEstimatedTime: number;
+    maximumEstimatedTime: number;
+    estimatedTime: number;
     driver: number;
     capacity: number;
-    estimatedTime: number;
     appOrders: number;
     cfiOrders: number;
     webOrders: number;
     totalOrders: number;
+    alert: string;
 }
