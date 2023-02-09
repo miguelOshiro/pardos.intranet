@@ -5,7 +5,7 @@ import { ManagementService } from '../../delivery/manager/services/management.se
 import { ManagementQueryModel } from '../../delivery/manager/models/management-query.model';
 import ManagementHub from '../../delivery/manager/hubs/management.hub';
 import { OrderService } from '../../delivery/order/services/order.service';
-import { OrderIndicatorModel } from '../../delivery/order/models/order-indicator.model';
+import { OrderIndicatorDataModel, OrderIndicatorTotalModel } from '../../delivery/order/models/order-indicator.model';
 import ManagementOrderHub from '../../delivery/order/hubs/management-order.hub';
 import { ManagementStatusQueryModel } from '../../delivery/manager/models/management-status-query.model';
 
@@ -21,7 +21,8 @@ export class DashboardComponent implements OnInit {
   private unsubscribe: Subscription[] = [];
   form: FormGroup;
   managementQuery: ManagementQueryModel;
-  orderIndicators: OrderIndicatorModel[] = [];
+  orderIndicators: OrderIndicatorDataModel[] = [];
+  orderIndicatorTotal: OrderIndicatorTotalModel;
 
   constructor(private changeDetectorRefs: ChangeDetectorRef, private fb: FormBuilder,
     private managementService: ManagementService, private orderService: OrderService,
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
 
     this.managementQuery = new ManagementQueryModel();
     this.managementQuery.managementStatus = new ManagementStatusQueryModel();
+    this.orderIndicatorTotal = new OrderIndicatorTotalModel();
 
     const loadingSubscr = this.isLoading$
       .asObservable()
@@ -132,7 +134,9 @@ export class DashboardComponent implements OnInit {
       .getOrderIndicatorByManagementId(managementId)
       .pipe()
       .subscribe(data => {
-        this.orderIndicators = data;
+        this.orderIndicators = data.items;
+        this.orderIndicatorTotal = data.total;
+
         console.log(this.orderIndicators);
         this.managemetOrderHub.start();
         this.changeDetectorRefs.detectChanges();

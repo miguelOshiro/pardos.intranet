@@ -66,6 +66,8 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
         <span>Loading ...</span>`;
 
     document.getElementById('splash-screen')!.innerHTML = splash;
+
+    this.establishmentId.disable();
   }
 
   ngAfterViewInit() {
@@ -75,7 +77,7 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
   ngAfterContentInit() {
     setTimeout(() => {
       this.getById(this.managementId);
-    }, 2000);
+    }, 1000);
   }
 
   onSelectEstablishment(select: any) {

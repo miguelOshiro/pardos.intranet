@@ -41,11 +41,11 @@ export class OrderService {
       );
   }
 
-  getOrderIndicatorByManagementId(managementId: string): Observable<OrderIndicatorModel[]> {
+  getOrderIndicatorByManagementId(managementId: string): Observable<OrderIndicatorModel> {
     this.isLoadingSubject.next(true);
-    return this.http.get<BaseResponse<OrderIndicatorModel[]>>
+    return this.http.get<BaseResponse<OrderIndicatorModel>>
       (`${API_DELIVERY_URL}/management/${managementId}/order/indicators`).pipe(
-        map((response: BaseResponse<OrderIndicatorModel[]>) => {
+        map((response: BaseResponse<OrderIndicatorModel>) => {
           if (!response.isSuccess) {
             console.log(response.exception);
             console.log(response.errors);

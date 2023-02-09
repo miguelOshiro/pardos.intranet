@@ -1,4 +1,4 @@
-import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -19,6 +19,8 @@ export default class ManagementHub {
                 skipNegotiation: true,
                 transport: HttpTransportType.WebSockets
             })
+            .withAutomaticReconnect()
+            .configureLogging(LogLevel.Information)
             .build();
 
         this.client.on("ManagementMessageReceived", management => {
@@ -39,6 +41,23 @@ export default class ManagementHub {
     }
 
     start() {
-        this.client.start();
+
+        this.client.onreconnecting((error) => {
+            console.log("onreconnecting : " + error);
+        });
+
+        this.client.onreconnected((error) => {
+            console.log("onreconnected : " + error);
+        });
+
+        this.client.onclose((error) => {
+            console.log("onclose: " + error);
+        });
+
+        console.log(this.client.state);
+
+        if (this.client.state === 'Disconnected') {
+            this.client.start();
+        }
     }
 }

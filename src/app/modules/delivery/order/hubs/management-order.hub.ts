@@ -43,6 +43,21 @@ export default class ManagementOrderHub {
     }
 
     start() {
-        this.client.start();
+
+        this.client.onreconnecting((error) => {
+            console.log("onreconnecting : " + error);
+        });
+        this.client.onreconnected((error) => {
+            console.log("onreconnected : " + error);
+        });
+        this.client.onclose((error) => {
+            console.log("onclose: " + error);
+        });
+
+        console.log(this.client.state);
+
+        if (this.client.state === 'Disconnected') {
+            this.client.start();
+        }
     }
 }
