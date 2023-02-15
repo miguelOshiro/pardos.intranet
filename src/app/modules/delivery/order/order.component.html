@@ -112,10 +112,16 @@
             </form>
         </div>
 
+        <!-- begin::Pagination container -->
+        <div *ngIf="data.items.length > 0" class="d-flex flex-stack flex-wrap pt-1 mb-5">
+            <div class="fs-6 fw-bold text-gray-700">Mostrando {{pageNumber}} de {{pageSize}}. Total: {{data.totalCount}}
+                registros</div>
+        </div>
+
         <!-- begin::Table container -->
         <div class="table-responsive">
             <!-- begin::Table -->
-            <table *ngIf="!isLoadingData$ && orders.length > 0"
+            <table *ngIf="!isLoadingData$ && data.items.length > 0"
                 class="table-row-dashed table-bordered table align-middle gs-0 gy-4">
                 <!-- begin::Table head -->
                 <thead style="background-color: #181c32; color: aliceblue">
@@ -133,11 +139,11 @@
                 <!-- end::Table head -->
                 <!-- begin::Table body -->
                 <tbody>
-                    <tr *ngFor="let order of orders">
+                    <tr *ngFor="let order of data.items">
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="text-center">
-                                    <span class="fw-bold d-block fs-7">{{ order.establishmentId }}</span>
+                                    <span class="fw-bold d-block fs-7">{{ order.management.establishmentName }}</span>
                                 </div>
                             </div>
                         </td>
@@ -168,6 +174,7 @@
                                 </div>
                             </div>
                         </td>
+
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="text-center">
@@ -182,12 +189,13 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="text-center">
                                     <span class="fw-bold d-block fs-7">
-                                        <span class="badge {{ order.managementOrderStatus.color }}">{{
+                                        <span class="badge {{ order.managementOrderPlatform.color }}">{{
                                             order.managementOrderPlatform.name }}</span>
                                     </span>
                                 </div>
                             </div>
                         </td>
+
                         <td>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="text-center">
@@ -210,6 +218,18 @@
             <!-- end::Table -->
         </div>
         <!-- end::Table container -->
+
+        <div *ngIf="data.items.length > 0" class="d-flex flex-stack flex-wrap pt-3 mb-5">
+            <div class="fs-6 fw-bold text-gray-700"></div>
+
+            <ngb-pagination [collectionSize]=data.totalCount #numOrderPagesExp [(page)]="pageNumber"
+                [maxSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getAllOrdersByManagementId(managementIdForm.value,selectedStartDate?.value,selectedEndDate?.value,
+                orderStatusId.value, orderPlatformId.value)"></ngb-pagination>
+
+            <pre><span class=" float-md-left">Page: {{ pageNumber }} / {{ numOrderPagesExp.pageCount }}</span></pre>
+
+        </div>
+
 
         <div *ngIf="isMessageData" class="alert alert-primary text-center mt-3">
             <h4 class="alert-heading">Por favor seleccione los filtros para realizar su busqueda</h4>

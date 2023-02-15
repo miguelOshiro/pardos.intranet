@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { LogService } from './services/log.service';
 import { DriverLogQueryModel } from './models/driver-log-query.model';
 import * as fileSaver from 'file-saver';
+import { PaginateResponseModel } from '../../../shared/models/paginateresponse.model';
 
 @Component({
   selector: 'app-log',
@@ -14,6 +15,8 @@ import * as fileSaver from 'file-saver';
 })
 export class LogComponent implements OnInit {
 
+  private unsubscribe: Subscription[] = [];
+
   isLoadingRefresh$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoadingRefresh: boolean;
 
@@ -22,16 +25,21 @@ export class LogComponent implements OnInit {
 
   isLoadingExport$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoadingExport: boolean;
-  private unsubscribe: Subscription[] = [];
 
   isLoadingData$: boolean;
   isEmptyData: boolean;
   isMessageData: boolean;
-  logs: DriverLogQueryModel[] = [];
+  data: PaginateResponseModel<DriverLogQueryModel[]>;
   logForm: FormGroup;
+  pageNumber: number = 1;
+  pageSize: number = 5;
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef, private fb: FormBuilder, private datePipe: DatePipe,
+  constructor(
+    private changeDetectorRefs: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private datePipe: DatePipe,
     private logService: LogService) {
+
     const loadingSubscr = this.isLoadingRefresh$
       .asObservable()
       .subscribe((res) => (this.isLoadingRefresh = res));
@@ -46,7 +54,11 @@ export class LogComponent implements OnInit {
       .asObservable()
       .subscribe((res) => (this.isLoadingExport = res));
     this.unsubscribe.push(loadingExportSubscr);
+
+    this.data = new PaginateResponseModel<DriverLogQueryModel[]>();
+    this.data.items = [];
   }
+
   ngOnInit(): void {
     this.isMessageData = true;
     this.logForm = this.fb.group({
@@ -58,13 +70,14 @@ export class LogComponent implements OnInit {
 
   getAllLogsByManagementId(managementId: string, startDate: any, endDate: any) {
     const capacitySubscr = this.logService
-      .getAllLogsByManagementId(managementId, startDate, endDate)
+      .getAllLogsByManagementId(this.pageNumber, this.pageSize, managementId, startDate, endDate)
       .pipe()
-      .subscribe((logs: DriverLogQueryModel[]) => {
-        console.log(logs)
-        this.logs = logs;
+      .subscribe((data: PaginateResponseModel<DriverLogQueryModel[]>) => {
+        console.log(data)
+        this.data = data;
         this.isLoadingData$ = false;
-        this.isEmptyData = logs.length == 0;
+        this.isEmptyData = data.items.length == 0;
+
         this.changeDetectorRefs.detectChanges();
       });
     this.unsubscribe.push(capacitySubscr);

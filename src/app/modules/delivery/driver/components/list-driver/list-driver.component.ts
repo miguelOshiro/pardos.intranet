@@ -5,7 +5,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { DriverService } from '../../services/driver.service';
 import { DriverDetailQueryrModel } from '../../models/driver-detail-query.model';
 import { DriverQueryModel } from '../../models/driver-query.model';
-import { DriverCommandModel } from '../../models/driver-Command.model';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { DriverCommandModel } from '../../models/driver-command.model';
 
 
 @Component({
@@ -28,8 +29,10 @@ export class ListDriverComponent {
   drivers: DriverQueryModel[] = [];
 
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef, private fb: FormBuilder,
-    private driverService: DriverService) {
+  constructor(private changeDetectorRefs: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private driverService: DriverService,
+    private toastService: ToastService) {
     const loadingRefreshSubscr = this.isLoadingRefresh$
       .asObservable()
       .subscribe((res) => (this.isLoadingRefresh = res));
@@ -65,9 +68,20 @@ export class ListDriverComponent {
     const driverSubscr = this.driverService
       .putDriver(managementId, model)
       .pipe()
-      .subscribe((driver: DriverQueryModel[]) => {
-        console.log(driver)
-        this.drivers = driver;
+      .subscribe(response => {
+        console.log(response)
+        this.drivers = response.data;
+
+        if (response.isSuccess) {
+          this.toastService.show(response.message, { classname: 'bg-success text-light', delay: 10000 });
+
+        }
+        else {
+          this.toastService.show(response.message, { classname: 'bg-danger text-light', delay: 15000 });
+          console.log(response.exception);
+        }
+
+
         this.changeDetectorRefs.detectChanges();
       });
     this.unsubscribe.push(driverSubscr);
@@ -93,7 +107,6 @@ export class ListDriverComponent {
     return this.driverForm.get('managementId')!;
   }
 
-
   saveDriver() {
 
     this.isLoadingSave$.next(true);
@@ -109,6 +122,7 @@ export class ListDriverComponent {
         const time = element.innerHTML;
 
         //validateQuantityDriver(value, time, day);
+
 
         const driver = new DriverQueryModel();
         driver.time = time;
@@ -201,17 +215,69 @@ export class ListDriverComponent {
     }, 900);
   }
 
-  // keyUpEvent(element:any, time: string, day: string) {
+  eventKeyDown(element: any, time: string, day: string) {
+    const charCode = (element.which) ? element.which : element.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log('charCode restricted is ' + charCode);
+      return false;
+    }
+    let value = element.target.value;
+    console.log(value);
+    validateDriver(value, time, day);
+    return;
+
+  }
+
+  // keyUpEvent(element: any, time: string, day: string) {
 
   //   let value = element.target.value;
   //   validateQuantityDriver(value, time, day);
   // }
 
-  keyDownEvent(element: any, time: string, day: string) {
+  // keyDownEvent(element: any, time: string, day: string) {
 
-    let value = element.target.value;
-    validateLengthDriver(value, time, day);
+  //   let value = element.target.value;
+  //   validateLengthDriver(value, time, day);
+  // }
+
+}
+
+// function validateOnlyNumbersDriver(event: any): boolean {
+
+//   const charCode = (event.which) ? event.which : event.keyCode;
+//   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+//     console.log('charCode restricted is ' + charCode);
+//     return false;
+//   }
+//   return true;
+// }
+
+function validateDriver(value: string, time: string, day: string): boolean {
+  const elementInput = document.querySelector("input[data-time='" + time + "'][data-day='" + day + "']");
+  const elementSpan = document.querySelector("span[data-time='" + time + "'][data-day='" + day + "']")!;
+
+  var input = elementInput as HTMLInputElement;
+  var span = elementSpan as HTMLSpanElement;
+
+  // let quantity = parseInt(value);
+
+  // if (quantity < 1 || quantity > 21 || value == '') {
+  //   input.style.color = 'red';
+  //   input.style.border = '1px solid red';
+  //   span.style.color = 'red';
+  //   span.style.fontSize = '10px';
+  //   span.innerHTML = 'Rango (1 - 20)';
+  // } else {
+  //   input.style.color = '';
+  //   input.style.border = '';
+  //   span.innerHTML = '';
+  // }
+
+  if (value.length >= 2) {
+    value = value.slice(0, -1);
+    input.value = value;
   }
+  return true;
 
 }
 
@@ -226,6 +292,31 @@ function validateLengthDriver(value: string, time: string, day: string) {
     input.value = value;
     return;
   }
+}
+
+function driverQuantityValidate(value: string, time: string, day: string) {
+
+  const elementInput = document.querySelector("input[data-time='" + time + "'][data-day='" + day + "']");
+  const elementSpan = document.querySelector("span[data-time='" + time + "'][data-day='" + day + "']")!;
+
+  var input = elementInput as HTMLInputElement;
+  var span = elementSpan as HTMLSpanElement;
+
+  let quantity = parseInt(value);
+  console.log(quantity);
+
+  if (quantity < 1 || quantity > 21 || value == '') {
+    input.style.color = 'red';
+    input.style.border = '1px solid red';
+    span.style.color = 'red';
+    span.style.fontSize = '10px';
+    span.innerHTML = 'Rango (1 - 20)';
+  } else {
+    input.style.color = '';
+    input.style.border = '';
+    span.innerHTML = '';
+  }
+
 }
 
 function validateQuantityDriver(value: string, time: string, day: string) {

@@ -1,6 +1,7 @@
 <div class="card-body p-0">
   <!-- begin::Header -->
-  <div class="px-9 pt-7 card-rounded h-275px w-100" [ngClass]="'bg-' + (model.managementStatus.color)">
+  <div class="px-9 pt-7 card-rounded h-275px w-100"
+    [ngClass]="'bg-' + (model.managementStatus.name == 'Activo' ? (model.itsOpen ? 'success' : 'danger') : 'secondary')">
     <!-- begin::Heading -->
     <div class="d-flex flex-stack">
       <h3 class="m-0 text-white fw-bolder fs-5">{{model.establishmentName}}</h3>
@@ -9,8 +10,8 @@
         <!-- begin::Menu -->
         <button (click)="showAction($event, isOpen)" type="button"
           class="btn btn-sm btn-icon btn-color-white btn-active-white border-0 me-n3"
-          [ngClass]="'btn-active-color-' + (model.managementStatus.color)" data-kt-menu-trigger="click"
-          data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
+          [ngClass]="'btn-active-color-' + (model.managementStatus.name == 'Activo' ? (model.itsOpen ? 'success' : 'danger') : 'secondary')"
+          data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
           <span [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'" class="svg-icon svg-icon-2"></span>
         </button>
 
@@ -35,7 +36,7 @@
             <a (click)="viewSetting(model.id)" routerLinkActive="router-link-active"
               class="menu-link px-3 cursor-pointer"> Settings</a>
           </div>
-          <div class="menu-item px-3">
+          <!-- <div class="menu-item px-3">
             <a class="menu-link px-3 cursor-pointer"> Activar</a>
           </div>
           <div class="menu-item px-3">
@@ -43,7 +44,7 @@
           </div>
           <div class="menu-item px-3">
             <a class="menu-link px-3 cursor-pointer"> Refrescar </a>
-          </div>
+          </div> -->
 
           <div class="separator mt-3 opacity-75"></div>
         </div>
@@ -62,8 +63,8 @@
           <!-- begin::Stat -->
           <div class="d-flex align-items-center">
             <div class="fs-5 fw-bolder">{{model.estimatedTime}}</div>
-            <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr066.svg'"
-              class="svg-icon svg-icon-5 svg-icon-success ms-1"></span>
+            <!-- <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr066.svg'"
+              class="svg-icon svg-icon-5 svg-icon-success ms-1"></span> -->
           </div>
           <!-- end::Stat -->
         </div>
@@ -79,7 +80,6 @@
         </div>
         <!-- end::Col -->
       </div>
-
     </div>
 
   </div>
@@ -109,8 +109,8 @@
         <!-- begin::Label -->
         <div class="d-flex align-items-center">
           <div class="fw-bolder fs-5 text-gray-800 pe-1">{{model.appOrders}}</div>
-          <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr066.svg'"
-            class="svg-icon svg-icon-5 svg-icon-success ms-1"></span>
+          <!-- <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr066.svg'"
+            class="svg-icon svg-icon-5 svg-icon-success ms-1"></span> -->
         </div>
         <!-- end::Label -->
       </div>
@@ -139,8 +139,8 @@
         <!-- begin::Label -->
         <div class="d-flex align-items-center">
           <div class="fw-bolder fs-5 text-gray-800 pe-1">{{model.webOrders}}</div>
-          <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr065.svg'"
-            class="svg-icon svg-icon-5 svg-icon-danger ms-1"></span>
+          <!-- <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr065.svg'"
+            class="svg-icon svg-icon-5 svg-icon-danger ms-1"></span> -->
         </div>
         <!-- end::Label -->
       </div>
@@ -169,8 +169,8 @@
         <!-- begin::Label -->
         <div class="d-flex align-items-center">
           <div class="fw-bolder fs-5 text-gray-800 pe-1">{{model.cfiOrders}}</div>
-          <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr066.svg'"
-            class="svg-icon svg-icon-5 svg-icon-success ms-1"></span>
+          <!-- <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr066.svg'"
+            class="svg-icon svg-icon-5 svg-icon-success ms-1"></span> -->
         </div>
         <!-- end::Label -->
       </div>
@@ -199,8 +199,8 @@
         <!-- begin::Label -->
         <div class="d-flex align-items-center">
           <div class="fw-bolder fs-5 text-gray-800 pe-1">{{model.totalOrders}}</div>
-          <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr065.svg'"
-            class="svg-icon svg-icon-5 svg-icon-danger ms-1"></span>
+          <!-- <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr065.svg'"
+            class="svg-icon svg-icon-5 svg-icon-danger ms-1"></span> -->
         </div>
         <!-- end::Label -->
       </div>

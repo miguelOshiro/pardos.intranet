@@ -26,10 +26,9 @@ import { OrderModule } from './order/order.module';
     HistoryModule,
     LogModule,
     DriverModule,
-    OrderModule
+    OrderModule,
   ],
   exports: [
-
-  ]
+  ],
 })
 export class DeliveryModule { }

@@ -11,6 +11,7 @@ export const environment = {
   hubDeliveryUrl: 'http://54.90.42.20/hubs',
   webLink: 'https://www.pardoschicken.pe/',
   webName: 'Pardos Chiken',
+  webLogo: 'https://www.pardoschicken.pe/assets/images/logo-pardos-chicken-delivery.png',
   apiUrl: 'madmin', //api
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',

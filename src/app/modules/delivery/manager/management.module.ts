@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListManagementComponent } from './components/list-manager/list-management.component';
 import { CreateManagementComponent } from './components/create-management/create-management.component';
@@ -13,6 +13,8 @@ import { CardManagementComponent } from './partials/card-management/card-managem
 import { SharedModule } from '../../../shared/shared.module';
 import { CardSettingComponent } from './partials/card-setting/card-setting.component';
 import { ListSettingComponent } from './components/list-setting/list-setting.component';
+import { ToastsContainer } from '../../../shared/components/toast/toasts-container.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -31,10 +33,15 @@ import { ListSettingComponent } from './components/list-setting/list-setting.com
     ReactiveFormsModule,
     FormsModule,
     InlineSVGModule,
-    SharedModule
+    SharedModule,
+    ToastsContainer,
+    NgbModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   exports: [
-    
+
   ]
 })
 export class ManagementModule { }

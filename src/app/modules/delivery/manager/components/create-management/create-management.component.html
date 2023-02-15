@@ -54,11 +54,11 @@
           <div class="col-lg-8">
             <div class="row">
               <div class="col-lg-6 fv-row">
-                <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                <input type="text" maxlength="4" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Ingrese Cantidad" name="factor" formControlName="factor"
                   (keydown)="validateDecimal($event)" />
                 <span style="color:red" *ngIf="(
-                  factor?.hasError('pattern'))">Invalid input.
+                  factor?.hasError('pattern'))">Ingrese decimal correcto!!
                 </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
@@ -71,11 +71,12 @@
           <div class="col-lg-8">
             <div class="row">
               <div class="col-lg-6 fv-row">
-                <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                <input type="text" maxlength="2" (keypress)="onlyNumbersAllowed($event)"
+                  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Ingrese tiempo minimo" name="minimumEstimatedTime"
                   formControlName="minimumEstimatedTime" />
-                <span style="color:red" *ngIf="(
-                  minimumEstimatedTime?.hasError('pattern'))">Invalid input.
+                <span style="color:red" *ngIf="newForm.controls?.['minimumEstimatedTime']?.invalid &&
+                  newForm.controls?.['minimumEstimatedTime']?.dirty">Ingrese tiempo minimo!
                 </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
@@ -88,11 +89,12 @@
           <div class="col-lg-8">
             <div class="row">
               <div class="col-lg-6 fv-row">
-                <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                <input type="text" maxlength="2" (keypress)="onlyNumbersAllowed($event)"
+                  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Ingrese tiempo maximo" name="maximumEstimatedTime"
                   formControlName="maximumEstimatedTime" />
-                <span style="color:red" *ngIf="(
-                  maximumEstimatedTime?.hasError('pattern'))">Invalid input.
+                <span style="color:red" *ngIf="newForm.controls?.['maximumEstimatedTime']?.invalid &&
+                  newForm.controls?.['maximumEstimatedTime']?.dirty">Ingrese tiempo maximo!
                 </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
@@ -105,8 +107,12 @@
           <div class="col-lg-8">
             <div class="row">
               <div class="col-lg-6 fv-row">
-                <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                  placeholder="Ingrese email" name="alert" formControlName="alert" />
+                <textarea type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                  placeholder="Ingrese email" rows="3" name="alert" formControlName="alert">
+                </textarea>
+                <span style="color:red" *ngIf="newForm.controls?.['alert']?.invalid &&
+                  newForm.controls?.['alert']?.dirty">Ingrese emails validos!
+                </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
             </div>
@@ -163,7 +169,8 @@
 
       </div>
 
-
     </form>
   </div>
 </div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

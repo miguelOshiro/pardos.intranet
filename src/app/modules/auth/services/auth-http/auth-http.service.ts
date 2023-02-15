@@ -10,7 +10,7 @@ const API_USERS_URL = `${environment.apiUrl}`;  ///auth
   providedIn: 'root',
 })
 export class AuthHTTPService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // public methods
   login(email: string, password: string): Observable<any> {
@@ -21,15 +21,16 @@ export class AuthHTTPService {
     let datalogin = this.http.post<any>(`${API_USERS_URL}/token`, {
       email,
       password,
-    }, {headers});
-    console.log( datalogin);
+    }, { headers });
+    console.log(datalogin);
     return datalogin;
   }
-
 
   getUserByToken(token: string): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.pardos.v1+json',
+      'Content-Type': 'application/json',
     });
     return this.http.get<any>(`${API_USERS_URL}/me`, {
       headers: httpHeaders,

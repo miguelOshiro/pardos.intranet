@@ -1,6 +1,6 @@
 {
     "/madmin/*": {
-        "target": "https://apidev.pardoschicken.pe/api",
+        "target": "https://api.pardoschicken.pe/api",
         "secure": true,
         "logLevel": "debug",
         "changeOrigin": true

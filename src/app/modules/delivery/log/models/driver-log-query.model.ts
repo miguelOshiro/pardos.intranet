@@ -8,5 +8,6 @@ export class DriverLogQueryModel {
     increase: boolean;
     createdBy: string;
     createdAt: string;
-
 }
+
+

@@ -6,6 +6,7 @@ import { map, finalize } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OrderIndicatorModel } from '../models/order-indicator.model';
+import { PaginateResponseModel } from '../../../../shared/models/paginateresponse.model';
 
 const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 
@@ -22,13 +23,14 @@ export class OrderService {
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  getAllOrdersByManagementId(managementId: string, startDate: any, endDate: any, orderStatusId: string, orderPlatformId: string): Observable<OrderModel[]> {
+  getAllOrdersByManagementId(pageNumber: number, pageSize: number, managementId: string, startDate: any, endDate: any,
+    orderStatusId: string, orderPlatformId: string): Observable<PaginateResponseModel<OrderModel[]>> {
     console.log(managementId, startDate, endDate, orderStatusId, orderPlatformId);
     this.isLoadingSubject.next(true);
-    return this.http.get<BaseResponse<OrderModel[]>>
-      (`${API_DELIVERY_URL}/management/${managementId}/orders?startdate=${startDate}&enddate=${endDate}
+    return this.http.get<BaseResponse<PaginateResponseModel<OrderModel[]>>>
+      (`${API_DELIVERY_URL}/management/${managementId}/orders?PageNumber=${pageNumber}&PageSize=${pageSize}&startdate=${startDate}&enddate=${endDate}
       &statusid=${orderStatusId}&platformid=${orderPlatformId}`).pipe(
-        map((response: BaseResponse<OrderModel[]>) => {
+        map((response: BaseResponse<PaginateResponseModel<OrderModel[]>>) => {
           if (!response.isSuccess) {
             console.log(response.exception);
             console.log(response.errors);

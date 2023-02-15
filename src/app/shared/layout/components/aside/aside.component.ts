@@ -28,8 +28,9 @@ export class AsideComponent implements OnInit, OnDestroy {
   appPreviewDocsUrl: string = environment.appPreviewDocsUrl;
   @ViewChild('ktAsideScroll', { static: true }) ktAsideScroll!: ElementRef;
   private unsubscribe: Subscription[] = [];
+  logo: string = environment.webLogo;
 
-  constructor(private layout: LayoutService, private router: Router) {}
+  constructor(private layout: LayoutService, private router: Router) { }
 
   ngOnInit(): void {
     this.asideTheme = this.layout.getProp('aside.theme') as string;

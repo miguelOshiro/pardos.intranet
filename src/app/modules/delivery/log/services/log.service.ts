@@ -5,6 +5,7 @@ import { BaseResponse } from '../../../../shared/models/baseresponse.model';
 import { HttpClient } from '@angular/common/http';
 import { map, finalize } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { PaginateResponseModel } from '../../../../shared/models/paginateresponse.model';
 
 const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 
@@ -22,12 +23,13 @@ export class LogService {
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  getAllLogsByManagementId(managementId: string, startDate: any, endDate: any): Observable<DriverLogQueryModel[]> {
+  getAllLogsByManagementId(pageNumber: number, pageSize: number, managementId: string, startDate: any, endDate: any): Observable<PaginateResponseModel<DriverLogQueryModel[]>> {
     console.log(managementId, startDate, endDate);
     this.isLoadingSubject.next(true);
-    return this.http.get<BaseResponse<DriverLogQueryModel[]>>
-      (`${API_DELIVERY_URL}/management/${managementId}/schedule/logs?startdate=${startDate}&enddate=${endDate}`).pipe(
-        map((response: BaseResponse<DriverLogQueryModel[]>) => {
+    return this.http.get<BaseResponse<PaginateResponseModel<DriverLogQueryModel[]>>>
+      (`${API_DELIVERY_URL}/management/${managementId}/schedule/logs?PageNumber=${pageNumber}&PageSize=${pageSize}&startdate=${startDate}&enddate=${endDate}`)
+      .pipe(
+        map((response: BaseResponse<PaginateResponseModel<DriverLogQueryModel[]>>) => {
           if (!response.isSuccess) {
             console.log(response.exception);
             console.log(response.errors);

@@ -5,6 +5,7 @@ import { HistoryModel } from '../models/history.model';
 import { BaseResponse } from '../../../../shared/models/baseresponse.model';
 import { environment } from 'src/environments/environment';
 import { map, finalize } from 'rxjs/operators';
+import { PaginateResponseModel } from '../../../../shared/models/paginateresponse.model';
 
 const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 
@@ -21,11 +22,12 @@ export class HistoryService {
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  getAllHistoriesByManagementId(managementId: string, startDate: any, endDate: any): Observable<HistoryModel[]> {
+  getAllHistoriesByManagementId(pageNumber: number, pageSize: number, managementId: string, startDate: any, endDate: any): Observable<PaginateResponseModel<HistoryModel[]>> {
     this.isLoadingSubject.next(true);
-    return this.http.get<BaseResponse<HistoryModel[]>>
-      (`${API_DELIVERY_URL}/management/${managementId}/logs?startdate=${startDate}&enddate=${endDate}`).pipe(
-        map((response: BaseResponse<HistoryModel[]>) => {
+    return this.http.get<BaseResponse<PaginateResponseModel<HistoryModel[]>>>
+      (`${API_DELIVERY_URL}/management/${managementId}/logs?PageNumber=${pageNumber}&PageSize=${pageSize}&startdate=${startDate}&enddate=${endDate}`)
+      .pipe(
+        map((response: BaseResponse<PaginateResponseModel<HistoryModel[]>>) => {
           if (!response.isSuccess) {
             console.log(response.exception);
             console.log(response.errors);

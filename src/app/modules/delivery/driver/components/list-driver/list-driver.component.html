@@ -52,6 +52,7 @@
                   </span>
                 </ng-container>
               </button>
+
             </div>
 
           </div>
@@ -100,12 +101,15 @@
                 <div class="flex-column text-center">
                   <input type="text" style="width: 90px"
                     class="form-control text-center form-control-lg form-control-solid identifier-driver-day"
-                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'monday' }}"
-                    value="{{ driver.monday.driver }}" />
-                  <!-- (keyup)="keyUpEvent($event, driver.time, 'monday')" -->
-                  <span class="error-quantity-driver" attr.data-time="{{ driver.time }}"
-                    attr.data-day="{{ driver.monday }}">
+                    attr.data-time="{{ driver.time }}" attr.data-day="{{ 'monday' }}" value="{{ driver.monday.driver }}"
+                    (keydown)="eventKeyDown($event, driver.time, 'monday')" />
+                  <!-- (keydown)="keyDownEvent($event, driver.time, 'monday')" -->
+                  <span *ngIf="(driver.monday.driver < 1 || driver.monday.driver > 21)"
+                    style="color:red; border: 1px solid red;">Invalid input.
                   </span>
+                  <!-- <span *ngIf="(driver.monday.driver < 1 || driver.monday.driver > 20)"
+                    style="color:red; border: 1px solid red;">Invalid input.
+                  </span> -->
                 </div>
               </div>
             </td>
@@ -224,3 +228,5 @@
   </div>
   <!-- begin::Body -->
 </div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

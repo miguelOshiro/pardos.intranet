@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { HistoryService } from './services/history.service';
 import { HistoryModel } from './models/history.model';
 import * as fileSaver from 'file-saver';
+import { PaginateResponseModel } from '../../../shared/models/paginateresponse.model';
 
 @Component({
   selector: 'app-history',
@@ -27,11 +28,16 @@ export class HistoryComponent implements OnInit {
   isMessageData: boolean;
   private unsubscribe: Subscription[] = [];
 
-  histories: HistoryModel[] = [];
+  data: PaginateResponseModel<HistoryModel[]>;
   historyForm: FormGroup;
+  pageNumber: number = 1;
+  pageSize: number = 5;
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef, private fb: FormBuilder, private datePipe: DatePipe,
+  constructor(private changeDetectorRefs: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private datePipe: DatePipe,
     private historyService: HistoryService) {
+
     const loadingSubscr = this.isLoadingRefresh$
       .asObservable()
       .subscribe((res) => (this.isLoadingRefresh = res));
@@ -46,6 +52,9 @@ export class HistoryComponent implements OnInit {
       .asObservable()
       .subscribe((res) => (this.isLoadingExport = res));
     this.unsubscribe.push(loadingExportSubscr);
+
+    this.data = new PaginateResponseModel<HistoryModel[]>();
+    this.data.items = [];
   }
 
   ngOnInit(): void {
@@ -59,13 +68,13 @@ export class HistoryComponent implements OnInit {
 
   getAllHistoriesByManagementId(managementId: string, startDate: any, endDate: any) {
     const capacitySubscr = this.historyService
-      .getAllHistoriesByManagementId(managementId, startDate, endDate)
+      .getAllHistoriesByManagementId(this.pageNumber, this.pageSize, managementId, startDate, endDate)
       .pipe()
-      .subscribe((histories: HistoryModel[]) => {
-        console.log(histories)
-        this.histories = histories;
+      .subscribe((data: PaginateResponseModel<HistoryModel[]>) => {
+        console.log(data)
+        this.data = data;
         this.isLoadingData$ = false;
-        this.isEmptyData = histories.length == 0;
+        this.isEmptyData = data.items.length == 0;
         this.changeDetectorRefs.detectChanges();
       });
     this.unsubscribe.push(capacitySubscr);

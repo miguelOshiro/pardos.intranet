@@ -85,10 +85,16 @@
       </form>
     </div>
 
+    <!-- begin::Pagination container -->
+    <div *ngIf="data.items.length > 0" class="d-flex flex-stack flex-wrap pt-1 mb-5">
+      <div class="fs-6 fw-bold text-gray-700">Mostrando {{pageNumber}} de {{pageSize}}. Total: {{data.totalCount}}
+        registros</div>
+    </div>
+
     <!-- begin::Table container -->
     <div class="table-responsive">
       <!-- begin::Table -->
-      <table *ngIf="!isLoadingData$ && logs.length > 0"
+      <table *ngIf="!isLoadingData$ && data.items.length > 0"
         class="table-row-dashed table-bordered table align-middle gs-0 gy-4">
         <!-- begin::Table head -->
         <thead style="background-color: #181c32; color: aliceblue">
@@ -103,7 +109,7 @@
         <!-- end::Table head -->
         <!-- begin::Table body -->
         <tbody>
-          <tr *ngFor="let log of logs">
+          <tr *ngFor="let log of data.items">
             <td>
               <div class="d-flex align-items-center justify-content-center">
                 <div class="text-center">
@@ -161,6 +167,17 @@
       <!-- end::Table -->
     </div>
     <!-- end::Table container -->
+
+    <div *ngIf="data.items.length > 0" class="d-flex flex-stack flex-wrap pt-3 mb-5">
+      <div class="fs-6 fw-bold text-gray-700"></div>
+
+      <ngb-pagination [collectionSize]=data.totalCount #numLogPagesExp [(page)]="pageNumber" [maxSize]="pageSize"
+        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+        (pageChange)="getAllLogsByManagementId(managementIdForm.value,selectedStartDate?.value,selectedEndDate?.value)"></ngb-pagination>
+
+      <pre><span class=" float-md-left">Page: {{ pageNumber }} / {{ numLogPagesExp.pageCount }}</span></pre>
+
+    </div>
 
     <div *ngIf="isMessageData" class="alert alert-primary text-center mt-3">
       <h4 class="alert-heading">Por favor seleccione los filtros para realizar su busqueda</h4>

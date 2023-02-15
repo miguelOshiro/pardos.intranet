@@ -3,6 +3,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ManagementService } from '../../services/management.service';
 import { ManagementCommandModel } from '../../models/management-command.model';
+import { emailsValidator } from '../../../../../shared/models/validator';
+import { ToastService } from '../../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-create-management',
@@ -19,7 +21,10 @@ export class CreateManagementComponent implements OnInit, OnDestroy {
   management: ManagementCommandModel;
   newForm: FormGroup;
 
-  constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder, private managementService: ManagementService) {
+  constructor(private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private managementService: ManagementService,
+    private toastService: ToastService) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
@@ -32,10 +37,10 @@ export class CreateManagementComponent implements OnInit, OnDestroy {
       zoneId: ['', [Validators.required]],
       managementStatusId: ['', [Validators.required]],
       itsWeekly: ['daily', [Validators.required]],
-      factor: ['', [Validators.required, Validators.pattern(this.numRegex)]],
-      minimumEstimatedTime: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      maximumEstimatedTime: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      alert: ['', [Validators.required]],
+      factor: ['', [Validators.required, Validators.max(9.99), Validators.min(0), Validators.pattern(this.numRegex)]],
+      minimumEstimatedTime: ['', [Validators.required, Validators.max(60), Validators.min(1)]],
+      maximumEstimatedTime: ['', [Validators.required, Validators.max(60), Validators.min(1)]],
+      alert: ['', [Validators.required, emailsValidator]],
       availability: ['open', [Validators.required]],
 
     })
@@ -71,9 +76,19 @@ export class CreateManagementComponent implements OnInit, OnDestroy {
     this.management.maximumEstimatedTime = parseInt(this.maximumEstimatedTime.value!);
     this.management.alert = this.alert.value!;
 
-    this.managementService.postManagement(this.management).subscribe(data => {
-      this.management = data;
+    this.managementService.postManagement(this.management).subscribe((response) => {
+      this.management = response.data;
       console.log(this.management);
+
+      if (response.isSuccess) {
+        this.toastService.show(response.message, { classname: 'bg-success text-light', delay: 10000 });
+
+      }
+      else {
+        this.toastService.show(response.message, { classname: 'bg-danger text-light', delay: 15000 });
+        console.log(response.exception);
+      }
+
     })
   }
 
@@ -140,6 +155,15 @@ export class CreateManagementComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       }, 900);
     }
+  }
+
+  onlyNumbersAllowed(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log('charCode restricted is ' + charCode);
+      return false;
+    }
+    return true;
   }
 
   validateDecimal(event: any) {

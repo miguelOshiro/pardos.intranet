@@ -6,6 +6,8 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 import { ZoneModel } from '../../../../../shared/models/zone.model';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ManagementQueryModel } from '../../models/management-query.model';
+import { emailsValidator } from '../../../../../shared/models/validator';
+import { ToastService } from '../../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-edit-management',
@@ -27,8 +29,11 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
   private managementId: string | null;
   private renderer: Renderer2;
 
-  constructor(private activatedRoute: ActivatedRoute, private rendererFactory: RendererFactory2,
-    private managementService: ManagementService, private fb: FormBuilder,
+  constructor(private activatedRoute: ActivatedRoute,
+    private rendererFactory: RendererFactory2,
+    private managementService: ManagementService,
+    private fb: FormBuilder,
+    private toastService: ToastService,
     private changeDetectorRefs: ChangeDetectorRef) {
 
     this.renderer = this.rendererFactory.createRenderer(null, null);
@@ -38,11 +43,11 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
       zoneId: ['', [Validators.required]],
       managementStatusId: ['', [Validators.required]],
       itsWeekly: ['', [Validators.required]],
-      factor: ['', [Validators.required, Validators.pattern(this.numRegex)]],
-      minTime: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      maxTime: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      alert: ['', [Validators.required]],
-      delivery: ['', [Validators.required]],
+      factor: ['', [Validators.required, Validators.max(9.99), Validators.min(0), Validators.pattern(this.numRegex)]],
+      minTime: ['', [Validators.required, Validators.max(60), Validators.min(1)]],
+      maxTime: ['', [Validators.required, Validators.max(60), Validators.min(1)]],
+      alert: ['', [Validators.required, Validators.email, emailsValidator]],
+      itsOpen: ['', [Validators.required]],
     });
 
 
@@ -145,8 +150,8 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
     return this.editForm.get('itsWeekly')!;
   }
 
-  get delivery() {
-    return this.editForm.get('delivery')!;
+  get itsOpen() {
+    return this.editForm.get('itsOpen')!;
   }
 
   getById(managerId: string | null) {
@@ -162,7 +167,7 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
         'minTime': this.managementQuery.minimumEstimatedTime,
         'maxTime': this.managementQuery.maximumEstimatedTime,
         'alert': this.managementQuery.alert,
-        'delivery': this.managementQuery.itsOpen ? 'open' : 'close',
+        'itsOpen': this.managementQuery.itsOpen ? 'open' : 'close',
         'itsWeekly': this.managementQuery.itsWeekly ? 'weekly' : 'daily',
 
       });
@@ -182,11 +187,22 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
     managementCommand.minimumEstimatedTime = parseInt(this.minTime.value!);
     managementCommand.maximumEstimatedTime = parseInt(this.maxTime.value!);
     managementCommand.alert = this.alert.value!;
-    managementCommand.itsOpen = this.delivery.value == 'close';
+    managementCommand.itsOpen = this.itsOpen.value == 'open';
     managementCommand.itsWeekly = this.itsWeekly.value == 'weekly';
 
-    this.managementService.putManagement(managementCommand).subscribe(data => {
-      console.log(data);
+    console.log(managementCommand.itsOpen);
+
+    this.managementService.putManagement(managementCommand).subscribe(response => {
+      console.log(response);
+
+      if (response.isSuccess) {
+        this.toastService.show(response.message, { classname: 'bg-success text-light', delay: 10000 });
+      }
+      else {
+        this.toastService.show(response.message, { classname: 'bg-danger text-light', delay: 15000 });
+        console.log(response.exception);
+      }
+
     });
   }
 
@@ -209,6 +225,15 @@ export class EditManagementComponent implements OnInit, AfterViewInit, AfterCont
         this.changeDetectorRefs.detectChanges();
       }, 900);
     }
+  }
+
+  onlyNumbersAllowed(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log('charCode restricted is ' + charCode);
+      return false;
+    }
+    return true;
   }
 
   validateDecimal(event: any) {

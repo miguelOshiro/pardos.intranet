@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { OrderService } from './services/order.service';
 import * as fileSaver from 'file-saver';
 import { OrderModel } from './models/order.model';
+import { PaginateResponseModel } from '../../../shared/models/paginateresponse.model';
 
 @Component({
   selector: 'app-order',
@@ -29,7 +30,9 @@ export class OrderComponent implements OnInit {
   isMessageData: boolean;
   //orders: [] = [];
   orderForm: FormGroup;
-  orders: OrderModel[] = [];
+  data: PaginateResponseModel<OrderModel[]>;
+  pageNumber: number = 1;
+  pageSize: number = 5;
 
   constructor(private changeDetectorRefs: ChangeDetectorRef, private fb: FormBuilder, private datePipe: DatePipe,
     private orderService: OrderService) {
@@ -47,6 +50,9 @@ export class OrderComponent implements OnInit {
       .asObservable()
       .subscribe((res) => (this.isLoadingExport = res));
     this.unsubscribe.push(loadingExportSubscr);
+
+    this.data = new PaginateResponseModel<OrderModel[]>();
+    this.data.items = [];
   }
 
   ngOnInit(): void {
@@ -62,13 +68,13 @@ export class OrderComponent implements OnInit {
 
   getAllOrdersByManagementId(managementId: string, startDate: any, endDate: any, orderStatusId: string, orderPlatformId: string) {
     const capacitySubscr = this.orderService
-      .getAllOrdersByManagementId(managementId, startDate, endDate, orderStatusId, orderPlatformId)
+      .getAllOrdersByManagementId(this.pageNumber, this.pageSize, managementId, startDate, endDate, orderStatusId, orderPlatformId)
       .pipe()
-      .subscribe((orders: OrderModel[]) => {
-        console.log(orders)
-        this.orders = orders;
+      .subscribe((data: PaginateResponseModel<OrderModel[]>) => {
+        console.log(data)
+        this.data = data;
         this.isLoadingData$ = false;
-        this.isEmptyData = orders.length == 0;
+        this.isEmptyData = data.items.length == 0;
         this.changeDetectorRefs.detectChanges();
       });
     this.unsubscribe.push(capacitySubscr);

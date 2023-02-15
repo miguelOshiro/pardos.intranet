@@ -5,8 +5,7 @@ import { environment } from 'src/environments/environment';
 import { map, finalize } from 'rxjs/operators';
 import { BaseResponse } from '../../../../shared/models/baseresponse.model';
 import { DriverQueryModel } from '../models/driver-query.model';
-import { DriverDetailQueryrModel } from '../models/driver-detail-query.model';
-import { DriverCommandModel } from '../models/driver-Command.model';
+import { DriverCommandModel } from '../models/driver-command.model';
 
 
 const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
@@ -40,18 +39,13 @@ export class DriverService {
     );
   }
 
-  putDriver(managementId: string, model: DriverCommandModel): Observable<DriverQueryModel[]> {
+  putDriver(managementId: string, model: DriverCommandModel): Observable<BaseResponse<DriverQueryModel[]>> {
     this.isLoadingSubject.next(true);
     return this.http.put<BaseResponse<DriverQueryModel[]>>
       (`${API_DELIVERY_URL}/management/${managementId}/schedules`, model).pipe(
         map((response: BaseResponse<DriverQueryModel[]>) => {
           console.log(response);
-          if (!response.isSuccess) {
-            console.log(response.exception);
-          }
-          console.log(response.message);
-
-          return response.data;
+          return response;
         }),
         finalize(() => this.isLoadingSubject.next(false))
       );

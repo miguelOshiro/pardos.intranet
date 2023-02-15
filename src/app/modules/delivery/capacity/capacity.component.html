@@ -14,17 +14,42 @@
     <form [formGroup]="capacityForm" novalidate="" class="form mb-4">
       <div class="d-flex row align-self-center justify-content-center">
 
-        <div class="col-xl-6">
-          <div class="col-xl-11">
-            <label class="form-label fw-bold">Establecimientos</label>
+        <div class="col-xl-9 col-md-8 col-sm-12">
+
+          <label class="form-label fw-bold">Establecimientos</label>
+          <div class="input-group">
+            <app-dropdown-management [form]="capacityForm" (selectionChange)="onSelectManagement($event)">
+            </app-dropdown-management>
+            <button type="submit" class="btn btn-primary" [disabled]="isLoadingRefresh"
+              (click)="refreshManagementButton()">
+              <i *ngIf="!isLoadingRefresh" class="bi bi-arrow-clockwise text-light-primary fs-4"></i>
+              <ng-container *ngIf="!isLoadingRefresh">Refrescar</ng-container>
+              <ng-container *ngIf="isLoadingRefresh">
+                <span clas="indicator-progress" [style.display]="'block'">
+                  {{ " " }}
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  &nbsp;
+                </span>
+              </ng-container>
+            </button>
+          </div>
+          <div style=" visibility: hidden;">
+            <sup>*</sup>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-md-4 col-sm-12">
+          <div class="d-flex row align-self-center justify-content-center margin-end  mb-4 mt-0">
+
+            <label class="form-label fw-bold">Factor Capacidad</label>
             <div class="input-group">
-              <app-dropdown-management [form]="capacityForm" (selectionChange)="onSelectManagement($event)">
-              </app-dropdown-management>
-              <button type="submit" class="btn btn-primary" [disabled]="isLoadingRefresh"
-                (click)="refreshManagementButton()">
-                <i *ngIf="!isLoadingRefresh" class="bi bi-arrow-clockwise text-light-primary fs-4"></i>
-                <ng-container *ngIf="!isLoadingRefresh">Refrescar</ng-container>
-                <ng-container *ngIf="isLoadingRefresh">
+              <input type="text" maxlength="4" class="form-control form-control-lg form-control-solid"
+                formControlName="factor" placeholder="Ingrese" name="factor" />
+              <button type="submit" [disabled]="isLoadingSave" (click)="updateManagementButton()"
+                class="btn btn-primary">
+                <i *ngIf="!isLoadingSave" class="bi bi-save text-light-primary fs-4"></i>
+                <ng-container *ngIf="!isLoadingSave">Guardar</ng-container>
+                <ng-container *ngIf="isLoadingSave">
                   <span clas="indicator-progress" [style.display]="'block'">
                     {{ " " }}
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -33,35 +58,9 @@
                 </ng-container>
               </button>
             </div>
-          </div>
-          <div class="col-xl-1">
-          </div>
-        </div>
-
-        <div class="col-xl-6">
-          <div class="d-flex row align-self-center justify-content-center  mb-4">
-
-            <div class="col-xl-6">
-            </div>
-
-            <div class="col-xl-6">
-              <label class="form-label fw-bold">Factor Capacidad</label>
-              <div class="input-group">
-                <input type="text" class="form-control form-control-lg form-control-solid" formControlName="factor"
-                  placeholder="Ingrese" name="factor" />
-                <button type="submit" [disabled]="isLoadingSave" (click)="updateManagementButton()"
-                  class="btn btn-primary">
-                  <i *ngIf="!isLoadingSave" class="bi bi-save text-light-primary fs-4"></i>
-                  <ng-container *ngIf="!isLoadingSave">Guardar</ng-container>
-                  <ng-container *ngIf="isLoadingSave">
-                    <span clas="indicator-progress" [style.display]="'block'">
-                      {{ " " }}
-                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                      &nbsp;
-                    </span>
-                  </ng-container>
-                </button>
-              </div>
+            <div class="invalid-feedback" style="display: block !important;"
+              [ngClass]="[factorForm.hasError('pattern') ? 'visible' : 'invisible']">
+              <sup>*</sup>Ingrese decimal correcto (#.##)
             </div>
           </div>
         </div>
@@ -197,3 +196,5 @@
   </div>
   <!-- begin::Body -->
 </div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -1,10 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { BehaviorSubject, Subscription, Observable } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { CapacityQueryModel } from './models/capacity-query.model';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { CapacityService } from './services/capacity.service';
 import { ManagementService } from '../manager/services/management.service';
 import { ManagementQueryModel } from '../manager/models/management-query.model';
+import { UserType } from '../../auth/services/auth.service';
+import { ToastService } from '../../../shared/services/toast.service';
 import { ManagementCommandModel } from '../manager/models/management-command.model';
 
 @Component({
@@ -13,8 +15,10 @@ import { ManagementCommandModel } from '../manager/models/management-command.mod
   styleUrls: ['./capacity.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CapacityComponent implements OnInit {
+export class CapacityComponent implements OnInit, OnDestroy {
 
+  currentUserSubject: BehaviorSubject<UserType>;
+  isLoadingSubject: BehaviorSubject<boolean>;
   isLoadingRefresh$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoadingRefresh: boolean;
 
@@ -22,15 +26,21 @@ export class CapacityComponent implements OnInit {
   isLoadingSave: boolean;
   isLoadingData: boolean;
   isEmptyData: boolean;
-
+  decRegex = /^(\d{1,1})(\.\d{2,2})?$/;
+  capacityForm: FormGroup;
   private unsubscribe: Subscription[] = [];
 
   managementQuery: ManagementQueryModel;
 
   capacities: CapacityQueryModel[] = [];
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef, private fb: FormBuilder,
-    private capacityService: CapacityService, private managementService: ManagementService) {
+  constructor(
+    private changeDetectorRefs: ChangeDetectorRef,
+    private fb: FormBuilder,
+    private capacityService: CapacityService,
+    private managementService: ManagementService,
+    private toastService: ToastService) {
+
     const loadingSubscr = this.isLoadingRefresh$
       .asObservable()
       .subscribe((res) => (this.isLoadingRefresh = res));
@@ -44,6 +54,12 @@ export class CapacityComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoadingData = true;
+
+    this.capacityForm = this.fb.group({
+      managementId: ['', [Validators.required]],
+      factor: ['', [Validators.required, Validators.maxLength(4), Validators.max(9.99), Validators.min(0),
+      Validators.pattern(this.decRegex)]],
+    })
   }
 
   getAllCapacityByManagementId(managementId: string) {
@@ -82,18 +98,24 @@ export class CapacityComponent implements OnInit {
     command.managementStatusId = model.managementStatus.id;
     command.isAutomatic = model.isAutomatic;
     command.itsWeekly = model.itsWeekly;
+    command.minimumEstimatedTime = model.minimumEstimatedTime;
+    command.maximumEstimatedTime = model.maximumEstimatedTime;
     command.factor = parseFloat(this.factorForm.value!);
 
-    this.managementService.putManagement(command).subscribe(data => {
-      console.log(data);
-      this.getAllCapacityByManagementId(this.managementIdForm.value!);
+    this.managementService.putManagement(command).subscribe(response => {
+
+      console.log(response);
+
+      if (response.isSuccess) {
+        this.toastService.show(response.message, { classname: 'bg-success text-light', delay: 10000 });
+        this.getAllCapacityByManagementId(this.managementIdForm.value!);
+      }
+      else {
+        this.toastService.show(response.message, { classname: 'bg-danger text-light', delay: 15000 });
+        console.log(response.exception);
+      }
     })
   }
-
-  capacityForm = this.fb.group({
-    managementId: ['', [Validators.required]],
-    factor: ['', [Validators.required]],
-  })
 
   onSelectManagement(select: any) {
     this.getAllCapacityByManagementId(select);
@@ -146,6 +168,7 @@ export class CapacityComponent implements OnInit {
     }, 900);
   }
 
-
-
+  ngOnDestroy(): void {
+    this.toastService.clear();
+  }
 }

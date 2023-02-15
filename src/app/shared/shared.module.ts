@@ -12,7 +12,7 @@ import { DropdownManagementComponent } from './components/dropdowns/dropdown-man
     DropdownEstablishmentComponent,
     DropdownZoneComponent,
     DropdownManagementStatusComponent,
-    DropdownManagementComponent
+    DropdownManagementComponent,
   ],
   imports: [
     CommonModule,
