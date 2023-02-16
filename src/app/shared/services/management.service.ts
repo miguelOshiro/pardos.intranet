@@ -21,14 +21,13 @@ export class ManagementService {
     if (!auth || !auth.authToken) {
       this.authService.logout();
     }
-
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${auth?.authToken}`,
     });
     return this.http
       .get<BaseResponse<ManagementModel[]>>(
         `${API_USERS_URL}/management`, {
-        headers: httpHeaders,
+        headers: httpHeaders
       }
       )
       .pipe(

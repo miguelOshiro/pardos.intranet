@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../modules/auth/services/auth.service';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -13,11 +13,17 @@ const API_USERS_URL = `${environment.apiDeliveryUrl}`;
   providedIn: 'root',
 })
 export class EstablishmentService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getEstablishmentByUser(): Observable<EstablishmentModel[]> {
     const auth = this.authService.getAuthFromLocalStorage();
+    if (!auth || !auth.authToken) {
+      this.authService.logout();
+    }
 
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${auth?.authToken}`,
+    });
     // const headers = {
     //   Accept: 'application/vnd.pardos.v1+json',
     //   'Content-Type': 'application/json',
@@ -26,7 +32,9 @@ export class EstablishmentService {
 
     return this.http
       .get<BaseResponse<EstablishmentModel[]>>(
-        `${API_USERS_URL}/establishment`  
+        `${API_USERS_URL}/establishment`, {
+        headers: httpHeaders
+      }
       )
       .pipe(
         map((response: BaseResponse<EstablishmentModel[]>) => {

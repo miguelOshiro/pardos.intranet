@@ -64,7 +64,7 @@
                   placeholder="Ingrese Cantidad" name="factor" formControlName="factor"
                   (keydown)="validateDecimal($event)" />
                 <span style="color:red" *ngIf="(
-                    factor?.hasError('pattern'))">Ingrese decimal correcto!!
+                    factor?.hasError('pattern'))"><sup>*</sup>Ingrese decimal correcto!!
                 </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
@@ -81,7 +81,7 @@
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Ingrese tiempo minimo" name="minTime" formControlName="minTime" />
                 <span style="color:red" *ngIf="editForm.controls?.['minTime']?.invalid &&
-                  editForm.controls?.['minTime']?.dirty">Ingrese tiempo minimo!
+                  editForm.controls?.['minTime']?.dirty"><sup>*</sup>Ingrese tiempo minimo!
                 </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
@@ -98,7 +98,7 @@
                   class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                   placeholder="Ingrese tiempo maximo" name="maxTime" formControlName="maxTime" />
                 <span style="color:red" *ngIf="editForm.controls?.['maxTime']?.invalid &&
-                  editForm.controls?.['maxTime']?.dirty">Ingrese tiempo maximo!
+                  editForm.controls?.['maxTime']?.dirty"><sup>*</sup>Ingrese tiempo maximo!
                 </span>
               </div>
               <div class="col-lg-6 fv-row"></div>
@@ -115,7 +115,7 @@
                   placeholder="Ingrese email" name="alert" formControlName="alert">
                 </textarea>
                 <span style="color:red" *ngIf="editForm.controls?.['alert']?.invalid &&
-                  editForm.controls?.['alert']?.dirty">Ingrese emails validos!
+                  editForm.controls?.['alert']?.dirty"><sup>*</sup>Ingrese emails validos!
                 </span>
               </div>
               <div class="col-lg-6 fv-row"></div>

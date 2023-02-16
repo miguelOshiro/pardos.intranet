@@ -13,11 +13,9 @@ export type UserType = UserModel | undefined;
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-  // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
 
-  // public fields
   currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<UserType>;
@@ -43,7 +41,6 @@ export class AuthService implements OnDestroy {
     this.unsubscribe.push(subscr);
   }
 
-  // public methods
   login(email: string, password: string): Observable<UserType> {
     this.isLoadingSubject.next(true);
     return this.authHttpService.login(email, password).pipe(
@@ -64,9 +61,10 @@ export class AuthService implements OnDestroy {
 
   logout() {
     localStorage.removeItem(this.authLocalStorageToken);
-    this.router.navigate(['/auth/login'], {
-      queryParams: {},
-    });
+
+    setTimeout(() => {
+      this.router.navigate(['/auth/login']);
+    }, 600);
   }
 
   getUserByToken(): Observable<UserType> {
@@ -89,9 +87,7 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  // private methods
   private setAuthFromLocalStorage(auth: AuthModel): boolean {
-    // store auth authToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
     console.log(auth.authToken)
     if (auth && auth.authToken) {
       localStorage.setItem(this.authLocalStorageToken, JSON.stringify(auth));

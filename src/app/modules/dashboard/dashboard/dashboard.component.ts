@@ -149,7 +149,9 @@ export class DashboardComponent implements OnInit {
     setTimeout(() => {
       this.isLoading$.next(false);
 
-      console.log(this.onSelectManagement);
+      this.getManagementById(this.managementId.value);
+      this.getOrderIndicatorByManagementId(this.managementId.value);
+      console.log(this.managementId.value);
       this.changeDetectorRefs.detectChanges();
     }, 900);
   }

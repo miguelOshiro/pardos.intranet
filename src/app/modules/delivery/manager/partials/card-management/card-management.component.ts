@@ -29,7 +29,7 @@ export class CardManagementComponent {
 
   showAction(event: any, isOpen: boolean) {
     //console.log(event.clientX, event.clientY);
-    console.log(isOpen);
+    console.log('showAction init: ' + isOpen);
     if (isOpen) {
       this.rightPanelStyle = {
         'display': '',
@@ -41,6 +41,7 @@ export class CardManagementComponent {
       };
       this.isOpen = true;
     }
+    console.log('showAction end: ' + this.isOpen);
     this.changeDetectorRefs.detectChanges();
   }
 

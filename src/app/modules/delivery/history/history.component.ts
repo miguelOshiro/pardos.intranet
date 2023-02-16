@@ -31,7 +31,8 @@ export class HistoryComponent implements OnInit {
   data: PaginateResponseModel<HistoryModel[]>;
   historyForm: FormGroup;
   pageNumber: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 1;
+  array: number[] = [];
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
     private fb: FormBuilder,
@@ -75,6 +76,10 @@ export class HistoryComponent implements OnInit {
         this.data = data;
         this.isLoadingData$ = false;
         this.isEmptyData = data.items.length == 0;
+        for (let i = 0; i < this.data.totalCount; i++) {
+          this.array.push(i);
+        }
+        console.log(this.array.length);
         this.changeDetectorRefs.detectChanges();
       });
     this.unsubscribe.push(capacitySubscr);
@@ -93,11 +98,11 @@ export class HistoryComponent implements OnInit {
     })
   }
 
-  changeManagement(e: any) {
-    this.managementIdForm.setValue(e.target.value, {
-      onlySelf: true,
-    })
-  }
+  // changeManagement(e: any) {
+  //   this.managementIdForm.setValue(e.target.value, {
+  //     onlySelf: true,
+  //   })
+  // }
   get managementIdForm() {
     return this.historyForm.get('managementId')!;
   }

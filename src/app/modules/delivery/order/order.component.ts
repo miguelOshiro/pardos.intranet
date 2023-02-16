@@ -63,12 +63,19 @@ export class OrderComponent implements OnInit {
       selectedEndDate: [this.datePipe.transform(new Date(), "yyyy-MM-dd"),],
       orderStatusId: ['',],
       orderPlatformId: ['',],
+      number: ['',],
+      code: ['',]
     }, { validator: this.checkDates });
+    this.getAllOrdersByManagementId(this.managementIdForm.value, this.selectedStartDate?.value,
+      this.selectedEndDate?.value, this.orderStatusId.value, this.orderPlatformId.value, this.number.value,
+      this.code.value);
   }
 
-  getAllOrdersByManagementId(managementId: string, startDate: any, endDate: any, orderStatusId: string, orderPlatformId: string) {
+  getAllOrdersByManagementId(managementId: string, startDate: any, endDate: any, orderStatusId: string, orderPlatformId: string,
+    number: number, code: string) {
     const capacitySubscr = this.orderService
-      .getAllOrdersByManagementId(this.pageNumber, this.pageSize, managementId, startDate, endDate, orderStatusId, orderPlatformId)
+      .getAllOrdersByManagementId(this.pageNumber, this.pageSize, managementId, startDate, endDate, orderStatusId, orderPlatformId,
+        number, code)
       .pipe()
       .subscribe((data: PaginateResponseModel<OrderModel[]>) => {
         console.log(data)
@@ -136,6 +143,14 @@ export class OrderComponent implements OnInit {
     return this.orderForm.get('selectedEndDate');
   }
 
+  get number() {
+    return this.orderForm.get('number')!;
+  }
+
+  get code() {
+    return this.orderForm.get('code')!;
+  }
+
 
   searchButton() {
     this.isEmptyData = false;
@@ -146,7 +161,8 @@ export class OrderComponent implements OnInit {
     setTimeout(() => {
       this.isLoadingSearch$.next(false);
       this.getAllOrdersByManagementId(this.managementIdForm.value, this.selectedStartDate?.value,
-        this.selectedEndDate?.value, this.orderStatusId.value, this.orderPlatformId.value);
+        this.selectedEndDate?.value, this.orderStatusId.value, this.orderPlatformId.value, this.number.value,
+        this.code.value);
       this.changeDetectorRefs.detectChanges();
     }, 600);
   }
@@ -155,7 +171,7 @@ export class OrderComponent implements OnInit {
     this.isLoadingExport$.next(true);
     setTimeout(() => {
       this.orderService.getExportOrder(this.managementIdForm.value, this.selectedStartDate?.value, this.selectedEndDate?.value,
-        this.orderStatusId.value, this.orderPlatformId.value).subscribe(
+        this.orderStatusId.value, this.orderPlatformId.value, this.number.value, this.code.value).subscribe(
           async (data) => {
             fileSaver.saveAs(data, 'ORDER_' + this.managementIdForm.value + '.xlsx');
           },

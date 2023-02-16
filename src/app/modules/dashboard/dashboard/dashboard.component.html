@@ -1,5 +1,5 @@
 <div class="card  px-7 py-5 mb-xl">
-  <form [formGroup]="form" (ngSubmit)="saveSettings()" novalidate="" class="form">
+  <form [formGroup]="form" novalidate="" class="form">
     <div class="d-flex my-2 mb-2">
 
       <div class="input-group">
@@ -25,20 +25,22 @@
   <!-- 1 -->
   <div class="row g-6 g-xl-4">
     <div class="col-xl-3 col-md-6">
-      <div class="card {{managementQuery.managementStatus.name ? 'bg-light-danger' : 'bg-light-success'}}">
+      <div class="card {{managementQuery.managementStatus.name == 'Activo' ? 'bg-light-success' : 'bg-light-danger'}}">
         <div class=" card-body my-3 ">
           <div
-            class="card-title fw-bolder fs-5 mb-3 d-block {{managementQuery.managementStatus.name ? 'text-danger' : 'text-success'}}">
+            class="card-title fw-bolder fs-5 mb-3 d-block {{ managementQuery.managementStatus.name == 'Activo' ? 'text-success' : 'text-danger'}}">
             GDD
           </div>
           <div class="py-1">
-            <span class="text-dark fs-1 fw-bolder me-2">{{managementQuery.managementStatus.name}}</span>
             <span
-              class="fw-bold {{managementQuery.managementStatus.name ? 'text-danger' : 'text-success'}} fs-7">Avarage</span>
+              class="fs-1 fw-bolder me-2 {{ managementQuery.managementStatus.name == 'Activo' ? 'text-success' : 'text-danger'}}">{{managementQuery.managementStatus.name}}</span>
+            <span
+              class="fw-bold {{ managementQuery.managementStatus.name == 'Activo' ? 'text-success' : 'text-danger'}} fs-7"></span>
           </div>
           <div
-            class="`progress h-7px bg-opacity-50 mt-7 {{managementQuery.managementStatus.name ? 'bg-danger' : 'bg-success'}}">
-            <div class="progress-bar {{managementQuery.managementStatus.name ? 'bg-danger' : 'bg-success'}}"
+            class="`progress h-7px bg-opacity-50 mt-7 {{ managementQuery.managementStatus.name == 'Activo' ? 'bg-success' : 'bg-danger'}}">
+            <div
+              class="progress-bar {{ managementQuery.managementStatus.name == 'Activo' ? 'bg-success' : 'bg-danger'}}"
               [style.width]="'50%'" role="progressbar">
             </div>
           </div>
@@ -54,8 +56,10 @@
             Delivery
           </div>
           <div class="py-1">
-            <span class="text-dark fs-1 fw-bolder me-2">{{managementQuery.itsOpen ? 'Abierto' : 'Cerrado'}}</span>
-            <span class="fw-bold {{managementQuery.itsOpen ? 'text-success' : 'text-danger'}} fs-7 ">Avarage</span>
+            <span
+              class="fs-1 fw-bolder me-2 {{managementQuery.itsOpen ? 'text-success' : 'text-danger'}} ">{{managementQuery.itsOpen
+              ? 'Abierto' : 'Cerrado'}}</span>
+            <span class="fw-bold {{managementQuery.itsOpen ? 'text-success' : 'text-danger'}} fs-7 "></span>
           </div>
           <div class="`progress h-7px bg-opacity-50 mt-7 {{managementQuery.itsOpen ? 'bg-success' : 'bg-danger'}}">
             <div class="progress-bar {{managementQuery.itsOpen ? 'bg-success' : 'bg-danger'}}" [style.width]="'50%'"
@@ -79,7 +83,8 @@
           </div>
           <div class="` h-7px  mt-4">
             <div class="fw-bold">
-              Rango de {{managementQuery.minimumEstimatedTime}} a {{managementQuery.maximumEstimatedTime}} min.
+              Rango de {{managementQuery.estimatedTime - managementQuery.minimumEstimatedTime }} a
+              {{managementQuery.estimatedTime + managementQuery.maximumEstimatedTime}} min.
             </div>
           </div>
         </div>
@@ -215,7 +220,7 @@
   <!-- begin::Header -->
   <div class="card-header border-0 pt-5">
     <h3 class="card-title align-items-start flex-column">
-      <span class="card-label fw-bolder fs-3 mb-1">Semaforo de capacidad</span>
+      <span class="card-label fw-bolder fs-3 mb-1">Semáforo de capacidad</span>
       <!-- <span class="text-muted mt-1 fw-bold fs-7">Over 500 new members</span> -->
     </h3>
     <div class="card-toolbar">

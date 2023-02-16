@@ -9,23 +9,28 @@ import { ManagementModel } from '../../../models/management.model';
   styleUrls: ['./dropdown-management.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownManagementComponent implements OnInit{
+export class DropdownManagementComponent implements OnInit {
 
-  @Input() form : FormGroup;
+  @Input() form: FormGroup;
   @Input() disabled: boolean;
+  @Input() isVisibleAll: boolean = false;
   @Output() selectionChange = new EventEmitter();
-  
+
   public managements: ManagementModel[] = [];
 
-  constructor(private changeDetectorRefs: ChangeDetectorRef, private managementService: ManagementService) {}
+  constructor(private changeDetectorRefs: ChangeDetectorRef, private managementService: ManagementService) { }
 
   ngOnInit(): void {
     this.managementService.getManagements()
-        .subscribe( response => {
-          this.managements = response;
-          this.changeDetectorRefs.detectChanges();
+      .subscribe(response => {
+        this.managements = response;
+        this.changeDetectorRefs.detectChanges();
+
+        if (this.isVisibleAll)
+          this.selectionChange.emit("0");
+        else
           this.selectionChange.emit(this.managements[0].id);
-        });    
+      });
   }
 
   onSelectManagement(event: Event) {

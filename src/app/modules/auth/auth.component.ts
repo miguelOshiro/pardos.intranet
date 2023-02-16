@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-auth',
@@ -6,9 +7,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit, OnDestroy {
+  logo: string = environment.webLogo;
   today: Date = new Date();
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     document.body.classList.add('bg-body');

@@ -1,24 +1,24 @@
 <!--begin::Form-->
-<form
-  class="form w-100"
-  [formGroup]="loginForm"
-  novalidate="novalidate"
-  id="kt_login_signin_form"
-  (ngSubmit)="submit()"
->
-  <!--begin::Heading-->
-  <div class="text-center mb-10">
-    <h1 class="text-dark mb-3">Sign In to Metronic</h1>
-    
+<form class="form w-100" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+  (ngSubmit)="submit()">
+  <!--begin::Heading mb-10-->
+  <br>
+  <div class="text-center ">
+    <div class="symbol symbol-120px me-2 ">
+      <span class="symbol-label">
+        <img src="./assets/media/svg/illustrations/easy/6.svg" class="h-90 align-self-center" alt="" />
+      </span>
+    </div>
+    <!-- <h1 class="text-dark mb-3">Login</h1> -->
   </div>
   <!--end::Heading-->
 
   <!-- begin::Alert info-->
   <ng-container *ngIf="!hasError">
     <div class="mb-10 bg-light-info p-8 rounded">
-      <div class="text-info">
-        Use account <strong>{{ defaultAuth.email }}</strong> and password
-        <strong>{{ defaultAuth.password }}</strong> to continue.
+      <div class="text-info ">
+        Para acceder al nuevo sistema de <strong> Intranet</strong> ingrese su
+        <strong> email</strong> y <strong> contraseña</strong> asignada.
       </div>
     </div>
   </ng-container>
@@ -28,7 +28,9 @@
   <ng-container *ngIf="hasError">
     <div class="mb-lg-15 alert alert-danger">
       <div class="alert-text font-weight-bold">
-        The login details are incorrect
+        Las <strong>credenciales</strong> ingresadas para su inicio de sesión son <strong>incorrectos</strong>. Por
+        favor verifique e
+        intente nuevamente.
       </div>
     </div>
   </ng-container>
@@ -37,49 +39,12 @@
   <!--begin::Form group-->
   <div class="fv-row mb-10">
     <label class="form-label fs-6 fw-bolder text-dark">Email</label>
-    <input
-      class="form-control form-control-lg form-control-solid"
-      type="email"
-      name="email"
-      formControlName="email"
-      autocomplete="off"
-      [ngClass]="{
-        'is-invalid': loginForm.controls['email'].invalid,
-        'is-valid': loginForm.controls['email'].valid
-      }"
-    />
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'required',
-        message: 'Email is required',
-        control: loginForm.controls['email']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'email',
-        message: 'Email is invalid',
-        control: loginForm.controls['email']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'minLength',
-        message: 'Email should have at least 3 symbols',
-        control: loginForm.controls['email']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'maxLength',
-        message: 'Email should have maximum 360 symbols',
-        control: loginForm.controls['email']
-      }"
-    ></ng-container>
+    <input class="form-control form-control-lg form-control-solid" type="email" name="email" formControlName="email"
+      autocomplete="off" placeholder="Ingrese Email" />
+
+    <span style="color:red" *ngIf="loginForm.controls?.['email']?.invalid &&
+                  loginForm.controls?.['email']?.dirty"><sup>*</sup>Ingrese email valido
+    </span>
   </div>
   <!--end::Form group-->
 
@@ -88,62 +53,26 @@
     <div class="d-flex justify-content-between mt-n5">
       <div class="d-flex flex-stack mb-2">
         <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
-        
       </div>
     </div>
 
-    <input
-      class="form-control form-control-lg form-control-solid"
-      type="password"
-      name="password"
-      autocomplete="off"
-      formControlName="password"
-      [ngClass]="{
-        'is-invalid': loginForm.controls['password'].invalid,
-        'is-valid': loginForm.controls['password'].valid
-      }"
-    />
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'required',
-        message: 'Password is required',
-        control: loginForm.controls['password']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'minlength',
-        message: 'Password should have at least 3 symbols',
-        control: loginForm.controls['password']
-      }"
-    ></ng-container>
-    <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'maxLength',
-        message: 'Password should have maximum 100 symbols',
-        control: loginForm.controls['password']
-      }"
-    ></ng-container>
+    <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off"
+      formControlName="password" placeholder="Ingrese Password" />
+
+    <span style="color:red" *ngIf="loginForm.controls?.['password']?.invalid &&
+                  loginForm.controls?.['password']?.dirty"><sup>*</sup>Ingrese password valido
+    </span>
   </div>
   <!--end::Form group-->
 
   <!--begin::Action-->
   <div class="text-center">
-    <button
-      type="submit"
-      id="kt_sign_in_submit"
-      class="btn btn-lg btn-primary w-100 mb-5"
-      [disabled]="loginForm.invalid"
-    >
+    <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5"
+      [disabled]="loginForm.invalid">
       <ng-container *ngIf="isLoading$ | async">
         <span class="indicator-progress" [style.display]="'block'">
           Please wait...
-          <span
-            class="spinner-border spinner-border-sm align-middle ms-2"
-          ></span>
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
         </span>
       </ng-container>
       <ng-container *ngIf="(isLoading$ | async) === false">
@@ -156,15 +85,8 @@
 </form>
 <!--end::Form-->
 
-<ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
       <span role="alert">
         {{ message }}
@@ -172,4 +94,3 @@
     </div>
   </ng-container>
 </ng-template>
-

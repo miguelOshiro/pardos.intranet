@@ -27,8 +27,16 @@ export class CapacityService {
   getAllCapacityByManagementId(managementId: string): Observable<CapacityQueryModel[]> {
 
     this.isLoadingSubject.next(true);
-
-    return this.http.get<BaseResponse<CapacityQueryModel[]>>(`${API_DELIVERY_URL}/management/${managementId}/schedule`
+    const auth = this.authService.getAuthFromLocalStorage();
+    if (!auth || !auth.authToken) {
+      this.authService.logout();
+    }
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${auth?.authToken}`,
+    });
+    return this.http.get<BaseResponse<CapacityQueryModel[]>>(`${API_DELIVERY_URL}/management/${managementId}/schedule`, {
+      headers: httpHeaders
+    }
     ).pipe(
       map((response: BaseResponse<CapacityQueryModel[]>) => {
         if (!response.isSuccess) {

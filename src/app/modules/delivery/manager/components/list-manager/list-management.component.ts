@@ -64,8 +64,13 @@ export class ListManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.isLoadingData = true;
-    this.changeDetectorRefs.detectChanges();
+
     this.getAllManagement();
+
+    // setTimeout(() => {
+    //   this.changeDetectorRefs.detectChanges();
+    //   console.log('sssssss');
+    // }, 2000);
   }
 
   ngAfterContentInit() {
@@ -79,7 +84,8 @@ export class ListManagementComponent implements OnInit, OnDestroy {
       const actionCard = actionElement as HTMLDivElement;
       actionCard.style['display'] = '';
     });
-    this.isOpen = false;
+    // this.isOpen = false;
+    console.log('clickOutside: ' + this.isOpen);
   }
 
   getAllManagement() {
@@ -90,8 +96,8 @@ export class ListManagementComponent implements OnInit, OnDestroy {
         this.managements = managements;
         this.isLoadingData = false;
         this.isEmptyData = managements.length == 0;
-        this.managemetHub.start();
         this.changeDetectorRefs.detectChanges();
+        this.managemetHub.start();
       });
     this.unsubscribe.push(managementSubscribe);
   }

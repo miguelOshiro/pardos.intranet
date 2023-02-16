@@ -1,117 +1,139 @@
-<div class="card card-xxl-stretch mb-5 mb-xl-8">
-    <div class="card-header border-0 pt-5">
-        <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bolder fs-3 mb-1">Ordenes</span>
-        </h3>
-        <div class="card-toolbar"></div>
-    </div>
-    <!--begin::Separator -->
-    <div class="separator mb-2"></div>
+<ngb-accordion [closeOthers]="true" ngClass="card card-xxl-stretch mb-2 mb-xl-2">
+    <ngb-panel id="static-1" title="Ordenes">
+        <ng-template ngbPanelContent>
+            <div id="kt_account_profile_details" class="collapse show">
+                <form [formGroup]="orderForm" novalidate="" class="form">
+                    <div class="d-flex align-self-center justify-content-center row g-5 g-xl-8">
+
+                        <div class="col-xl-4">
+                            <label class="form-label fw-bold">Establecimientos</label>
+                            <div>
+                                <app-dropdown-management [form]="orderForm" [isVisibleAll]="true"
+                                    (selectionChange)="onSelectManagement($event)">
+                                </app-dropdown-management>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-2">
+                            <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha inicial</label>
+                            <input type="date" name="startDate" class="form-control" id="exampleFormControlInput1"
+                                formControlName="selectedStartDate" placeholder="AAAA-MM-DD" />
+
+                            <div class="invalid-feedback" style="display: block !important;"
+                                [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
+                                <sup>*</sup>Fecha no valido
+                            </div>
+                        </div>
+
+                        <div class="col-xl-2">
+                            <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha final</label>
+                            <input type="date" name="endDate" class="form-control" id="exampleFormControlInput1"
+                                formControlName="selectedEndDate" placeholder="AAAA-MM-DD" />
+
+                            <div class="invalid-feedback" style="display: block !important;"
+                                [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
+                                <sup>*</sup>Fecha no valido
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4">
+                            <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
+
+                                <div class="col-xl-6 d-grid">
+                                    <label class="form-label fw-bold">Estados</label>
+                                    <div>
+                                        <app-dropdown-status [form]="orderForm"
+                                            (selectionChange)="onSelectOrderStatus($event)">
+                                        </app-dropdown-status>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 d-grid">
+                                    <label class="form-label fw-bold">Plataformas</label>
+                                    <div>
+                                        <app-dropdown-platform [form]="orderForm"
+                                            (selectionChange)="onSelectOrderPlatform($event)">
+                                        </app-dropdown-platform>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex align-self-center justify-content-center row g-5 g-xl-8 mb-4">
+                        <div class="col-xl-8">
+                            <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 ">
+
+                                <div class="col-xl-3">
+                                    <label for="exampleFormControlInput1" class="form-label fw-bold">Nro. Orden</label>
+                                    <input type="text" name="number" class="form-control" id="exampleFormControlInput1"
+                                        formControlName="number" />
+
+                                    <div class="invalid-feedback" style="display: block !important;"
+                                        [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
+                                        <sup>*</sup>Nro. orden no valido
+                                    </div>
+                                </div>
+                                <div class="col-xl-3">
+                                    <label for="exampleFormControlInput1" class="form-label fw-bold">Código
+                                        Orden</label>
+                                    <input type="text" name="code" class="form-control" id="exampleFormControlInput1"
+                                        formControlName="code" />
+
+                                    <div class="invalid-feedback" style="display: block !important;"
+                                        [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
+                                        <sup>*</sup>Codigo no valido
+                                    </div>
+                                </div>
+                                <div class="col-xl-6"></div>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 ">
+                                <div class="col-xl-6 d-grid">
+                                    <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0"
+                                        (click)="searchButton()">
+                                        <i *ngIf="!isLoadingSearch" class="bi bi-search fs-4"></i>
+                                        <ng-container *ngIf="!isLoadingSearch">Buscar</ng-container>
+                                        <ng-container *ngIf="isLoadingSearch">
+                                            <span clas="indicator-progress" [style.display]="'block'">
+                                                {{ " " }}
+                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                &nbsp;
+                                            </span>
+                                        </ng-container>
+                                    </button>
+                                </div>
+                                <div class="col-xl-6 d-grid">
+                                    <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0"
+                                        (click)="exportLogButton()">
+                                        <i *ngIf="!isLoadingExport" class="bi bi-filetype-exe fs-4"></i>
+                                        <ng-container *ngIf="!isLoadingExport">Exportar</ng-container>
+                                        <ng-container *ngIf="isLoadingExport">
+                                            <span clas="indicator-progress" [style.display]="'block'">
+                                                {{ " " }}
+                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                &nbsp;
+                                            </span>
+                                        </ng-container>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>
+
+<div class="card card-xxl-stretch mb-5 mb-xl-8 pt-2">
 
     <div class="card-body py-3">
-
-        <div id="kt_account_profile_details" class="collapse show">
-            <form [formGroup]="orderForm" novalidate="" class="form">
-                <div class="d-flex align-self-center justify-content-center row g-5 g-xl-8">
-
-                    <div class="col-xl-4">
-                        <label class="form-label fw-bold">Establecimientos</label>
-                        <div>
-                            <app-dropdown-management [form]="orderForm" (selectionChange)="onSelectManagement($event)">
-                            </app-dropdown-management>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-2">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha inicial</label>
-                        <input type="date" name="startDate" class="form-control" id="exampleFormControlInput1"
-                            formControlName="selectedStartDate" placeholder="AAAA-MM-DD" />
-
-                        <div class="invalid-feedback" style="display: block !important;"
-                            [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
-                            <sup>*</sup>Fecha no valido
-                        </div>
-                    </div>
-
-                    <div class="col-xl-2">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha final</label>
-                        <input type="date" name="endDate" class="form-control" id="exampleFormControlInput1"
-                            formControlName="selectedEndDate" placeholder="AAAA-MM-DD" />
-
-                        <div class="invalid-feedback" style="display: block !important;"
-                            [ngClass]="[orderForm.hasError('notValid') ? 'visible' : 'invisible']">
-                            <sup>*</sup>Fecha no valido
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4">
-                        <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
-
-                            <div class="col-xl-6 d-grid">
-                                <label class="form-label fw-bold">Estados</label>
-                                <div>
-                                    <app-dropdown-status [form]="orderForm"
-                                        (selectionChange)="onSelectOrderStatus($event)">
-                                    </app-dropdown-status>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-6 d-grid">
-                                <label class="form-label fw-bold">Plataformas</label>
-                                <div>
-                                    <app-dropdown-platform [form]="orderForm"
-                                        (selectionChange)="onSelectOrderPlatform($event)">
-                                    </app-dropdown-platform>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--begin::Separator -->
-                <div class="separator"></div>
-
-                <div class="d-flex align-self-center justify-content-center row g-5 g-xl-8 mb-4">
-                    <div class="col-xl-8"></div>
-                    <div class="col-xl-4">
-                        <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 ">
-                            <div class="col-xl-6 d-grid">
-                                <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0"
-                                    (click)="searchButton()">
-                                    <i *ngIf="!isLoadingSearch" class="bi bi-search fs-4"></i>
-                                    <ng-container *ngIf="!isLoadingSearch">Buscar</ng-container>
-                                    <ng-container *ngIf="isLoadingSearch">
-                                        <span clas="indicator-progress" [style.display]="'block'">
-                                            {{ " " }}
-                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                            &nbsp;
-                                        </span>
-                                    </ng-container>
-                                </button>
-                            </div>
-                            <div class="col-xl-6 d-grid">
-                                <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0"
-                                    (click)="exportLogButton()">
-                                    <i *ngIf="!isLoadingExport" class="bi bi-filetype-exe fs-4"></i>
-                                    <ng-container *ngIf="!isLoadingExport">Exportar</ng-container>
-                                    <ng-container *ngIf="isLoadingExport">
-                                        <span clas="indicator-progress" [style.display]="'block'">
-                                            {{ " " }}
-                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                            &nbsp;
-                                        </span>
-                                    </ng-container>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-
         <!-- begin::Pagination container -->
         <div *ngIf="data.items.length > 0" class="d-flex flex-stack flex-wrap pt-1 mb-5">
             <div class="fs-6 fw-bold text-gray-700">Mostrando {{pageNumber}} de {{pageSize}}. Total: {{data.totalCount}}
@@ -224,10 +246,9 @@
 
             <ngb-pagination [collectionSize]=data.totalCount #numOrderPagesExp [(page)]="pageNumber"
                 [maxSize]="pageSize" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getAllOrdersByManagementId(managementIdForm.value,selectedStartDate?.value,selectedEndDate?.value,
-                orderStatusId.value, orderPlatformId.value)"></ngb-pagination>
+                orderStatusId.value, orderPlatformId.value, number.value, code.value)"></ngb-pagination>
 
             <pre><span class=" float-md-left">Page: {{ pageNumber }} / {{ numOrderPagesExp.pageCount }}</span></pre>
-
         </div>
 
 

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ZoneModel } from '../models/zone.model';
 import { BaseResponse } from '../models/baseresponse.model';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../../modules/auth/services/auth.service';
 
 const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 
@@ -14,14 +15,23 @@ const API_DELIVERY_URL = `${environment.apiDeliveryUrl}`;
 export class ZoneService {
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
 
   getZoneAll(): Observable<ZoneModel[]> {
+    const auth = this.authService.getAuthFromLocalStorage();
+    if (!auth || !auth.authToken) {
+      this.authService.logout();
+    }
 
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${auth?.authToken}`,
+    });
     return this.http
       .get<BaseResponse<ZoneModel[]>>(
-        `${API_DELIVERY_URL}/zone`
+        `${API_DELIVERY_URL}/zone`, {
+        headers: httpHeaders
+      }
       )
       .pipe(
         map((response: BaseResponse<ZoneModel[]>) => {

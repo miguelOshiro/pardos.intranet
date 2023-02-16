@@ -1,91 +1,85 @@
+<ngb-accordion [closeOthers]="true" ngClass="card card-xxl-stretch mb-2 mb-xl-2">
+  <ngb-panel id="static-1" title="Historial">
+    <ng-template ngbPanelContent>
+      <div id="kt_account_profile_details" class="collapse show">
+        <form [formGroup]="historyForm" novalidate="" class="form">
+          <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
+
+            <div class="col-xl-4">
+              <label class="form-label fw-bold">Establecimientos</label>
+              <div>
+                <app-dropdown-management [form]="historyForm" [isVisibleAll]="true"
+                  (selectionChange)="onSelectManagement($event)">
+                </app-dropdown-management>
+              </div>
+            </div>
+
+            <div class="col-xl-2">
+              <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha inicial</label>
+              <input type="date" name="startDate" class="form-control" id="exampleFormControlInput1"
+                formControlName="selectedStartDate" placeholder="AAAA-MM-DD" />
+
+              <div class="invalid-feedback" style="display: block !important;"
+                [ngClass]="[historyForm.hasError('notValid') ? 'visible' : 'invisible']">
+                <sup>*</sup>Fecha no valido
+              </div>
+            </div>
+
+            <div class="col-xl-2">
+              <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha final</label>
+              <input type="date" name="endDate" class="form-control" id="exampleFormControlInput1"
+                formControlName="selectedEndDate" placeholder="AAAA-MM-DD" />
+
+              <div class="invalid-feedback" style="display: block !important;"
+                [ngClass]="[historyForm.hasError('notValid') ? 'visible' : 'invisible']">
+                <sup>*</sup>Fecha no valido
+              </div>
+            </div>
+
+            <div class="col-xl-4">
+              <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
+
+                <div class="col-xl-6 d-grid">
+                  <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0" (click)="searchButton()">
+                    <i *ngIf="!isLoadingSearch" class="bi bi-search fs-4"></i>
+                    <ng-container *ngIf="!isLoadingSearch">Buscar</ng-container>
+                    <ng-container *ngIf="isLoadingSearch">
+                      <span clas="indicator-progress" [style.display]="'block'">
+                        {{ " " }}
+                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        &nbsp;
+                      </span>
+                    </ng-container>
+                  </button>
+                </div>
+
+                <div class="col-xl-6 d-grid">
+                  <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0" (click)="exportLogButton()">
+                    <i *ngIf="!isLoadingExport" class="bi bi-filetype-exe fs-4"></i>
+                    <ng-container *ngIf="!isLoadingExport">Exportar</ng-container>
+                    <ng-container *ngIf="isLoadingExport">
+                      <span clas="indicator-progress" [style.display]="'block'">
+                        {{ " " }}
+                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        &nbsp;
+                      </span>
+                    </ng-container>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
 <div class="card card-xxl-stretch mb-5 mb-xl-8">
-  <div class="card-header border-0 pt-5">
-    <h3 class="card-title align-items-start flex-column">
-      <span class="card-label fw-bolder fs-3 mb-1">Historial</span>
-    </h3>
-    <div class="card-toolbar"></div>
-  </div>
-  <!--begin::Separator -->
-  <div class="separator mb-2"></div>
-  <!--end::Separator -->
-  <!-- end::Header -->
   <!-- begin::Body -->
   <div class="card-body py-3">
-    <!--end::Icon-->
-
-    <!--begin::Input-->
-    <!--end::Input-->
-    <div id="kt_account_profile_details" class="collapse show">
-      <form [formGroup]="historyForm" novalidate="" class="form">
-        <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
-
-          <div class="col-xl-4">
-            <label class="form-label fw-bold">Establecimientos</label>
-            <div>
-              <app-dropdown-management [form]="historyForm" (selectionChange)="onSelectManagement($event)">
-              </app-dropdown-management>
-            </div>
-          </div>
-
-          <div class="col-xl-2">
-            <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha inicial</label>
-            <input type="date" name="startDate" class="form-control" id="exampleFormControlInput1"
-              formControlName="selectedStartDate" placeholder="AAAA-MM-DD" />
-
-            <div class="invalid-feedback" style="display: block !important;"
-              [ngClass]="[historyForm.hasError('notValid') ? 'visible' : 'invisible']">
-              <sup>*</sup>Fecha no valido
-            </div>
-          </div>
-
-          <div class="col-xl-2">
-            <label for="exampleFormControlInput1" class="form-label fw-bold">Fecha final</label>
-            <input type="date" name="endDate" class="form-control" id="exampleFormControlInput1"
-              formControlName="selectedEndDate" placeholder="AAAA-MM-DD" />
-
-            <div class="invalid-feedback" style="display: block !important;"
-              [ngClass]="[historyForm.hasError('notValid') ? 'visible' : 'invisible']">
-              <sup>*</sup>Fecha no valido
-            </div>
-          </div>
-
-          <div class="col-xl-4">
-            <div class="d-flex row align-self-center justify-content-center g-5 g-xl-8 mb-4">
-
-              <div class="col-xl-6 d-grid">
-                <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0" (click)="searchButton()">
-                  <i *ngIf="!isLoadingSearch" class="bi bi-search fs-4"></i>
-                  <ng-container *ngIf="!isLoadingSearch">Buscar</ng-container>
-                  <ng-container *ngIf="isLoadingSearch">
-                    <span clas="indicator-progress" [style.display]="'block'">
-                      {{ " " }}
-                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                      &nbsp;
-                    </span>
-                  </ng-container>
-                </button>
-              </div>
-
-              <div class="col-xl-6 d-grid">
-                <button type="submit" class="btn btn-primary btn-md mt-xl-8 mt-sm-0" (click)="exportLogButton()">
-                  <i *ngIf="!isLoadingExport" class="bi bi-filetype-exe fs-4"></i>
-                  <ng-container *ngIf="!isLoadingExport">Exportar</ng-container>
-                  <ng-container *ngIf="isLoadingExport">
-                    <span clas="indicator-progress" [style.display]="'block'">
-                      {{ " " }}
-                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                      &nbsp;
-                    </span>
-                  </ng-container>
-                </button>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </form>
-    </div>
 
     <!-- begin::Pagination container -->
     <div *ngIf="data.items.length > 0" class="d-flex flex-stack flex-wrap pt-1 mb-5">
@@ -170,8 +164,8 @@
     <div *ngIf="data.items.length > 0" class="d-flex flex-stack flex-wrap pt-3 mb-5">
       <div class="fs-6 fw-bold text-gray-700"></div>
 
-      <ngb-pagination [collectionSize]=data.totalCount #numHistoryPagesExp [(page)]="pageNumber" [maxSize]="pageSize"
-        [rotate]="true" [ellipses]="false" [boundaryLinks]="true"
+      <ngb-pagination [collectionSize]="array.length" #numHistoryPagesExp [(page)]="pageNumber" [maxSize]="pageSize"
+        [rotate]="true" [ellipses]="false" [boundaryLinks]="true" [directionLinks]="true"
         (pageChange)="getAllHistoriesByManagementId(managementIdForm.value,selectedStartDate?.value,selectedEndDate?.value)"></ngb-pagination>
 
       <pre><span class=" float-md-left">Page: {{ pageNumber }} / {{ numHistoryPagesExp.pageCount }}</span></pre>

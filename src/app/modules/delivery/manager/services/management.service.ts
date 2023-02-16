@@ -29,7 +29,6 @@ export class ManagementService {
     if (!auth || !auth.authToken) {
       this.authService.logout();
     }
-
     const httpHeaders = new HttpHeaders({
       Authorization: `Bearer ${auth?.authToken}`,
     });
@@ -53,8 +52,17 @@ export class ManagementService {
   postManagement(model: ManagementCommandModel | null): Observable<BaseResponse<ManagementCommandModel>> {
     console.log(model);
     this.isLoadingSubject.next(true);
+    const auth = this.authService.getAuthFromLocalStorage();
+    if (!auth || !auth.authToken) {
+      this.authService.logout();
+    }
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${auth?.authToken}`,
+    });
     return this.http.post<BaseResponse<ManagementCommandModel>>
-      (`${API_DELIVERY_URL}/management`, model).pipe(
+      (`${API_DELIVERY_URL}/management`, model, {
+        headers: httpHeaders,
+      }).pipe(
         map((response: BaseResponse<ManagementCommandModel>) => {
           //console.log(response);
           return response;
@@ -65,7 +73,16 @@ export class ManagementService {
 
   getSingleManagement(id: string | null): Observable<ManagementQueryModel> {
     this.isLoadingSubject.next(true);
-    return this.http.get<BaseResponse<ManagementQueryModel>>(`${API_DELIVERY_URL}/management/${id}`).pipe(
+    const auth = this.authService.getAuthFromLocalStorage();
+    if (!auth || !auth.authToken) {
+      this.authService.logout();
+    }
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${auth?.authToken}`,
+    });
+    return this.http.get<BaseResponse<ManagementQueryModel>>(`${API_DELIVERY_URL}/management/${id}`, {
+      headers: httpHeaders,
+    }).pipe(
       map((response: BaseResponse<ManagementQueryModel>) => {
         //console.log(response);
         if (!response.isSuccess) {
@@ -81,8 +98,17 @@ export class ManagementService {
 
   putManagement(model: ManagementCommandModel): Observable<BaseResponse<ManagementQueryModel>> {
     this.isLoadingSubject.next(true);
+    const auth = this.authService.getAuthFromLocalStorage();
+    if (!auth || !auth.authToken) {
+      this.authService.logout();
+    }
+    const httpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${auth?.authToken}`,
+    });
     return this.http.put<BaseResponse<ManagementQueryModel>>
-      (`${API_DELIVERY_URL}/management/${model.id}`, model).pipe(
+      (`${API_DELIVERY_URL}/management/${model.id}`, model, {
+        headers: httpHeaders
+      }).pipe(
         map((response: BaseResponse<ManagementQueryModel>) => {
           return response;
         }),
